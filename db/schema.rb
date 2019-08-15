@@ -93,6 +93,22 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["user_id"], name: "index_employees_on_user_id"
   end
 
+  create_table "expenses", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.integer "month"
+    t.float "month_salary"
+    t.float "expenses_claim", default: 0.0
+    t.float "others_claim", default: 0.0
+    t.float "leave_deduction", default: 0.0
+    t.float "socso", default: 0.0
+    t.float "epf_employer", default: 0.0
+    t.float "epf_employee", default: 0.0
+    t.float "operator"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_expenses_on_employee_id"
+  end
+
   create_table "leaveaps", force: :cascade do |t|
     t.bigint "employee_id"
     t.string "leave_type"
