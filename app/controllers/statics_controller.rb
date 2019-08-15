@@ -1,12 +1,6 @@
 class StaticsController < ApplicationController
 
     def index
-        
-        # if logged_in?
-        #   redirect_to registers_path
-        # else
-        #   redirect_to root_url
-        # end
     end
 
     def login

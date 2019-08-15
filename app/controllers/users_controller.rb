@@ -28,7 +28,6 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to @user, flash: { success: 'User was successfully created.' }
     else
-      #respond_to :html, :js
       redirect_to root_url, flash: { danger: @user.errors.full_messages[0] }
     end
   end

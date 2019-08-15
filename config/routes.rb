@@ -1,26 +1,29 @@
 Rails.application.routes.draw do
 
   root 'statics#index'
-
   # mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  
+  get 'magicnet', to: 'magicnets#login', as: 'login'
+  get 'magicnet/dashboard', to: 'magicnets#dashboard', as: 'dashboard'
 
-  resources :registers do
+  resources :leaveaps do
     collection do
-      get :list
-      post :reset
     end
     member do
-      get :printa
-      get :printupdate
-      post :attendance
+    end
+  end
+
+  resources :timesheets do
+    collection do
+    end
+    member do
     end
   end
 
   resources :users
-
   resources :sessions
 
-  get 'statics/login', to: 'statics#login', as: 'modal_login'
-  
+  # get 'statics/login', to: 'statics#login', as: 'modal_login'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
 end

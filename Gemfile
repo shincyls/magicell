@@ -33,6 +33,7 @@ gem 'pg_search', '~> 2.1', '>= 2.1.2'
 
 # Use ActiveStorage variant
 gem 'carrierwave', '~> 1.2', '>= 1.2.3'
+gem "google-cloud-storage", "~> 1.8", require: false
 # gem 'mini_magick', '~> 4.8'
 
 # Styling Libraries
@@ -46,10 +47,6 @@ gem 'will_paginate', '~> 3.1', '>= 3.1.6'
 # Important features search and admin
 gem 'pg_search', '~> 2.1', '>= 2.1.2'
 gem 'rails_admin', '~> 1.4', '>= 1.4.1'
-
-# Payment and Security
-gem 'figaro', '~> 1.1', '>= 1.1.1'
-gem 'braintree', '~> 2.90'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

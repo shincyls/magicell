@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="form-group">
+          <%= button_to "New Timesheet", "", remote: true, method: 'get', class: "btn btn-outline-info" %>
+      </div>
+  </div>
+</div>
+
+<table id="timesheet-table" class="table table-sm table-responsive-lg table-striped" style="font-size:0.8rem">
+  <thead class="text-dark">
+    <tr>
+      <th>Col 1</th>
+      <th>Col 2</th>
+      <th>Col 3</th>
+      <th>Col 4</th>
+      <th>Col 5</th>
+      <th>Col 6</th>
+      <th>Col 7</th>
+      <th>Col 8</th>
+    </tr>
+  </thead>
+
+  <tbody class="text-dark">
+      <% unless @tmsheets.nil? %>
+      <% @tmsheets.each do |t| %>
+      <tr>
+        <td><%= t.task %></td>
+        <td><%= t.task %></td>
+        <td><%= t.task %></td>
+        <td><%= t.task %></td>
+        <td><%= t.task %></td>
+        <td><%= t.task %></td>
+        <td><%= t.task %></td>
+        <td><%= t.task %></td>
+      </tr>
+      <% end %>
+      <% end %>
+  </tbody>
+</table>

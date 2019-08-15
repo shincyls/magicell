@@ -16,101 +16,33 @@
  *= require print
  */
 
- @import "font-awesome";
+@import "font-awesome";
 
-.unprint {
-    color: #d36d6d;
+
+.text-primary {
+    color: #5067e9;
 }
 
-.printed {
-    color: #2dce89;
+.bg-primary
+{
+    background-color: #5e72e4 !important;
 }
 
-.print-container {
-    position: relative;
-    text-align: center;
+.bg-none
+{
+    background-color: transparent !important;
 }
 
-#print-section {
-    width: 595px;
-    height: 880px;
-    background-image: url('brand/wmk.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+.bg-glass
+{
+    background-color: rgba(255,255,255,0.9) !important;
 }
 
-.row {
-    margin-left: 0.06rem;
-    display: flex;
-    align-items: center;
+.bg-chrome
+{
+    background-color: rgba(0,0,0,0.9) !important;
 }
 
-.border {
-    border: 1px black dotted;
-}
-
-
-  .text {
-    font-family:Lato;
-    align-items:center;
-    color: rgb(0, 51, 128);
-  }
-  
-  #title-1 {
-      position: absolute;
-      font-size:180%;
-      top: 10%;
-      right: 1.5%;
-      bottom: 80%;
-      left: 87.5%;
-  }
-  
-  #title-2 {
-      position: absolute;
-      font-size:160%;
-      top: 30%;
-      right: 10%;
-      bottom: 59.5%;
-      left: 25%;
-  }
-  
-  #title-3 {
-      position: absolute;
-      font-size:130%;
-      top: 47.5%;
-      right: 33.5%;
-      bottom: 44.5%;
-      left: 18%;
-  }
-  
-  #title-4 {
-      position: absolute;
-      font-size:300%;
-      color: black;
-      top: 47%;
-      right: 16%;
-      bottom: 44%;
-      left: 66.5%;
-  }
-  
-  #title-5 {
-      position: absolute;
-      font-size:90%;
-      top: 85%;
-      right: 10%;
-      bottom: 13%;
-      left: 40%;
-  }
-  
-  #title-6 {
-      position: absolute;
-      font-size:120%;
-      top: 90.8%;
-      right: 10%;
-      bottom: 2.8%;
-      left: 40%;
-  }
-
-  .text-special {
+.text-special {
     font-family: 'Righteous';
-  }
+}
