@@ -1,35 +1,32 @@
-<div class="row">
-  <div class="col-md-12">
-      <div class="form-group">
-          <%= button_to "New Leave", "", remote: true, method: 'get', class: "btn btn-outline-info" %>
-      </div>
-  </div>
-</div>
+<%= render partial: "leaveaps/form" %>
 
-<table id="leave-table" class="table table-sm table-responsive-lg table-striped" style="font-size:0.8rem">
+<hr>
+
+<table id="leave-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+  <h4 class="text-left">Leave History</h4>
   <thead class="text-dark">
     <tr>
-      <th>Col 1</th>
-      <th>Col 2</th>
-      <th>Col 3</th>
-      <th>Col 4</th>
-      <th>Col 5</th>
-      <th>Col 6</th>
-      <th>Col 7</th>
-      <th>Col 8</th>
+      <th>Leave</th>
+      <th>Reason</th>
+      <th>Contact</th>
+      <th>Person</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Days</th>
+      <th>Status</th>
     </tr>
   </thead>
 
   <tbody class="text-dark">
-      <% unless @leaves.nil? %>
-      <% @leaves.each do |l| %>
+      <% unless @leaveaps.nil? %>
+      <% @leaveaps.each do |l| %>
       <tr>
         <td><%=l.leave_type%></td>
         <td><%=l.reason%></td>
-        <td><%=l.leave_type%></td>
-        <td><%=l.reason%></td>
-        <td><%=l.leave_type%></td>
-        <td><%=l.reason%></td>
+        <td><%=l.contact_person%></td>
+        <td><%=l.contact_number%></td>
+        <td><%=l.from_date%></td>
+        <td><%=l.to_date%></td>
         <td><%=l.leave_type%></td>
         <td><%=l.reason%></td>
       </tr>
