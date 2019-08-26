@@ -34,7 +34,10 @@ User.create!([
   {username: "johari", email: "johari@magicell.com", password: "qwerasdf", role: 3},
   {username: "simon", email: "simon@magicell.com", password: "qwerasdf", role: 3},
   {username: "ahmad", email: "ahmad@magicell.com", password: "qwerasdf", role: 3},
-  {username: "nelson", email: "nelson@magicell.com", password: "qwerasdf", role: 3}
+  {username: "nelson", email: "nelson@magicell.com", password: "qwerasdf", role: 3},
+  {username: "manager1", email: "mgr1@magicell.com", password: "qwerasdf", role: 3},
+  {username: "manager2", email: "mgr2@magicell.com", password: "qwerasdf", role: 3},
+  {username: "manager3", email: "mgr3@magicell.com", password: "qwerasdf", role: 3}
 ])
 
 Company.create!([
@@ -60,13 +63,26 @@ Employee.create!([
   {first_name: "Ahmad", last_name: "Johari", user_id: 4, company_id: 1, department_id: 2, project_id: 1},
   {first_name: "Lim", last_name: "Simon", user_id: 5, company_id: 1, department_id: 3, project_id: 2},
   {first_name: "Suffian", last_name: "Ahmad", user_id: 5, company_id: 1, department_id: 3, project_id: 3},
-  {first_name: "Ng", last_name: "Nelson", user_id: 6, company_id: 1, department_id: 3, project_id: 4}
+  {first_name: "Ng", last_name: "Nelson", user_id: 6, company_id: 1, department_id: 3, project_id: 4},
+  {first_name: "Manager1", last_name: "Test1", user_id: 8, company_id: 1, department_id: 3, project_id: 2, position: "Manager"},
+  {first_name: "Manager2", last_name: "Test2", user_id: 9, company_id: 1, department_id: 3, project_id: 3, position: "Manager"},
+  {first_name: "Manager3", last_name: "Test3", user_id: 10, company_id: 1, department_id: 3, project_id: 4, position: "Manager"}
+])
+
+Leavetype.create!([
+  {name: "Annual Leave"},
+  {name: "Sick Leave"},
+  {name: "Marriage Leave"},
+  {name: "Maternity Leave"},
+  {name: "Compassionate Leave"},
+  {name: "Unpaid Leave"},
+  {name: "Others"}
 ])
 
 Leaveap.create!([
-  {employee_id: 1, reason: "Balik Kampung", contact_person: "Shin", contact_number: "012-3456789"},
-  {employee_id: 1, reason: "Balik Rumah", contact_person: "Shin", contact_number: "012-3456789"},
-  {employee_id: 1, reason: "Balik Hometown", contact_person: "Shin", contact_number: "012-3456789"}
+  {employee_id: 1, apv_mgr_1_id: 8, apv_mgr_2_id: 9, leavetype_id: 1, reason: "Balik Kampung", contact_person: "Shin", contact_number: "012-3456789", from_date: "2019-08-22", to_date: "2019-08-23"},
+  {employee_id: 1, apv_mgr_1_id: 8, apv_mgr_2_id: 9, leavetype_id: 2, reason: "Balik Rumah", contact_person: "Shin", contact_number: "012-3456789", from_date: "2019-08-22", to_date: "2019-08-24"},
+  {employee_id: 1, apv_mgr_1_id: 8, apv_mgr_2_id: 9, leavetype_id: 3, reason: "Balik Hometown", contact_person: "Shin", contact_number: "012-3456789", from_date: "2019-08-22", to_date: "2019-08-25"}
 ])
 
 Timesheet.create!([

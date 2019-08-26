@@ -10,12 +10,13 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
         t.string :identity_number
         t.date :birthday
         t.date :joined_since
+        t.date :last_day
         t.float :base_salary, default: 0
         t.float :annual_leave_entitled, default: 12
         t.float :annual_leave_taken, default: 0
         t.float :medical_leave_entitled, default: 12
         t.float :medical_leave_taken, default: 0
-        t.integer :position, default: 2
+        t.integer :position, default: 0
         t.integer :category, default: 0
         t.date :contract_from
         t.date :contract_until

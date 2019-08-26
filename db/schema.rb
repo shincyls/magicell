@@ -73,13 +73,17 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "phone_number_2"
     t.string "identity_number"
     t.date "birthday"
+    t.date "joined_since"
+    t.date "last_day"
     t.float "base_salary", default: 0.0
     t.float "annual_leave_entitled", default: 12.0
     t.float "annual_leave_taken", default: 0.0
     t.float "medical_leave_entitled", default: 12.0
     t.float "medical_leave_taken", default: 0.0
-    t.integer "position", default: 2
+    t.integer "position", default: 0
     t.integer "category", default: 0
+    t.date "contract_from"
+    t.date "contract_until"
     t.integer "employement_status", default: 0
     t.bigint "user_id"
     t.bigint "department_id"
@@ -111,25 +115,39 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
 
   create_table "leaveaps", force: :cascade do |t|
     t.bigint "employee_id"
-    t.string "leave_type"
+    t.bigint "leavetype_id", default: 1
     t.string "reason"
     t.string "contact_person"
     t.string "contact_number"
     t.date "from_date"
-    t.integer "from_ampm", default: 0
+    t.string "from_ampm", default: "AM"
     t.date "to_date"
-    t.integer "to_ampm", default: 0
-    t.string "total_days"
-    t.boolean "confirm", default: false
-    t.boolean "approved_1", default: false
-    t.string "reject_reason_1"
-    t.boolean "approved_2", default: false
-    t.string "reject_reason_2"
-    t.boolean "approved_3", default: false
-    t.string "reject_reason_3"
+    t.string "to_ampm", default: "PM"
+    t.boolean "app_confirm", default: false
+    t.boolean "apv_1", default: false
+    t.bigint "apv_mgr_1_id"
+    t.string "apv_reject_1"
+    t.bigint "apv_mgr_2_id"
+    t.boolean "apv_2", default: false
+    t.string "apv_reject_2"
+    t.bigint "apv_mgr_3_id"
+    t.boolean "apv_3", default: false
+    t.string "apv_reject_3"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["apv_mgr_1_id"], name: "index_leaveaps_on_apv_mgr_1_id"
+    t.index ["apv_mgr_2_id"], name: "index_leaveaps_on_apv_mgr_2_id"
+    t.index ["apv_mgr_3_id"], name: "index_leaveaps_on_apv_mgr_3_id"
     t.index ["employee_id"], name: "index_leaveaps_on_employee_id"
+    t.index ["leavetype_id"], name: "index_leaveaps_on_leavetype_id"
+  end
+
+  create_table "leavetypes", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "days", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "page_contents", force: :cascade do |t|
@@ -232,6 +250,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "slot_8"
     t.string "slot_9"
     t.string "slot_10"
+    t.string "remarks"
     t.boolean "confirm", default: false
     t.boolean "approved_1", default: false
     t.string "reject_1"

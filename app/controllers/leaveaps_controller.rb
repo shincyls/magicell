@@ -17,8 +17,11 @@ class LeaveapsController < ApplicationController
     def edit
     end
   
-    # POST /registers
+    # POST /leaveaps
     def create
+      respond_to :html, :js
+      @leaveap = Leaveap.new(leaveap_params)
+      @leaveap.save
     end
   
     # PATCH/PUT /registers/1
@@ -28,15 +31,14 @@ class LeaveapsController < ApplicationController
     # DELETE /registers/1
     # DELETE /registers/1.json
     def destroy
+      respond_to :html, :js
     end
   
     private
   
-    
-  
     # Never trust parameters from the scary internet, only allow the white list through.
     def leaveap_params
-        params.require(:leaveap).permit(:reason, :leave_type, :contact_person, :contact_number, :from_date, :to_date, :confirm, :approved_1, :approved_2, :approved_3, :reject_reason_1, :reject_reason_2, :reject_reason_3)
+        params.require(:leaveap).permit(:reason, :employee_id, :apv_mgr_1_id, :apv_mgr_2_id, :leavetype_id, :contact_person, :contact_number, :from_date, :to_date, :from_ampm, :to_ampm, :confirm)
     end
       
   end

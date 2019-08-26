@@ -3,7 +3,8 @@
 <hr>
 
 <table id="leave-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
-  <h4 class="text-left">Leave History</h4>
+  <h4 class="text-left text-primary">LEAVE HISTORY</h4>
+  <p class="text-info">Annual Leave: <%= current_user.employee.annual_leave_taken %>/<%= current_user.employee.annual_leave_entitled %>, Medical Leave: <%= current_user.employee.medical_leave_taken %>/<%= current_user.employee.medical_leave_entitled %></p>
   <thead class="text-dark">
     <tr>
       <th>Leave</th>
@@ -13,7 +14,12 @@
       <th>From</th>
       <th>To</th>
       <th>Days</th>
-      <th>Status</th>
+      <th>Approval</th>
+      <% if current_user %>
+      <th>Edit</th>
+      <th>Delete</th>
+      <% end %>
+
     </tr>
   </thead>
 
@@ -21,14 +27,20 @@
       <% unless @leaveaps.nil? %>
       <% @leaveaps.each do |l| %>
       <tr>
-        <td><%=l.leave_type%></td>
+        <td><%=l.leavetype.name%></td>
         <td><%=l.reason%></td>
         <td><%=l.contact_person%></td>
         <td><%=l.contact_number%></td>
-        <td><%=l.from_date%></td>
-        <td><%=l.to_date%></td>
-        <td><%=l.leave_type%></td>
-        <td><%=l.reason%></td>
+        <td><%=l.from_date%> <%=l.from_ampm%></td>
+        <td><%=l.to_date%> <%=l.to_ampm%></td>
+        <td><%=l.total_days%></td>
+        <td>1:<%=l.apv_1%> 2:<%=l.apv_2%></td>
+
+        <% if current_user == l.employee.user %>
+        <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_leaveap_path(l), class: "small text-white", target: "_blank" %></span></td>
+        <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', l, method: :delete, class: "small text-white", data: { confirm: 'Press ok to confirm you submission.' } %></span></td>
+        <% end %>
+
       </tr>
       <% end %>
       <% end %>

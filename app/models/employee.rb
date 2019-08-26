@@ -4,11 +4,11 @@ class Employee < ApplicationRecord
     belongs_to :department
     belongs_to :company
     belongs_to :project
-
+    
     has_many :leaveaps
     has_many :timesheets
 
-    enum position: ["staff", "hr", "project", "manager", "director"]
-    enum employment_status: ["active","resigned","inactive","maternity","hospital","others"]
+    enum position: ["Default","Standby","DTE","DTC","DTA","OSS","PM","Manager","Admin","HR","Finance","Consultant","IT","Intern"]
+    enum employment_status: ["active","onleave","resigned","inactive","maternity","hospital","others"]
 
 end

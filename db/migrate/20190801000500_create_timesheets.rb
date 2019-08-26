@@ -15,6 +15,7 @@ class CreateTimesheets < ActiveRecord::Migration[5.2]
           t.string :slot_8
           t.string :slot_9
           t.string :slot_10
+          t.string :remarks
           t.boolean :confirm, default: false
           t.boolean :approved_1, default: false
           t.string :reject_1

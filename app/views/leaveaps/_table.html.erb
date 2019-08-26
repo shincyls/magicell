@@ -1,0 +1,17 @@
+<% l = @leaveap %>
+<tr>
+    <td><%=l.leavetype.name%></td>
+    <td><%=l.reason%></td>
+    <td><%=l.contact_person%></td>
+    <td><%=l.contact_number%></td>
+    <td><%=l.from_date%> <%=l.from_ampm%></td>
+    <td><%=l.to_date%> <%=l.to_ampm%></td>
+    <td><%=l.total_days%></td>
+    <td>1:<%=l.apv_1%> 2:<%=l.apv_2%></td>
+
+    <% if current_user == l.employee.user %>
+    <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_leaveap_path(l), class: "small text-white", target: "_blank" %></span></td>
+    <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', l, method: :delete, class: "small text-white", data: { confirm: 'Press ok to confirm you submission.' } %></span></td>
+    <% end %>
+
+</tr>

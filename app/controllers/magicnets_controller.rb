@@ -11,5 +11,4 @@ class MagicnetsController < ApplicationController
       respond_to :html, :js
     end
 
-
 end
