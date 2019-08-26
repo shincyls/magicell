@@ -1,45 +1,91 @@
-<main class="h-100" style="background-color:whitesmoke;">
-    <div class="position-relative mb-4">
-      <div class="container p-4 shadow rounded">
-        <div class="row justify-content-center">
-          <div class="col-lg-12">
-              <%= form_for @application, remote: true do |f| %>
+<script>
 
-                <%= f.hidden_field :category, value: "Registered" %>
+var dates = ['2019-09-02'];
 
-                <div class="row mt-2">
-                    <div class="col-md-2"><h6>Full Name*</h6></div>
-                    <div class="col-md-10"><%= f.text_field :full_name, placeholder: "Full Name", class: "form-control" %></div>
-                </div>
+$(function(){
+    $('.datepicker').on('click', function() {
+        $(this).datepicker({
+          daysOfWeekDisabled: [6,0],
+          format: 'yyyy-mm-dd',
+          showOn:'focus'
+        }).focus();
+    });
+});
 
-                <div class="row mt-2">
-                    <div class="col-md-2"><h6>Pax</h6></div>
-                    <div class="col-md-10"><%= f.text_field :info_1, placeholder: "Department", class: "form-control" %></div>
-                </div>
+</script>
 
-                <div class="row mt-2">
-                    <div class="col-md-2"><h6>Lucky Draw</h6></div>
-                    <div class="col-md-10"><%= f.text_field :info_2, placeholder: "Yes / No", class: "form-control" %></div>
-                </div>
+<h4 class="text-left text-primary">NEW TIMESHEET</h4>
 
-                <div class="row mt-2">
-                    <div class="col-md-2"><h6>Table</h6></div>
-                    <div class="col-md-10"><%= f.text_field :info_5, placeholder: "Table No.", class: "form-control" %></div>
-                </div>
+<%= form_for @timesheet, remote: true do |f| %>
+    <%= f.hidden_field :employee_id, value: current_user.employee.id %>
 
-                <br>
-
-                <div class="row justify-content-center">
-                  <%= f.submit "Submit Registration", class: "btn btn-primary", data: { confirm: 'Are you sure?' } %>
-                </div>
-
-                <br><br>
-        
-            <% end %>
-          </div>
+    <div class="row mt-2 mb-3 datepicker input-daterange">
+      <div class="form-group col-lg-6">
+        <div>From</div>
+        <div class="input-group">
+          <%= f.text_field :date, class: "form-control form-control-sm", placeholder: "Please Select" %>
+        </div>
+      </div>
+      <div class="form-group col-lg-6">
+        <div>To</div>
+        <div class="input-group input-group-alternative">
+          <%= f.text_field :date, class: "form-control form-control-sm", placeholder: "Please Select" %>
         </div>
       </div>
     </div>
 
+    <div class="row mt-2 mb-3">
 
-  </main>
+      <div class="col-lg-3 mb-2">
+        <div>Category</div>
+        <div><%= f.select(:timesheet_category_id, TimesheetCategory.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Category"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <div>Project</div>
+        <div><%= f.select(:project_id, Project.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <div>Time In</div>
+        <%= f.select(:time_in, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {include_blank: "Time In"}, class: "custom-select custom-select-sm") %>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <div>Time Out</div>
+        <%= f.select(:time_out, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {include_blank: "Time Out"}, class: "custom-select custom-select-sm") %>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <div>Time Break</div>
+        <%= f.select(:time_break, [0,1,2,3,4,5], {include_blank: "Time Out"}, class: "custom-select custom-select-sm") %>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <div>Site Name</div>
+        <div><%= f.text_field :site_name, placeholder: "Site Name", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <div>Location</div>
+        <div><%= f.text_field :location, placeholder: "Location", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <div>Approval 1</div>
+        <div><%= f.select(:apv_mgr_1_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <div>Approval 2</div>
+        <div><%= f.select(:apv_mgr_2_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+    </div>
+
+    <div class="mx-auto">
+      <%= f.submit "Submit Application", class: "btn btn-primary", data: { confirm: 'Are you confirm with your timesheet application?' } %>
+    </div>
+    
+<% end %>
+

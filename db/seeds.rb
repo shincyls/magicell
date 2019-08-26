@@ -85,11 +85,15 @@ Leaveap.create!([
   {employee_id: 1, apv_mgr_1_id: 8, apv_mgr_2_id: 9, leavetype_id: 3, reason: "Balik Hometown", contact_person: "Shin", contact_number: "012-3456789", from_date: "2019-08-22", to_date: "2019-08-25"}
 ])
 
-Timesheet.create!([
-  {employee_id: 1, task: "Frequency Planning"},
-  {employee_id: 1, task: "RF Optimization"}
+TimesheetCategory.create!([
+  {name: "DTA"},
+  {name: "OSS"}
 ])
 
+Timesheet.create!([
+  {employee_id: 1, project_id: 3, apv_mgr_1_id: 8, apv_mgr_2_id: 9, timesheet_category_id: 1},
+  {employee_id: 1, project_id: 4, apv_mgr_1_id: 8, apv_mgr_2_id: 9, timesheet_category_id: 2}
+])
 
 
 

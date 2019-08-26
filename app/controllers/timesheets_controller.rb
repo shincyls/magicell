@@ -4,26 +4,29 @@ class TimesheetsController < ApplicationController
     before_action :require_login
   
     def index
-      
       respond_to :html, :js
-      @tmsheets = current_user.employee.timesheets.order("created_at desc") if current_user.employee
-
+      @timesheets = current_user.employee.timesheets.order("created_at desc") if current_user.employee
+      @timesheet = Timesheet.new
     end
   
-    # GET /registers/1/edit
+    # GET /timesheets/1/edit
     def edit
     end
   
-    # POST /registers
+    # POST /timesheets
     def create
+      respond_to :html, :js
+      @timesheet = Timesheet.new(timesheet_params)
+      @timesheet.save
+      @timesheets = Timesheet.where(id: @timesheet.id)
     end
   
-    # PATCH/PUT /registers/1
+    # PATCH/PUT /timesheets/1
     def update
     end
   
-    # DELETE /registers/1
-    # DELETE /registers/1.json
+    # DELETE /timesheets/1
+    # DELETE /timesheets/1.json
     def destroy
     end
   
@@ -38,8 +41,7 @@ class TimesheetsController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_params
-        params.require(:leave).permit(:full_name, :first_name, :last_name, :phone_number, :phone_number_2, :identity_number, :category, :drawing_chance, :info_1, :info_2, :info_3, :info_4, :info_5, :attendance)
+        params.require(:timesheet).permit(:employee_id, :timesheet_category_id, :project_id, :site_name, :location, :date, :time_in, :time_out, :time_break, :apv_mgr_1_id, :apv_mgr_2_id)
     end
       
   end
-  

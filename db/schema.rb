@@ -113,6 +113,13 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["employee_id"], name: "index_expenses_on_employee_id"
   end
 
+  create_table "holidays", force: :cascade do |t|
+    t.date "date"
+    t.string "remarks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "leaveaps", force: :cascade do |t|
     t.bigint "employee_id"
     t.bigint "leavetype_id", default: 1
@@ -235,32 +242,41 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "timesheets", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.string "task"
-    t.string "contact"
-    t.date "date"
-    t.string "slot_1"
-    t.string "slot_2"
-    t.string "slot_3"
-    t.string "slot_4"
-    t.string "slot_5"
-    t.string "slot_6"
-    t.string "slot_7"
-    t.string "slot_8"
-    t.string "slot_9"
-    t.string "slot_10"
-    t.string "remarks"
-    t.boolean "confirm", default: false
-    t.boolean "approved_1", default: false
-    t.string "reject_1"
-    t.boolean "approved_2", default: false
-    t.string "reject_2"
-    t.boolean "approved_3", default: false
-    t.string "reject_3"
+  create_table "timesheet_categories", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "timesheets", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.bigint "timesheet_category_id"
+    t.bigint "project_id"
+    t.string "site_name"
+    t.string "location"
+    t.date "date", default: "2019-08-01"
+    t.integer "time_in", default: 9
+    t.integer "time_out", default: 18
+    t.integer "time_break", default: 1
+    t.boolean "app_confirm", default: false
+    t.boolean "apv_1", default: false
+    t.bigint "apv_mgr_1_id"
+    t.string "apv_reject_1"
+    t.bigint "apv_mgr_2_id"
+    t.boolean "apv_2", default: false
+    t.string "apv_reject_2"
+    t.bigint "apv_mgr_3_id"
+    t.boolean "apv_3", default: false
+    t.string "apv_reject_3"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["apv_mgr_1_id"], name: "index_timesheets_on_apv_mgr_1_id"
+    t.index ["apv_mgr_2_id"], name: "index_timesheets_on_apv_mgr_2_id"
+    t.index ["apv_mgr_3_id"], name: "index_timesheets_on_apv_mgr_3_id"
     t.index ["employee_id"], name: "index_timesheets_on_employee_id"
+    t.index ["project_id"], name: "index_timesheets_on_project_id"
+    t.index ["timesheet_category_id"], name: "index_timesheets_on_timesheet_category_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,4 +1,5 @@
-<% l = @leaveap %>
+<% @leaveaps.each do |l| %>
+
 <tr>
     <td><%=l.leavetype.name%></td>
     <td><%=l.reason%></td>
@@ -11,7 +12,8 @@
 
     <% if current_user == l.employee.user %>
     <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_leaveap_path(l), class: "small text-white", target: "_blank" %></span></td>
-    <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', l, method: :delete, class: "small text-white", data: { confirm: 'Press ok to confirm you submission.' } %></span></td>
+    <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', l, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></span></td>
     <% end %>
-
 </tr>
+
+<% end %>

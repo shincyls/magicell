@@ -22,6 +22,7 @@ class LeaveapsController < ApplicationController
       respond_to :html, :js
       @leaveap = Leaveap.new(leaveap_params)
       @leaveap.save
+      @leaveaps = Leaveap.where(id: @leaveap.id)
     end
   
     # PATCH/PUT /registers/1
