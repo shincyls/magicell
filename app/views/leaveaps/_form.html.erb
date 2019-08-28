@@ -1,83 +1,139 @@
-<script>
-
-var dates = ['2019-09-02'];
-
-$(function(){
-    $('.datepicker').on('click', function() {
-        $(this).datepicker({
-          daysOfWeekDisabled: [6,0],
-          format: 'yyyy-mm-dd',
-          showOn:'focus'
-        }).focus();
-    });
-});
-
-</script>
-
 <h4 class="text-left text-primary">NEW LEAVE</h4>
 
 <%= form_for @leaveap, remote: true do |f| %>
     <%= f.hidden_field :employee_id, value: current_user.employee.id %>
 
     <div class="row mt-2 mb-3 datepicker input-daterange">
-            <div class="form-group col-lg-6">
-                <div>From</div>
-                <div class="input-group">
-                    <%= f.text_field :from_date, class: "form-control form-control-sm", placeholder: "Please Select" %>
-                    <div class="input-group-append">
-                      <%= f.select(:from_ampm, ["AM","PM"], {include_blank: "Please Select"}, class: "custom-select custom-select-sm") %>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group col-lg-6">
-                <div>To</div>
-                <div class="input-group input-group-alternative">
-                    <%= f.text_field :to_date, class: "form-control form-control-sm", placeholder: "Please Select" %>
-                    <div class="input-group-append">
-                      <%= f.select(:to_ampm, ["AM","PM"], {include_blank: "Please Select"}, class: "custom-select custom-select-sm") %>
-                    </div>
-                </div>
-            </div>
+
+      <div class="form-group col-lg-6 col-md-12">
+        <div>From</div>
+        <div class="input-group">
+          <%= f.text_field :from_date, class: "form-control form-control-sm", placeholder: "Please Select" %>
+          <div class="input-group-append">
+            <%= f.select(:from_ampm, ["AM","PM"], {include_blank: "Please Select"}, class: "custom-select custom-select-sm") %>
+          </div>
+        </div>
+        </div>
+        <div class="form-group col-lg-6 col-md-12">
+          <div>To</div>
+          <div class="input-group input-group-alternative">
+          <%= f.text_field :to_date, class: "form-control form-control-sm", placeholder: "Please Select" %>
+          <div class="input-group-append">
+            <%= f.select(:to_ampm, ["AM","PM"], {include_blank: "Please Select"}, class: "custom-select custom-select-sm") %>
+          </div>
+        </div>
+       </div>
     </div>
+    
 
     <div class="row mt-2 mb-3">
-
-      <div class="col-lg-3 mb-2">
+      <div class="col-lg-3 col-md-6 mb-2">
         <div>Leave Type</div>
         <div><%= f.select(:leavetype_id, Leavetype.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Leave Type"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
-      <div class="col-lg-3 mb-2">
+      <div class="col-lg-3 col-md-6 mb-2">
         <div>Reason</div>
         <div><%= f.text_field :reason, placeholder: "Reason", class: "form-control form-control-sm" %></div>
       </div>
 
-      <div class="col-lg-3 mb-2">
+      <div class="col-lg-3 col-md-6 mb-2">
         <div>Contact Person</div>
         <div><%= f.text_field :contact_person, placeholder: "Contact Person", class: "form-control form-control-sm" %></div>
       </div>
 
-      <div class="col-lg-3 mb-2">
+      <div class="col-lg-3 col-md-6 mb-2">
         <div>Contact Number</div>
         <div><%= f.text_field :contact_number, placeholder: "Contact Number", class: "form-control form-control-sm" %></div>
       </div>
 
-      <div class="col-lg-3 mb-2">
+      <div class="col-lg-3 col-md-6 mb-2">
         <div>Approval 1</div>
         <div><%= f.select(:apv_mgr_1_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
-      <div class="col-lg-3 mb-2">
+      <div class="col-lg-3 col-md-6 mb-2">
         <div>Approval 2</div>
         <div><%= f.select(:apv_mgr_2_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
+
     </div>
 
     <div class="mx-auto">
-      <%= f.submit "Submit Application", class: "btn btn-primary", data: { confirm: 'Are you confirm with your leave application?' } %>
+      <div>Total: <span id="calc-days">0</span> Days</div>
+      <%= f.submit "Submit Application", class: "btn btn-primary", data: { confirm: "Are you confirm with your #{@leaveap.total_days} days leave application?" } %>
     </div>
     
-
 <% end %>
+
+<script>
+
+var setHolidays = [<%= raw Holiday.list %>];
+var disabledDays = ["9-16-2019", "9-18-2019"];
+
+$(function(){
+
+  const leveapFrom = document.querySelector('#leaveap_from_date');
+  const leveapTo = document.querySelector('#leaveap_to_date');
+  const ampmFrom = document.querySelector('#leaveap_from_ampm');
+  const ampmTo = document.querySelector('#leaveap_to_ampm');
+  const result = document.querySelector('#calc-days');
+  
+  leveapFrom.addEventListener('input', calc);
+  leveapTo.addEventListener('input', calc);
+  ampmFrom.addEventListener('input', calc);
+  ampmTo.addEventListener('input', calc);
+
+  $('.datepicker').datepicker({
+    format: "yyyy-mm-dd",
+    beforeShowDay: disableHoliday,
+    daysOfWeekDisabled: [6,0],
+    todayHighlight: true
+  })
+  .change(calc)
+  .on('changeDate',calc);
+
+  function calc() {
+    var fromDate = String(leveapFrom.value);
+    var toDate = String(leveapTo.value);
+    var fromAmpm = String(ampmFrom.value);
+    var toAmpm = String(ampmTo.value);
+    var date1 = new Date(fromDate)
+    var date2 = new Date(toDate)
+    var DAY_IN_MILLISECONDS = 1000*60*60*24;
+    var days = Math.abs(Math.ceil(date2-date1)/DAY_IN_MILLISECONDS);
+    if (fromAmpm == "PM") {days -= 0.5;}
+    if (toAmpm == "AM") {days -= 0.5;}
+    result.innerHTML = days+1;
+  }
+
+  function disableHoliday(date) {
+    var newDate = date.getFullYear() + "-" + get_month(date) + "-" + get_day(date)
+    check = setHolidays[0].includes(newDate);
+    if (!check == false){
+      return [!check,"disabled disabled-date"];
+    }
+  }
+
+  function disableAllTheseDays(date) {
+      var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+      if($.inArray((m+1) + '-' + d + '-' + y,disabledDays) != -1) return [false];
+      return [true];
+  }
+
+  function get_day(d){ 
+    return (d.getDate() < 10 ? '0' : '') + d.getDate();
+  }
+
+  function get_month(d){ 
+    return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
+  }
+
+});
+
+</script>
+
+
+
 

@@ -15,6 +15,14 @@ Rails.application.routes.draw do
 
   resources :timesheets do
     collection do
+      get :retrieve
+    end
+    member do
+    end
+  end
+
+  resources :timesheet_approvals do
+    collection do
     end
     member do
     end

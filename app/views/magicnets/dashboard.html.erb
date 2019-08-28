@@ -18,6 +18,7 @@
                 HR Department
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to "Dashboard", "", class: "dropdown-item", remote: true %>
                 <%= link_to "Employee", "", class: "dropdown-item", remote: true %>
                 <%= link_to "Payroll", "", class: "dropdown-item", remote: true %>
                 <%= link_to "Equipment", "", class: "dropdown-item", remote: true %>
@@ -39,11 +40,12 @@
                 Employee
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to "Dashboard", "", class: "dropdown-item disabled", remote: true %>
                 <%= link_to "Leaves", leaveaps_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Expenses", leaveaps_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Timesheets", timesheets_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Equipment", "", class: "dropdown-item", remote: true %>
-                <%= link_to "Payroll", "", class: "dropdown-item", remote: true %>
+                <%= link_to "Expenses", leaveaps_path, class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Equipment", "", class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Payroll", "", class: "dropdown-item disabled", remote: true %>
             </div>
         </div>
     </div>

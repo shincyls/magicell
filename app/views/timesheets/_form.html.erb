@@ -1,19 +1,3 @@
-<script>
-
-var dates = ['2019-09-02'];
-
-$(function(){
-    $('.datepicker').on('click', function() {
-        $(this).datepicker({
-          daysOfWeekDisabled: [6,0],
-          format: 'yyyy-mm-dd',
-          showOn:'focus'
-        }).focus();
-    });
-});
-
-</script>
-
 <h4 class="text-left text-primary">NEW TIMESHEET</h4>
 
 <%= form_for @timesheet, remote: true do |f| %>
@@ -23,18 +7,19 @@ $(function(){
       <div class="form-group col-lg-6">
         <div>From</div>
         <div class="input-group">
-          <%= f.text_field :date, class: "form-control form-control-sm", placeholder: "Please Select" %>
+          <%= f.text_field :multi_date_from, class: "form-control form-control-sm", placeholder: "Please Select" %>
         </div>
       </div>
       <div class="form-group col-lg-6">
         <div>To</div>
         <div class="input-group input-group-alternative">
-          <%= f.text_field :date, class: "form-control form-control-sm", placeholder: "Please Select" %>
+          <%= f.text_field :multi_date_to, class: "form-control form-control-sm", placeholder: "Please Select" %>
         </div>
       </div>
     </div>
 
     <div class="row mt-2 mb-3">
+    
 
       <div class="col-lg-3 mb-2">
         <div>Category</div>
@@ -71,21 +56,29 @@ $(function(){
         <div><%= f.text_field :location, placeholder: "Location", class: "form-control form-control-sm" %></div>
       </div>
 
-      <div class="col-lg-3 mb-2">
-        <div>Approval 1</div>
-        <div><%= f.select(:apv_mgr_1_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
-      </div>
-
-      <div class="col-lg-3 mb-2">
-        <div>Approval 2</div>
-        <div><%= f.select(:apv_mgr_2_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
-      </div>
-
     </div>
 
     <div class="mx-auto">
-      <%= f.submit "Submit Application", class: "btn btn-primary", data: { confirm: 'Are you confirm with your timesheet application?' } %>
+      <%= f.submit "Create Timesheet", class: "btn btn-primary", data: { confirm: 'Are you confirm with your timesheet application?' } %>
     </div>
     
 <% end %>
+
+
+<script>
+
+$(function(){
+
+  $('.datepicker').datepicker({
+    format: "yyyy-mm-dd",
+    daysOfWeekDisabled: [6,0],
+    todayHighlight: true
+  })
+
+});
+
+</script>
+
+
+
 

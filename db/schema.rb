@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   create_table "holidays", force: :cascade do |t|
     t.date "date"
     t.string "remarks"
+    t.boolean "holiday", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -242,6 +243,26 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "timesheet_approvals", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.integer "month"
+    t.bigint "apv_mgr_1_id"
+    t.bigint "apv_mgr_2_id"
+    t.bigint "apv_mgr_3_id"
+    t.boolean "apv_1", default: false
+    t.boolean "apv_2", default: false
+    t.boolean "apv_3", default: false
+    t.string "apv_reject_1"
+    t.string "apv_reject_2"
+    t.string "apv_reject_3"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["apv_mgr_1_id"], name: "index_timesheet_approvals_on_apv_mgr_1_id"
+    t.index ["apv_mgr_2_id"], name: "index_timesheet_approvals_on_apv_mgr_2_id"
+    t.index ["apv_mgr_3_id"], name: "index_timesheet_approvals_on_apv_mgr_3_id"
+    t.index ["employee_id"], name: "index_timesheet_approvals_on_employee_id"
+  end
+
   create_table "timesheet_categories", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -252,6 +273,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   create_table "timesheets", force: :cascade do |t|
     t.bigint "employee_id"
     t.bigint "timesheet_category_id"
+    t.bigint "timesheet_approval_id"
     t.bigint "project_id"
     t.string "site_name"
     t.string "location"
@@ -259,23 +281,11 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.integer "time_in", default: 9
     t.integer "time_out", default: 18
     t.integer "time_break", default: 1
-    t.boolean "app_confirm", default: false
-    t.boolean "apv_1", default: false
-    t.bigint "apv_mgr_1_id"
-    t.string "apv_reject_1"
-    t.bigint "apv_mgr_2_id"
-    t.boolean "apv_2", default: false
-    t.string "apv_reject_2"
-    t.bigint "apv_mgr_3_id"
-    t.boolean "apv_3", default: false
-    t.string "apv_reject_3"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["apv_mgr_1_id"], name: "index_timesheets_on_apv_mgr_1_id"
-    t.index ["apv_mgr_2_id"], name: "index_timesheets_on_apv_mgr_2_id"
-    t.index ["apv_mgr_3_id"], name: "index_timesheets_on_apv_mgr_3_id"
     t.index ["employee_id"], name: "index_timesheets_on_employee_id"
     t.index ["project_id"], name: "index_timesheets_on_project_id"
+    t.index ["timesheet_approval_id"], name: "index_timesheets_on_timesheet_approval_id"
     t.index ["timesheet_category_id"], name: "index_timesheets_on_timesheet_category_id"
   end
 

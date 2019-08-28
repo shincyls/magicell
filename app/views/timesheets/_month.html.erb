@@ -1,0 +1,9 @@
+<% @history = current_user.employee.timesheets.order("date desc").collect {|l| l.date.strftime("%Y-%b")}.uniq if current_user.employee %>
+
+<%= form_for :timesheet, url: retrieve_timesheets_path, method: "get", remote: true do |f| %>
+    <div class="mb-4">
+    <% @history.each do |b| %>
+      <%= button_tag b, value: b, type: "submit", class: "btn-sm btn-success mt-1 mb-1" %>
+    <% end %>
+    </div>
+<% end %>

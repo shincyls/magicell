@@ -52,15 +52,7 @@ $(document).ready(function() {
         });
         headroom.init();
     }
-    
-    // Datepicker
-    $('.datepicker')[0] && $('.datepicker').each(function() {
-        $('.datepicker').datepicker({
-            disableTouchKeyboard: true,
-            autoclose: false,
-            dateFormat: 'yyyy-mm-dd'
-        });
-    });
+
 
     // Tooltip
     $('[data-toggle="tooltip"]').tooltip();

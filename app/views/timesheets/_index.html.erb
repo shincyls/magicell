@@ -2,29 +2,17 @@
 
 <hr>
 
-<table id="timesheet-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
-  <h4 class="text-left text-primary">Monthly Timesheet</h4>
-  <thead class="text-dark">
-    <tr>
-      <th>Category</th>
-      <th>Project</th>
-      <th>Date</th>
-      <th>Time In</th>
-      <th>Time Out</th>
-      <th>Time Break</th>
-      <th>Site Name</th>
-      <th>Location</th>
-      <th>Approval</th>
-      <% if current_user %>
-      <th>Edit</th>
-      <th>Delete</th>
-      <% end %>
-    </tr>
-  </thead>
+<h4 class="text-left text-primary">MONTHLY TIMESHEET</h4>
 
-  <tbody class="text-dark">
-      <% unless @timesheets.nil? %>
-      <%= render partial: "timesheets/table", local: @timesheets %>
-      <% end %>
-  </tbody>
-</table>
+<div id="monthly-selection">
+
+  <%= render partial: "timesheets/month" %>
+  
+</div>
+
+
+<div id="monthly-approval">
+
+  <%= render partial: "timesheets/table" %>
+
+</div>
