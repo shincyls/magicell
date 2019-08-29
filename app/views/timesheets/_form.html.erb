@@ -31,6 +31,11 @@
         <div><%= f.select(:project_id, Project.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
+      <div class="col-lg-6 mb-2">
+        <div>Activity</div>
+        <div><%= f.text_field :activity, placeholder: "Activity", class: "form-control form-control-sm" %></div>
+      </div>
+
       <div class="col-lg-2 mb-2">
         <div>Time In</div>
         <%= f.select(:time_in, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {include_blank: "Time In"}, class: "custom-select custom-select-sm") %>

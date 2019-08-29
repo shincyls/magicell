@@ -11,4 +11,26 @@ class MagicnetsController < ApplicationController
       respond_to :html, :js
     end
 
+    # Dashboards for each role
+
+    def dashmanager
+      respond_to :html, :js
+    end
+
+    def dashinfotech
+      respond_to :html, :js
+    end
+
+    def dashemployee
+      respond_to :html, :js
+    end
+
+    def dashfinance
+      respond_to :html, :js
+    end
+
+    def dashboardhr
+      respond_to :html, :js
+    end
+
 end

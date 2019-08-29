@@ -6,11 +6,11 @@
   <div>Approval Status</div>
   
   <% unless @approval.apv_mgr_1_id.nil? %>
-    <p><%= @approval.apv_mgr_1.first_name %> <%= @approval.apv_1 %></p>
+    <p><%= @approval.apv_mgr_1.employee.first_name %> <%= @approval.apv_1 %></p>
   <% end %>
 
   <% unless @approval.apv_mgr_2_id.nil? %>
-    <p><%= @approval.apv_mgr_2.first_name %> <%= @approval.apv_2 %></p>
+    <p><%= @approval.apv_mgr_2.employee.first_name %> <%= @approval.apv_2 %></p>
   <% end %>
 
 <% else %>
@@ -21,14 +21,15 @@
       <%= f.hidden_field :employee_id, value: current_user.employee.id %>
       <%= f.hidden_field :month, value: @month %>
 
+      <% getid = Webrole.find_by(role: "Project Manager") %>
       <div class="row mt-2 mb-3">
         <div class="col-lg-3 col-md-6 mb-2">
           <div>Approval 1</div>
-          <div><%= f.select(:apv_mgr_1_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
+          <div><%= f.select(:apv_mgr_1_id, User.where(webrole_id: getid).joins(:employee).pluck(:first_name,:id), {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
         </div>
         <div class="col-lg-3 col-md-6 mb-2">
           <div>Approval 2</div>
-          <div><%= f.select(:apv_mgr_2_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
+          <div><%= f.select(:apv_mgr_2_id, User.where(webrole_id: getid).joins(:employee).pluck(:first_name,:id), {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
         </div>
       </div>
 

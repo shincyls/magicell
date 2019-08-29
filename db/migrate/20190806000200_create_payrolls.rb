@@ -10,8 +10,8 @@ class CreatePayrolls < ActiveRecord::Migration[5.2]
         t.float :socso, default: 0
         t.float :epf_employer, default: 0
         t.float :epf_employee, default: 0
-        t.float :operator
+        t.float :payslip_file
         t.timestamps
       end
     end
-  end
+end

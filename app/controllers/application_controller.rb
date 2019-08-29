@@ -9,6 +9,46 @@ class ApplicationController < ActionController::Base
       @current_user ||= User.find_by(id: session[:user_id])
     end
   end
+
+  def require_hr_write
+    if current_user.webrole.wr_hr
+      return true
+    else
+      flash.now[:alert] = "You have no write access for this action."
+    end
+  end
+
+  def require_it_write
+    if current_user.webrole.wr_it
+      return true
+    else
+      flash.now[:alert] = "You have no write access for this action."
+    end
+  end
+
+  def require_employee_write
+    if current_user.webrole.wr_emp
+      return true
+    else
+      flash.now[:alert] = "You have no write access for this action."
+    end
+  end
+
+  def require_promgr_write
+    if current_user.webrole.wr_pro_mgr
+      return true
+    else
+      flash.now[:alert] = "You have no write access for this action."
+    end
+  end
+
+  def require_dptmgr_write
+    if current_user.webrole.wr_dpt_mgr
+      return true
+    else
+      flash.now[:alert] = "You have no write access for this action."
+    end
+  end
   
   private
   # Returns true if current_user exists, false otherwise

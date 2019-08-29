@@ -1,0 +1,27 @@
+<table id="leave-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+  <h4 class="text-left text-primary">EMPLOYEES</h4>
+  <p class="text-info">Total: <%= Employee.all.count %></p>
+  <thead class="text-dark">
+    <tr>
+      <th>Name</th>
+      <th>Employee ID</th>
+      <th>Position</th>
+      <th>Category</th>
+      <th>Department</th>
+      <th>Project</th>
+      <th>Status</th>
+      <th>Joined</th>
+      <% if current_user.employee.Default? %>
+      <th>Details</th>
+      <th>Edit</th>
+      <th>Delete</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody class="text-dark">
+      <% unless @employees.nil? %>
+      <%= render partial: "employees/table", local: @employees %>
+      <% end %>
+  </tbody>
+</table>

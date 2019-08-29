@@ -47,14 +47,15 @@
         <div><%= f.text_field :contact_number, placeholder: "Contact Number", class: "form-control form-control-sm" %></div>
       </div>
 
+      <% getid = Webrole.find_by(role: "Project Manager") %>
       <div class="col-lg-3 col-md-6 mb-2">
         <div>Approval 1</div>
-        <div><%= f.select(:apv_mgr_1_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
+        <div><%= f.select(:apv_mgr_1_id, User.where(webrole_id: getid).joins(:employee).pluck(:first_name,:id), {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
         <div>Approval 2</div>
-        <div><%= f.select(:apv_mgr_2_id, Employee.where(position: "Manager").collect {|e| [ e.first_name, e.id ] }, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
+        <div><%= f.select(:apv_mgr_2_id, User.where(webrole_id: getid).joins(:employee).pluck(:first_name,:id), {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
 

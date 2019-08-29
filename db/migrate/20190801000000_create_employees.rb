@@ -4,24 +4,26 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
         t.string :first_name
         t.string :last_name
         t.string :employee_id
-        t.string :title
+        t.string :position
         t.string :phone_number
         t.string :phone_number_2
-        t.string :identity_number
+        t.string :address
+        t.string :address_2
+        t.string :nationality
+        t.string :race
+        t.string :identity_passport_no
         t.date :birthday
         t.date :joined_since
-        t.date :last_day
+        t.date :joined_last
         t.float :base_salary, default: 0
         t.float :annual_leave_entitled, default: 12
         t.float :annual_leave_taken, default: 0
         t.float :medical_leave_entitled, default: 12
         t.float :medical_leave_taken, default: 0
-        t.integer :position, default: 0
+        t.date :contract_start
+        t.date :contract_end
         t.integer :category, default: 0
-        t.date :contract_from
-        t.date :contract_until
         t.integer :employement_status, default: 0
-        t.references :user
         t.references :department
         t.references :company
         t.references :project

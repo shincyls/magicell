@@ -7,53 +7,108 @@
 </div>
 
 <div class="row text-special pl-4 pr-4 pt-2 pb-2 bg-chrome rounded">
-    <p class="text-white">Welcome Back! <span class="text-primary"><%=current_user.username%></span></p>
+    <div class="col-12 text-white">Welcome Back! <span class="text-primary"><%=current_user.username%></span>  </div>
+    <div class="col-12 text-white">Your webrole is: <span class="text-danger"><%=current_user.webrole.role%></span></div>
+    <div class="col-12">
+        View Access >>
+        <span class="text-success">HR: <%= current_user.webrole.vw_hr %><span>,
+        <span class="text-info">Finance: <%= current_user.webrole.vw_finance %><span>,
+        <span class="text-primary">PM: <%= current_user.webrole.vw_pro_mgr %><span>,
+        <span class="text-danger">IT: <%= current_user.webrole.vw_it %><span>,
+        <span class="text-warning">Employee: <%= current_user.webrole.vw_emp %><span>
+    </div>
+    <div class="col-12">
+        Write Access >>
+        <span class="text-success">HR: <%= current_user.webrole.wr_hr %><span>,
+        <span class="text-info">Finance: <%= current_user.webrole.wr_finance %><span>,
+        <span class="text-primary">PM: <%= current_user.webrole.wr_pro_mgr %><span>,
+        <span class="text-danger">IT: <%= current_user.webrole.wr_it %><span>,
+        <span class="text-warning">Employee: <%= current_user.webrole.wr_emp %><span>
+    </div>
 </div>
 
 <div class="row text-dark text-special mt-4 mb-4 pl-4 pr-4 bg-glass rounded">
 
     <div class="mt-4 mb-4">
+
+        <% if current_user.webrole.vw_hr %>
         <div class="dropdown">
-            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-success dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 HR Department
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Dashboard", "", class: "dropdown-item", remote: true %>
-                <%= link_to "Employee", "", class: "dropdown-item", remote: true %>
-                <%= link_to "Payroll", "", class: "dropdown-item", remote: true %>
-                <%= link_to "Equipment", "", class: "dropdown-item", remote: true %>
-                <%= link_to "Announcement", "", class: "dropdown-item", remote: true %>
+                <%= link_to "Dashboard", dashboardhr_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Employee", employees_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Payroll", "", class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Equipment", "", class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Announcement", "", class: "dropdown-item disabled", remote: true %>
             </div>
         </div>
+        <% end %>
 
+        <% if current_user.webrole.vw_finance %>
         <div class="dropdown">
-            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-info dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Finance
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to "Dashboard", dashfinance_path, class: "dropdown-item", remote: true %>
+            </div>
+        </div>
+        <% end %>
+
+        <% if current_user.webrole.vw_pro_mgr %>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Manager
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Dashboard", "", class: "dropdown-item", remote: true %>
+                <%= link_to "Dashboard", dashmanager_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
+        <% end %>
 
+        <% if current_user.webrole.vw_it %>
         <div class="dropdown">
-            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-danger dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                IT
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to "Dashboard", dashinfotech_path, class: "dropdown-item", remote: true %>
+            </div>
+        </div>
+        <% end %>
+
+        <% if current_user.webrole.vw_emp %>
+        <div class="dropdown">
+            <button class="btn btn-warning dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Employee
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Dashboard", "", class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Dashboard", dashemployee_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Leaves", leaveaps_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Timesheets", timesheets_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Expenses", leaveaps_path, class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Expenses", "", class: "dropdown-item disabled", remote: true %>
                 <%= link_to "Equipment", "", class: "dropdown-item disabled", remote: true %>
                 <%= link_to "Payroll", "", class: "dropdown-item disabled", remote: true %>
             </div>
         </div>
+        <% end %>
+        
     </div>
 
     <div class="justify-content-center w-100" id="main-dashboard" style="min-height:30rem;">
-        <%= render partial: 'magicnets/mgrdpt' %>
-        <%= render partial: 'magicnets/mgrproject' %>
-        <%= render partial: 'magicnets/employee' %>
+        <p>Please Select</p>
     </div>
 
 </div>
+
+
+<script>
+
+function myFunction() {
+  var element = getElementsByClassName("btn-sm")
+  element.classList.add("active");
+}
+
+</script>

@@ -47,45 +47,30 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["company_id"], name: "index_departments_on_company_id"
   end
 
-  create_table "eaforms", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.integer "year"
-    t.float "base_salary", default: 0.0
-    t.float "expenses_claim", default: 0.0
-    t.float "others_claim", default: 0.0
-    t.float "leave_deduction", default: 0.0
-    t.float "socso", default: 0.0
-    t.float "epf_employer", default: 0.0
-    t.float "epf_employee", default: 0.0
-    t.float "operator"
-    t.string "eaform_file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_eaforms_on_employee_id"
-  end
-
   create_table "employees", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "employee_id"
-    t.string "title"
+    t.string "position"
     t.string "phone_number"
     t.string "phone_number_2"
-    t.string "identity_number"
+    t.string "address"
+    t.string "address_2"
+    t.string "nationality"
+    t.string "race"
+    t.string "identity_passport_no"
     t.date "birthday"
     t.date "joined_since"
-    t.date "last_day"
+    t.date "joined_last"
     t.float "base_salary", default: 0.0
     t.float "annual_leave_entitled", default: 12.0
     t.float "annual_leave_taken", default: 0.0
     t.float "medical_leave_entitled", default: 12.0
     t.float "medical_leave_taken", default: 0.0
-    t.integer "position", default: 0
+    t.date "contract_start"
+    t.date "contract_end"
     t.integer "category", default: 0
-    t.date "contract_from"
-    t.date "contract_until"
     t.integer "employement_status", default: 0
-    t.bigint "user_id"
     t.bigint "department_id"
     t.bigint "company_id"
     t.bigint "project_id"
@@ -94,7 +79,6 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["company_id"], name: "index_employees_on_company_id"
     t.index ["department_id"], name: "index_employees_on_department_id"
     t.index ["project_id"], name: "index_employees_on_project_id"
-    t.index ["user_id"], name: "index_employees_on_user_id"
   end
 
   create_table "expenses", force: :cascade do |t|
@@ -132,14 +116,14 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.date "to_date"
     t.string "to_ampm", default: "PM"
     t.boolean "app_confirm", default: false
-    t.boolean "apv_1", default: false
     t.bigint "apv_mgr_1_id"
-    t.string "apv_reject_1"
     t.bigint "apv_mgr_2_id"
-    t.boolean "apv_2", default: false
-    t.string "apv_reject_2"
     t.bigint "apv_mgr_3_id"
+    t.boolean "apv_1", default: false
+    t.boolean "apv_2", default: false
     t.boolean "apv_3", default: false
+    t.string "apv_reject_1"
+    t.string "apv_reject_2"
     t.string "apv_reject_3"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -158,13 +142,6 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "page_contents", force: :cascade do |t|
-    t.string "name"
-    t.float "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "payrolls", force: :cascade do |t|
     t.bigint "employee_id"
     t.integer "month"
@@ -175,27 +152,10 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.float "socso", default: 0.0
     t.float "epf_employer", default: 0.0
     t.float "epf_employee", default: 0.0
-    t.float "operator"
+    t.float "payslip_file"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_payrolls_on_employee_id"
-  end
-
-  create_table "payslips", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.integer "month"
-    t.float "base_salary", default: 0.0
-    t.float "expenses_claim", default: 0.0
-    t.float "others_claim", default: 0.0
-    t.float "leave_deduction", default: 0.0
-    t.float "socso", default: 0.0
-    t.float "epf_employer", default: 0.0
-    t.float "epf_employee", default: 0.0
-    t.float "operator"
-    t.string "payslip_file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_payslips_on_employee_id"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|
@@ -275,9 +235,10 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.bigint "timesheet_category_id"
     t.bigint "timesheet_approval_id"
     t.bigint "project_id"
+    t.string "activity"
     t.string "site_name"
     t.string "location"
-    t.date "date", default: "2019-08-01"
+    t.date "date"
     t.integer "time_in", default: 9
     t.integer "time_out", default: 18
     t.integer "time_break", default: 1
@@ -291,25 +252,54 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.string "first_name"
-    t.string "last_name"
     t.string "email"
     t.string "password_digest"
     t.string "remember_digest"
-    t.integer "role", default: 1
+    t.bigint "webrole_id"
     t.bigint "employee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar"
     t.index ["employee_id"], name: "index_users_on_employee_id"
+    t.index ["webrole_id"], name: "index_users_on_webrole_id"
   end
 
-  create_table "variables", force: :cascade do |t|
-    t.float "socso_perc"
-    t.float "epf_employer_perc"
-    t.float "epf_employee_perc"
-    t.float "eis_perc"
-    t.float "pcb_perc"
+  create_table "webapp_contents", force: :cascade do |t|
+    t.string "name"
+    t.float "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "webroles", force: :cascade do |t|
+    t.string "role"
+    t.string "description"
+    t.boolean "vw_director", default: false
+    t.boolean "vw_emp", default: false
+    t.boolean "vw_hr", default: false
+    t.boolean "vw_finance", default: false
+    t.boolean "vw_pro_mgr", default: false
+    t.boolean "vw_dpt_mgr", default: false
+    t.boolean "vw_it", default: false
+    t.boolean "vw_market", default: false
+    t.boolean "vw_sale", default: false
+    t.boolean "vw_support", default: false
+    t.boolean "vw_intern", default: false
+    t.boolean "vw_subcon", default: false
+    t.boolean "wr_director", default: false
+    t.boolean "wr_emp", default: false
+    t.boolean "wr_hr", default: false
+    t.boolean "wr_finance", default: false
+    t.boolean "wr_pro_mgr", default: false
+    t.boolean "wr_dpt_mgr", default: false
+    t.boolean "wr_it", default: false
+    t.boolean "wr_market", default: false
+    t.boolean "wr_sale", default: false
+    t.boolean "wr_support", default: false
+    t.boolean "wr_intern", default: false
+    t.boolean "wr_subcon", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

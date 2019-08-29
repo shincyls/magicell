@@ -5,15 +5,14 @@ class User < ApplicationRecord
     # validates :first_name, presence: {message: ": Please enter your first name."}
     # validates :last_name, presence: {message: ": Please enter your last name."}
     
-    has_one :employee
+    belongs_to :employee, optional: true
+    belongs_to :webrole, optional: true
     
     #Bcrypt with Secured Password
     has_secure_password
 
     #CarrierWave for uploader
     mount_uploader :avatar, AvatarUploader
-
-    enum role: ["super", "admin", "hr", "user"]
 
     def fullname
        self.first_name + " " + self.last_name
