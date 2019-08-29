@@ -14,11 +14,23 @@ class TimesheetApprovalsController < ApplicationController
         elsif @timesheet_approval.save
             flash.now[:success] = "Your Timesheet have been sent to manager for approval."
         end
-
         @timesheets = current_user.employee.timesheets.order("date desc") if current_user.employee
         @timesheets = @timesheets.year_month(Date.today.year,@timesheet_approval.month)
         @month = @timesheet_approval.month
-        
+    end
+
+    def ts_approval1
+        respond_to :html, :js
+        @ts = TimesheetApproval.find(params[:id])
+        @ts.apv_1 = !@ts.apv_1
+        @ts.save
+    end
+
+    def ts_approval2
+        respond_to :html, :js
+        @ts = TimesheetApproval.find(params[:id])
+        @ts.apv_2 = !@ts.apv_2
+        @ts.save
     end
     
     private

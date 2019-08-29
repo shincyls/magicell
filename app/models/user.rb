@@ -7,6 +7,10 @@ class User < ApplicationRecord
     
     belongs_to :employee, optional: true
     belongs_to :webrole, optional: true
+    has_many :primary_tsas, class_name: 'TimesheetApproval', foreign_key: 'apv_mgr_1_id'
+    has_many :secondary_tsas, class_name: 'TimesheetApproval', foreign_key: 'apv_mgr_2_id'
+    has_many :primary_las, class_name: 'Leaveap', foreign_key: 'apv_mgr_1_id'
+    has_many :secondary_las, class_name: 'Leaveap', foreign_key: 'apv_mgr_2_id'
     
     #Bcrypt with Secured Password
     has_secure_password

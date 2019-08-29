@@ -63,7 +63,8 @@
                 Manager
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Dashboard", dashmanager_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Dashboard", dashpm_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Approval", approval_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
         <% end %>
@@ -74,7 +75,8 @@
                 IT
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Dashboard", dashinfotech_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Dashboard", dashit_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Webrole", webrole_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
         <% end %>

@@ -34,6 +34,20 @@ class LeaveapsController < ApplicationController
     def destroy
       respond_to :html, :js
     end
+
+    def leave_approval1
+      respond_to :html, :js
+      @la = Leaveap.find(params[:id])
+      @la.apv_1 = !@la.apv_1
+      @la.save
+    end
+
+    def leave_approval2
+      respond_to :html, :js
+      @la = Leaveap.find(params[:id])
+      @la.apv_2 = !@la.apv_2
+      @la.save
+    end
   
     private
   

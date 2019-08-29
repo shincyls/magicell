@@ -13,10 +13,6 @@ class MagicnetsController < ApplicationController
 
     # Dashboards for each role
 
-    def dashmanager
-      respond_to :html, :js
-    end
-
     def dashinfotech
       respond_to :html, :js
     end
@@ -29,8 +25,26 @@ class MagicnetsController < ApplicationController
       respond_to :html, :js
     end
 
-    def dashboardhr
+    # PM Pages
+    def dashpm
       respond_to :html, :js
+      render template: "magicnets/view_pm/dashpm"
+    end
+
+    def approval
+      respond_to :html, :js
+      render template: "magicnets/view_pm/approval"
+    end
+
+    # IT Pages
+    def dashit
+      respond_to :html, :js
+      render template: "magicnets/view_it/dashit"
+    end
+
+    def webrole
+      respond_to :html, :js
+      render template: "magicnets/view_it/webrole"
     end
 
 end
