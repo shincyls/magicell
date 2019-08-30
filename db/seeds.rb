@@ -23,7 +23,7 @@ require 'open-uri'
 #   end
 # end
 
-# PageContent.create!([
+# WebappContent.create!([
 #   {name: "running_number", value: 1}
 # ])
 

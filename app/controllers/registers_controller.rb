@@ -84,7 +84,7 @@ class RegistersController < ApplicationController
       r.save
     end
 
-    @content = PageContent.find_by(name: "running_number")
+    @content = WebappContent.find_by(name: "running_number")
     @content.value = 1
     @content.save
     

@@ -8,7 +8,7 @@ class Register < ApplicationRecord
     enum category: ["Registered","Reserved","Others"]
     enum status: ["unprint","printed"]
 
-    @@running_number = PageContent.find_by(name: "running_number")
+    @@running_number = WebappContent.find_by(name: "running_number")
 
     include PgSearch
     pg_search_scope :search_registers, 
