@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PageContentTest < ActiveSupport::TestCase
+class WebappContentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
