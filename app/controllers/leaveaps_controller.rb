@@ -23,6 +23,7 @@ class LeaveapsController < ApplicationController
       @leaveap = Leaveap.new(leaveap_params)
       @leaveap.save
       @leaveaps = Leaveap.where(id: @leaveap.id)
+      flash.now[:success] = "Your Leave Application have been submitted."
     end
   
     # PATCH/PUT /registers/1

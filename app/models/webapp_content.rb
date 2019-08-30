@@ -1,0 +1,2 @@
+class WebappContent < ApplicationRecord
+end

@@ -6,11 +6,11 @@
   <div>Approval Status</div>
   
   <% unless @approval.apv_mgr_1_id.nil? %>
-    <p><%= @approval.apv_mgr_1.employee.first_name %> <%= @approval.apv_1 %></p>
+    <p>Approval 1: <%= @approval.apv_mgr_1.employee.first_name %> <%= @approval.apv_1 %></p>
   <% end %>
 
   <% unless @approval.apv_mgr_2_id.nil? %>
-    <p><%= @approval.apv_mgr_2.employee.first_name %> <%= @approval.apv_2 %></p>
+    <p>Approval 2: <%= @approval.apv_mgr_2.employee.first_name %> <%= @approval.apv_2 %></p>
   <% end %>
 
 <% else %>

@@ -1,2 +1,0 @@
-class PageContent < ApplicationRecord
-end

@@ -6404,12 +6404,17 @@ input[type='button'].btn-block
 .alert
 {
     position: relative;
-
     margin-bottom: 1rem;
     padding: 1rem 1.5rem;
-
     border: .0625rem solid transparent;
     border-radius: .25rem;
+}
+
+.flash
+{
+    position: fixed !important;
+    z-index: 1100;
+    width: 100%;
 }
 
 .alert-heading
