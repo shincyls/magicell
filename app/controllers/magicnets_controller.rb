@@ -13,16 +13,22 @@ class MagicnetsController < ApplicationController
 
     # Dashboards for each role
 
-    def dashinfotech
-      respond_to :html, :js
-    end
-
+    # Employee Pages
     def dashemployee
       respond_to :html, :js
+      render template: "magicnets/view_emp/dashemployee"
     end
 
+    # Finance Pages
     def dashfinance
       respond_to :html, :js
+      render template: "magicnets/view_fin/dashfinance"
+    end
+
+    # HR Pages
+    def dashhr
+      respond_to :html, :js
+      render template: "magicnets/view_hr/dashhr"
     end
 
     # PM Pages

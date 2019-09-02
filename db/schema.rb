@@ -47,9 +47,22 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["company_id"], name: "index_departments_on_company_id"
   end
 
+  create_table "employee_contracts", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.bigint "project_id"
+    t.date "start_from"
+    t.date "end_at"
+    t.float "base_salary"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_employee_contracts_on_employee_id"
+    t.index ["project_id"], name: "index_employee_contracts_on_project_id"
+  end
+
   create_table "employees", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.string "company_email"
     t.string "employee_id"
     t.string "position"
     t.string "phone_number"
@@ -63,17 +76,17 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.date "joined_since"
     t.date "joined_last"
     t.float "base_salary", default: 0.0
-    t.float "annual_leave_entitled", default: 12.0
+    t.float "annual_leave_entitled", default: 0.0
     t.float "annual_leave_taken", default: 0.0
-    t.float "medical_leave_entitled", default: 12.0
+    t.float "medical_leave_entitled", default: 0.0
     t.float "medical_leave_taken", default: 0.0
     t.date "contract_start"
     t.date "contract_end"
     t.integer "category", default: 0
     t.integer "employement_status", default: 0
     t.bigint "department_id"
-    t.bigint "company_id"
     t.bigint "project_id"
+    t.bigint "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_employees_on_company_id"
