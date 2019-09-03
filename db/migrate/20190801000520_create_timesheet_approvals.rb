@@ -2,6 +2,8 @@ class CreateTimesheetApprovals < ActiveRecord::Migration[5.2]
   def change
     create_table :timesheet_approvals do |t|
       t.references :employee
+      t.string :session
+      t.integer :year
       t.integer :month
       t.references :apv_mgr_1
       t.references :apv_mgr_2

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   root 'statics#index'
-  mount RailsAdmin::Engine => '/magicenet/admin', as: 'rails_admin'
+  mount RailsAdmin::Engine => '/magicnet/admin', as: 'rails_admin'
   
   get 'magicnet', to: 'magicnets#login', as: 'login'
   get 'magicnet/dashboard', to: 'magicnets#dashboard', as: 'dashboard'

@@ -1,9 +1,8 @@
-<h4 class="text-left text-primary">NEW TIMESHEET</h4>
-
 <%= form_for @timesheet, remote: true do |f| %>
     <%= f.hidden_field :employee_id, value: current_user.employee.id %>
 
-    <div class="row mt-2 mb-3 datepicker input-daterange">
+    <% unless action_name == "edit"%>
+    <div class="row text-dark mt-2 mb-3 datepicker input-daterange">
       <div class="form-group col-lg-6">
         <div>From</div>
         <div class="input-group">
@@ -17,10 +16,12 @@
         </div>
       </div>
     </div>
+    <% else %>
+      <div><% @timesheet.date %></div>
+    <% end %>
 
-    <div class="row mt-2 mb-3">
+    <div class="row text-dark text-special mt-2 mb-3">
     
-
       <div class="col-lg-3 mb-2">
         <div>Category</div>
         <div><%= f.select(:timesheet_category_id, TimesheetCategory.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Category"}, class: "custom-select custom-select-sm") %></div>
@@ -63,9 +64,11 @@
 
     </div>
 
+    <% unless action_name == "edit"%>
     <div class="mx-auto">
       <%= f.submit "Create Timesheet", class: "btn btn-primary", data: { confirm: 'Are you confirm with your timesheet application?' } %>
     </div>
+    <% end %>
     
 <% end %>
 

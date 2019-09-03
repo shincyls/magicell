@@ -7,10 +7,13 @@ RailsAdmin.config do |config|
   #   warden.authenticate! scope: :user
   # end
   # config.current_user_method(&:current_user)
+  
+  config.main_app_name = ["MAGICELL"]
+
   config.parent_controller = "::ApplicationController"
 
   config.authorize_with do |controller|
-    unless current_user && current_user.admin?
+    unless current_user.id == 1
       redirect_to(
         main_app.root_path,
         flash: {alert: "You are not permitted to view this page"}

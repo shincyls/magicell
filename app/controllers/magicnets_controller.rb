@@ -1,14 +1,15 @@
 class MagicnetsController < ApplicationController
     include ApplicationHelper
-
-    before_action :logged_in?, except: :login
+    # before_action :logged_in?, except: :login
     
     def dashboard
       respond_to :html, :js
+      redirect_to login_path unless logged_in?
     end
 
     def login
       respond_to :html, :js
+      redirect_to dashboard_url if logged_in?
     end
 
     # Dashboards for each role

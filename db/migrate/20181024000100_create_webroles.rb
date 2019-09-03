@@ -3,6 +3,7 @@ class CreateWebroles < ActiveRecord::Migration[5.2]
     create_table :webroles do |t|
       t.string :role
       t.string :description
+      t.boolean :rails_admin, default: false
       t.boolean :vw_director, default: false
       t.boolean :vw_emp, default: false
       t.boolean :vw_hr, default: false

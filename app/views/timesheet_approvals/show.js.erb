@@ -1,0 +1,4 @@
+$("#modal-header").html("View Timesheet (<%=@timesheet_approval.employee.full_name%>, <%=@timesheet_approval.session%>)");
+$("#modal-body").html("<%= j (render 'show') %>");
+$("#modal-footer").html("<button type='submit' data-dismiss='modal' class='btn btn-primary'>Close</button>");
+$("#modal-form").modal();

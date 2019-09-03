@@ -6,17 +6,24 @@ class TimesheetApprovalsController < ApplicationController
         @timesheet_approval = TimesheetApproval.new
     end
 
+    def show
+        respond_to :html, :js
+        @timesheet_approval = TimesheetApproval.find(params[:id])
+        @session = @timesheet_approval.session.to_date
+        @timesheets = @timesheet_approval.employee.timesheets.order("date desc").year_month(@session.year,@session.month)
+    end
+
     def create
         respond_to :html, :js
         @timesheet_approval = TimesheetApproval.new(timesheet_approval_params)
-        if TimesheetApproval.exists?(employee_id: @timesheet_approval.employee_id, month: @timesheet_approval.month)
+        if TimesheetApproval.exists?(employee_id: @timesheet_approval.employee_id, session: @timesheet_approval.session)
             flash.now[:warning] =  "Your Timesheet have been submitted before."
         elsif @timesheet_approval.save
-            flash.now[:success] = "Your Timesheet have been sent to manager for approval."
+            flash.now[:success] = "Your Timesheet have been sent to manager for review and approval."
         end
         @timesheets = current_user.employee.timesheets.order("date desc") if current_user.employee
-        @timesheets = @timesheets.year_month(Date.today.year,@timesheet_approval.month)
-        @month = @timesheet_approval.month
+        @timesheets = @timesheets.year_month(@timesheet_approval.session.to_date.year,@timesheet_approval.session.to_date.month)
+        @session = @timesheet_approval.session
     end
 
     def ts_approval1
@@ -44,7 +51,7 @@ class TimesheetApprovalsController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_approval_params
-        params.require(:timesheet_approval).permit(:employee_id, :month, :apv_mgr_1_id, :apv_mgr_2_id)
+        params.require(:timesheet_approval).permit(:employee_id, :session, :year, :month, :apv_mgr_1_id, :apv_mgr_2_id)
     end
 
 end

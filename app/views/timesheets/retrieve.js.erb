@@ -1,1 +1,5 @@
-$('#monthly-approval').html("<%= j (render 'timesheets/table') %>");
+$('#flash-message').html("<%= j (render 'statics/message') %>");
+
+$('#monthly-selection').html("<%= j (render 'timesheets/month') %>");
+$("#monthly-approval").html("<%= j (render 'timesheet_approvals/approval') %>");
+$("#timesheet-table").html("<%= j (render 'timesheets/table') %>");

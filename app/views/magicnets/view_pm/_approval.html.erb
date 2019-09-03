@@ -7,7 +7,10 @@
   <thead class="text-dark">
     <tr>
       <th>Name</th>
-      <th>Month</th>
+      <th>Session</th>
+      <th>Project</th>
+      <th>Year-Month</th>
+      <th>Days/Hours</th>
       <th>Detail</th>
       <th>Approve?</th>
     </tr>
@@ -18,14 +21,17 @@
   <% @ts1.each do |t| %>
     <tr>
       <td><%=t.employee.full_name%></td>
+      <td><%=t.session%></td>
+      <td><%=t.year%></td>
       <td><%=t.month%></td>
-      <td>(Click)</td>
+      <td><span class="bg-info rounded p-1 m-1"><%= link_to 'Detail', timesheet_approval_path(t), class: "small text-white", remote: true %></span></td>
       <td>
         <%= check_box_tag(
             "completed", t.id, t.apv_1,
             data: {
             remote: true,
             url: url_for(controller: 'timesheet_approvals', action: 'ts_approval1', id: t.id),
+            class: "custom-control-input",
             method: 'POST' }) %>
       </td>
     </tr>
@@ -35,8 +41,10 @@
   <% @ts2.each do |t| %>
     <tr>
       <td><%=t.employee.full_name%></td>
+      <td><%=t.session%></td>
+      <td><%=t.year%></td>
       <td><%=t.month%></td>
-      <td>(Click)</td>
+      <td><span class="bg-info rounded p-1 m-1"><%= link_to 'Detail', timesheet_approval_path(t), class: "small text-white", remote: true %></span></td>
       <td>
         <%= check_box_tag(
             "completed", t.id, t.apv_2,
@@ -104,6 +112,8 @@
       <td><%=l.contact_person%> <%=l.contact_number%></td>
       <td><%=l.from_date%> <%=l.from_ampm%> to <%=l.to_date%> <%=l.to_ampm%></td>
       <td><%=l.total_days%></td>
+      <td><%=l.employee.annual_leave_taken%>/<%=l.employee.annual_leave_entitled%></td>
+      <td><%=l.employee.medical_leave_taken%>/<%=l.employee.medical_leave_entitled%></td>
       <td>
         <%= check_box_tag(
             "completed", l.id, l.apv_2,

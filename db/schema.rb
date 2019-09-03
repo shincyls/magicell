@@ -218,6 +218,8 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
 
   create_table "timesheet_approvals", force: :cascade do |t|
     t.bigint "employee_id"
+    t.string "session"
+    t.integer "year"
     t.integer "month"
     t.bigint "apv_mgr_1_id"
     t.bigint "apv_mgr_2_id"
@@ -287,6 +289,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   create_table "webroles", force: :cascade do |t|
     t.string "role"
     t.string "description"
+    t.boolean "rails_admin", default: false
     t.boolean "vw_director", default: false
     t.boolean "vw_emp", default: false
     t.boolean "vw_hr", default: false

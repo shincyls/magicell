@@ -1,0 +1,4 @@
+$("#modal-header").html("Edit Timesheet for <%=@timesheet.date%>");
+$("#modal-body").html("<%= j (render 'form') %>");
+$("#modal-footer").html("<button type='submit' form='edit_timesheet_<%=@timesheet.id%>' class='btn btn-primary'>Update</button>");
+$("#modal-form").modal();

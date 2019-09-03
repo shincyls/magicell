@@ -23,9 +23,9 @@ require 'open-uri'
 #   end
 # end
 
-# WebappContent.create!([
-#   {name: "running_number", value: 1}
-# ])
+WebappContent.create!([
+  {name: "Default Password", value: "M@gic31!"}
+])
 
 Webrole.create!([
   {role: "Default"},
@@ -53,7 +53,7 @@ Employee.create!([
 ])
 
 User.create!([
-  {username: "super1", email: "super1@magicell.com", password: "$uper!23", webrole_id: 3, employee_id: 1},
+  {username: "super", email: "super@magicell.com", password: "M@g!c3lL", webrole_id: 3, employee_id: 1},
   {username: "admin1", email: "admin1@magicell.com", password: "@dmin!23", webrole_id: 3, employee_id: 2},
   {username: "xiaolong", email: "xiaolong@magicell.com", password: "qwerasdf", webrole_id: 1, employee_id: 3},
   {username: "johari", email: "johari@magicell.com", password: "qwerasdf", webrole_id: 6, employee_id: 4},

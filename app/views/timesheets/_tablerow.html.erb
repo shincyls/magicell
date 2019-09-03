@@ -11,7 +11,7 @@
     <td><%=t.location%></td>
 
     <% if current_user == t.employee.user %>
-    <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_path(t), class: "small text-white", target: "_blank" %></span></td>
+    <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_path(t), class: "small text-white", remote: true %></span></td>
     <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></span></td>
     <% end %>
 </tr>

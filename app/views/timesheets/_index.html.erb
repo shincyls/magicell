@@ -1,18 +1,17 @@
+<h4 class="text-left text-primary">NEW TIMESHEET</h4>
 <%= render partial: "timesheets/form" %>
 
 <hr>
 
 <h4 class="text-left text-primary">MONTHLY TIMESHEET</h4>
-
 <div id="monthly-selection">
-
   <%= render partial: "timesheets/month" %>
-  
 </div>
 
-
 <div id="monthly-approval">
+  <%= render partial: "timesheet_approvals/approval", local: @session %>
+</div>
 
-  <%= render partial: "timesheets/table" %>
-
+<div id="timesheets-table">
+  <%= render partial: "timesheets/table", local: @session %>
 </div>

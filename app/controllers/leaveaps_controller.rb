@@ -15,6 +15,8 @@ class LeaveapsController < ApplicationController
   
     # GET /registers/1/edit
     def edit
+      respond_to :html, :js
+      @leaveap = Leaveap.find(params[:id])
     end
   
     # POST /leaveaps
@@ -26,14 +28,29 @@ class LeaveapsController < ApplicationController
       flash.now[:success] = "Your Leave Application have been submitted."
     end
   
-    # PATCH/PUT /registers/1
+    # PATCH/PUT /leaveaps/1
     def update
+      respond_to :html, :js
+      @leaveap = Leaveap.find(params[:id])
+      if @leaveap.update(leaveap_params)
+        flash.now[:success] = "Your Leave Application have been updated."
+        @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
+      else
+        flash.now[:success] = "Opps! Something Wrong Please Check with Admin"
+      end
     end
   
-    # DELETE /registers/1
-    # DELETE /registers/1.json
+    # DELETE /leaveaps/1
+    # DELETE /leaveaps/1.json
     def destroy
       respond_to :html, :js
+      @leaveap = Leaveap.find(params[:id])
+      if @leaveap.destroy
+        flash.now[:success] = "Your Leave Application have been deleted."
+        @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
+      else
+        flash.now[:warning] = "This action couldn't performed due to error."
+      end
     end
 
     def leave_approval1
