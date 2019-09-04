@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # IT Pages' Route as below:
   get 'magicnet/view_it/dashboard', to: 'magicnets#dashit', as: 'dashit'
   get 'magicnet/view_it/webrole', to: 'magicnets#webrole', as: 'webrole'
+  get 'magicnet/view_it/account', to: 'magicnets#account', as: 'account'
 
 
   resources :employees do

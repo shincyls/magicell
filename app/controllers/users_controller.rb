@@ -23,12 +23,12 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
+    respond_to :html, :js
     @user = User.new(user_params)
     if @user.save
-      session[:user_id] = @user.id
-      redirect_to @user, flash: { success: 'User was successfully created.' }
+      flash.now[:success] = "Employee's login account have been successfully created."
     else
-      redirect_to root_url, flash: { danger: @user.errors.full_messages[0] }
+      flash.now[:warning] = @employee.errors.full_messages
     end
   end
 

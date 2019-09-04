@@ -62,6 +62,8 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   create_table "employees", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.string "full_name"
+    t.string "personal_email"
     t.string "company_email"
     t.string "employee_id"
     t.string "position"
@@ -72,6 +74,11 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "nationality"
     t.string "race"
     t.string "identity_passport_no"
+    t.string "marital_status"
+    t.string "spouse_name"
+    t.string "bank_name"
+    t.string "bank_account"
+    t.integer "children_count"
     t.date "birthday"
     t.date "joined_since"
     t.date "joined_last"
@@ -244,7 +251,6 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.string "email"
     t.string "password_digest"
     t.string "remember_digest"
     t.bigint "webrole_id"

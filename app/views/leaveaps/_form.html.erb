@@ -4,7 +4,7 @@
 
     <div class="row mt-2 mb-3 text-dark text-special datepicker input-daterange">
       <div class="form-group col-lg-6 col-md-12">
-        <div>From</div>
+        <label>From</label>
         <div class="input-group">
           <%= f.text_field :from_date, class: "form-control form-control-sm", placeholder: "Please Select" %>
           <div class="input-group-append">
@@ -13,7 +13,7 @@
         </div>
         </div>
         <div class="form-group col-lg-6 col-md-12">
-          <div>To</div>
+          <label>To</label>
           <div class="input-group input-group-alternative">
           <%= f.text_field :to_date, class: "form-control form-control-sm", placeholder: "Please Select" %>
           <div class="input-group-append">
@@ -26,33 +26,33 @@
 
     <div class="row mt-2 mb-3 text-dark text-special">
       <div class="col-lg-3 col-md-6 mb-2">
-        <div>Leave Type</div>
+        <label>Leave Type</label>
         <div><%= f.select(:leavetype_id, Leavetype.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Leave Type"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
-        <div>Reason</div>
+        <label>Reason</label>
         <div><%= f.text_field :reason, placeholder: "Reason", class: "form-control form-control-sm" %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
-        <div>Contact Person</div>
+        <label>Contact Person</label>
         <div><%= f.text_field :contact_person, placeholder: "Contact Person", class: "form-control form-control-sm" %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
-        <div>Contact Number</div>
+        <label>Contact Number</label>
         <div><%= f.text_field :contact_number, placeholder: "Contact Number", class: "form-control form-control-sm" %></div>
       </div>
 
       <% getid = Webrole.find_by(role: "Project Manager") %>
       <div class="col-lg-3 col-md-6 mb-2">
-        <div>Approval 1</div>
+        <label>Approval 1</label>
         <div><%= f.select(:apv_mgr_1_id, User.where(webrole_id: getid).joins(:employee).pluck(:first_name,:id), {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
-        <div>Approval 2</div>
+        <label>Approval 2</label>
         <div><%= f.select(:apv_mgr_2_id, User.where(webrole_id: getid).joins(:employee).pluck(:first_name,:id), {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
       </div>
 

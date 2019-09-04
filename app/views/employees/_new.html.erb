@@ -1,78 +1,87 @@
-<%= form_for @employee, id: 'new-employee-form'  do |f| %>
+<%= form_for @employee, id: 'new-employee-form', remote: true  do |f| %>
 
+    <h5 class="text-special text-success">Personal Detail</h5>
     <div class="row text-special text-dark mt-2 mb-3">
-      <div class="col-lg-4 col-md-6 mb-2">
-        <div>First Name</div>
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Full Name*</label>
         <div><%= f.text_field :first_name, placeholder: "First Name", class: "form-control form-control-sm" %></div>
       </div>
 
-      <div class="col-lg-4 col-md-6 mb-2">
-        <div>Last Name</div>
-        <div><%= f.text_field :last_name, placeholder: "First Name", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-4 col-md-6 mb-2">
-        <div>Company Email</div>
-        <div><%= f.text_field :company_email, placeholder: "(email)@magicell.com.my", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-6 col-md-6 mb-2">
-        <div>Phone Number 1</div>
-        <div><%= f.text_field :phone_number, placeholder: "Phone Number", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-6 col-md-6 mb-2">
-        <div>Phone Number 2</div>
-        <div><%= f.text_field :phone_number_2, placeholder: "Phone Number Alternative", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-6 col-md-6 mb-2">
-        <div>Address 1</div>
-        <div><%= f.text_field :address, placeholder: "Address", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-6 col-md-6 mb-2">
-        <div>Address 2</div>
-        <div><%= f.text_field :address_2, placeholder: "Address Alternative", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-6 col-md-6 mb-2">
-        <div>Nationality</div>
-        <div><%= f.text_field :nationality, placeholder: "Nationality", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-6 col-md-6 mb-2">
-        <div>Race</div>
-        <div><%= f.text_field :race, placeholder: "Race", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-6 mb-2">
-        <div>Birthday</div>
-        <%= f.date_select :birthday, {start_year: Date.today.year - 20, end_year: Date.today.year - 80}, class: "w-25 d-inline-block form-control form-control-sm" %>
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>IC/Passport No*</label>
+        <div><%= f.text_field :identity_passport_no, placeholder: "IC/Passport No.", class: "form-control form-control-sm" %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
-        <div>Annual Leave Entitled</div>
-        <div><%= f.text_field :annual_leave_entitled, placeholder: "Annual Leave Days", class: "form-control form-control-sm" %></div>
+        <label>Personal Email*</label>
+        <div><%= f.text_field :personal_email, placeholder: "eg: username@gmail.com", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Company Email</label>
+        <div><%= f.text_field :company_email, placeholder: "eg: username@magicell.com.my", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Phone Number*</label>
+        <div><%= f.text_field :phone_number, placeholder: "Phone Number", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Address*</label>
+        <div><%= f.text_field :address, placeholder: "Address", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Nationality</label>
+        <div><%= f.text_field :nationality, placeholder: "Nationality", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Race</label>
+        <div><%= f.text_field :race, placeholder: "Race", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label class="d-block">Birthday</label>
+        <%= f.date_select :birthday, {start_year: Date.today.year - 15, end_year: Date.today.year - 70}, class: "d-inline-block form-control form-control-sm", style: "width:30%;" %>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Marital Status</label>
+        <%= f.select(:marital_status, ["Single","Married"], {include_blank: "Please Select"}, class: "custom-select custom-select-sm") %>
       </div>
 
       <div class="col-lg-3 col-md-6">
-        <div>Medical Leave Entitled</div>
-        <div><%= f.text_field :medical_leave_entitled, placeholder: "Medical Leave Days", class: "form-control form-control-sm" %></div>
+        <label>Spouse Name</label>
+        <%= f.text_field :spouse_name, placeholder: "Spouse Name", class: "form-control form-control-sm" %>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <label>Type</label>
+        <%= f.select(:category, Employee.categories.keys, {include_blank: "Please Select"}, class: "custom-select custom-select-sm") %>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <label>Bank Name</label>
+        <%= f.text_field :bank_name, placeholder: "Bank Name", class: "form-control form-control-sm" %>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <label>Bank Account</label>
+        <%= f.text_field :bank_account, placeholder: "Bank Account", class: "form-control form-control-sm" %>
       </div>
     </div>
 
-    <hr>
-
-    <h3 class="text-special text-dark">For Contract Staff</h3>
+    <h5 class="text-special text-success">Contracted Employee Only</h5>
     <div class="row text-special text-dark mt-2 mb-3">
-      <div class="col-lg-6 col-md-6 mb-2">
-        <div>Contract Start</div>
-        <%= f.date_select :contract_start, {start_year: Date.today.year - 1, end_year: Date.today.year + 2}, class: "w-25 d-inline-block form-control form-control-sm" %>
+      <div class="col-lg-3 col-md-3 mb-2">
+        <label class="d-block">Start</label>
+        <%= f.date_select :contract_start, {start_year: Date.today.year - 1, end_year: Date.today.year + 2}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
       </div>
-      <div class="col-lg-6 col-md-6 mb-2">
-        <div>Contract End</div>
-        <%= f.date_select :contract_end, {start_year: Date.today.year - 1, end_year: Date.today.year + 2}, class: "w-25 d-inline-block form-control form-control-sm" %>
+      <div class="col-lg-3 col-md-3 mb-2">
+        <label class="d-block">End</label>
+        <%= f.date_select :contract_end, {start_year: Date.today.year - 1, end_year: Date.today.year + 2}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
       </div>
     </div>
 

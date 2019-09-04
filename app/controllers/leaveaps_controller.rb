@@ -23,9 +23,12 @@ class LeaveapsController < ApplicationController
     def create
       respond_to :html, :js
       @leaveap = Leaveap.new(leaveap_params)
-      @leaveap.save
-      @leaveaps = Leaveap.where(id: @leaveap.id)
-      flash.now[:success] = "Your Leave Application have been submitted."
+      if @leaveap.save
+        @leaveaps = Leaveap.where(id: @leaveap.id)
+        flash.now[:success] = "Your Leave Application have been submitted."
+      else
+        flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
+      end
     end
   
     # PATCH/PUT /leaveaps/1
@@ -36,7 +39,7 @@ class LeaveapsController < ApplicationController
         flash.now[:success] = "Your Leave Application have been updated."
         @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
       else
-        flash.now[:success] = "Opps! Something Wrong Please Check with Admin"
+        flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
       end
     end
   
@@ -49,7 +52,7 @@ class LeaveapsController < ApplicationController
         flash.now[:success] = "Your Leave Application have been deleted."
         @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
       else
-        flash.now[:warning] = "This action couldn't performed due to error."
+        flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
       end
     end
 

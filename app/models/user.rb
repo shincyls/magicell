@@ -1,10 +1,8 @@
 class User < ApplicationRecord
     #Validate The Format and Presence of Required Information
-    validates :email, uniqueness: {message: "Account already exists!"}, format: {with: /.+@.+\..+/, message: ": Please enter a valid email address."}, presence: {message: ": Please enter your email address."}
-	validates :username, uniqueness: {message: ": Username already exists!"}, presence: {message: ": Please enter your username."}
-    # validates :first_name, presence: {message: ": Please enter your first name."}
-    # validates :last_name, presence: {message: ": Please enter your last name."}
-    
+    # validates :email, uniqueness: {message: "Account already exists!"}, format: {with: /.+@.+\..+/, message: ": Please enter a valid email address."}, presence: {message: ": Please enter your email address."}
+	validates :username, uniqueness: {message: "already exists!"}, presence: {message: "must presense."}
+
     belongs_to :employee, optional: true
     belongs_to :webrole, optional: true
     has_many :primary_tsas, class_name: 'TimesheetApproval', foreign_key: 'apv_mgr_1_id'

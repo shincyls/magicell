@@ -54,4 +54,9 @@ class MagicnetsController < ApplicationController
       render template: "magicnets/view_it/webrole"
     end
 
+    def account
+      respond_to :html, :js
+      render template: "magicnets/view_it/account"
+    end
+
 end

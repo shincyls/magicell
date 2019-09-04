@@ -1,0 +1,32 @@
+<% @employees = Employee.all %>
+<h4 class="text-left text-primary">Employees Account</h4>
+<table id="webuser-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+  <thead class="text-dark">
+    <tr>
+      <th>Employee</th>
+      <th>Employee ID</th>
+      <th>Email</th>
+      <th>Activated</th>
+      <th>Webrole</th>
+    </tr>
+  </thead>
+
+  <tbody class="text-dark">
+  <% unless @employees.nil? %>
+  <% @employees.each do |e| %>
+    <tr>
+      <td><%=e.full_name%></td>
+      <td><%=e.employee_id%></td>
+      <td><%=e.company_email%></td>
+      <td>
+        <%=e.user.username if e.user%>
+        <% unless e.user%>
+        <span class="bg-info rounded p-1 m-1"><%= link_to 'Create', new_user_path(e), class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span>
+        <% end %>
+      </td>
+      <td><%=e.user.webrole.role if e.user%></td>
+    </tr>
+  <% end %>
+  <% end %>
+  </tbody>
+</table>

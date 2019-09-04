@@ -1,22 +1,43 @@
-<% unless @employees.nil? %>
-<% @employees.each do |e| %>
-<tr>
-    <td><%=e.full_name%></td>
-    <td><%=e.employee_id%></td>
-    <td><%=e.position%></td>
-    <td><%=e.category%></td>
-    <td><%=e.department.name%></td>
-    <td><%=e.project.name%></td>
-    <td><%=e.employement_status%></td>
-    <td><%=e.joined_since%></td>
+<table id="leave-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+  <h4 class="text-left text-primary">EMPLOYEES</h4>
+  <p class="text-info">Total: <%= Employee.all.count %></p>
+  <thead class="text-dark">
+    <tr>
+      <th>Name</th>
+      <th>Employee ID</th>
+      <th>Position</th>
+      <th>Category</th>
+      <th>Department</th>
+      <th>Project</th>
+      <th>Status</th>
+      <th>Joined</th>
+      <% if current_user.webrole.wr_hr %>
+      <th>Details</th>
+      <th>Edit</th>
+      <th>Delete</th>
+      <% end %>
+    </tr>
+  </thead>
 
-    <% if current_user.employee.Default? %>
-    <td><span class="Details"></td>
-    <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_employee_path(e), class: "small text-white", target: "_blank" %></span></td>
-    <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', e, metrod: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></span></td>
+  <tbody class="text-dark">
+    <% unless @employees.nil? %>
+    <% @employees.each do |e| %>
+    <tr>
+        <td><%=e.full_name%></td>
+        <td><%=e.employee_id%></td>
+        <td><%=e.position%></td>
+        <td><%=e.category%></td>
+        <td></td>
+        <td></td>
+        <td><%=e.employement_status%></td>
+        <td><%=e.joined_since%></td>
+        <% if current_user.webrole.wr_hr %>
+        <td><span class="Details"></td>
+        <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_employee_path(e), class: "small text-white", remote: true %></span></td>
+        <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', e, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span></td>
+        <% end %>
+    </tr>
     <% end %>
-
-</tr>
-
-<% end %>
-<% end %>
+    <% end %>
+  </tbody>
+</table>
