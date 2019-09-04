@@ -18,19 +18,19 @@ class TimesheetsController < ApplicationController
       date_end = Date.parse(params["timesheet"][:multi_date_to])
       params["timesheet"].delete("multi_date_from")
       params["timesheet"].delete("multi_date_to")
-      
+
       while date_end >= date_now
         unless date_now.saturday? or date_now.sunday?
-          unless Timesheet.exists?(employee_id: params["timesheet"][:employee_id], date: date_now)
-            @timesheet = Timesheet.new(timesheet_params)
+          @timesheet = Timesheet.new(timesheet_params)
+          unless Timesheet.exists?(employee_id: @timesheet.employee.id, date: date_now)
             @timesheet.date = date_now
             @timesheet.save
           else
-            @timesheet = Timesheet.find_by(employee_id: params["timesheet"][:employee_id], date: date_now)
+            @timesheet = Timesheet.find_by(employee_id: @timesheet.employee.id, date: date_now)
             @timesheet.update(timesheet_params)
           end
-          date_now += 1.day
         end
+        date_now += 1.day
       end
       flash.now[:success] = "Your Timesheet have been created."
       @timesheets = current_user.employee.timesheets.order("date desc").year_month(Date.today.year,Date.today.month)

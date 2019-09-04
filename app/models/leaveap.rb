@@ -1,4 +1,10 @@
-class Leaveap < ApplicationRecord  
+class Leaveap < ApplicationRecord
+
+    # validates :full_name, presence: {message: " must presense."}
+    # validates :last_name, presence: {message: " must presense."}
+    # validates :drawing_chance, presence: {message: " must be selected."}
+    # validates :email, uniqueness: {message: " must be unique."}, format: {with: /.+@.+\..+/, message: " format must be valid."}, presence: {message: " must presence."}
+
 
     belongs_to :employee
     belongs_to :leavetype

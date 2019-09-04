@@ -39,32 +39,6 @@ Webrole.create!([
   {role: "HR", vw_emp: true, wr_emp: true, vw_hr: true, wr_hr: true}
 ])
 
-Employee.create!([
-  {first_name: "Shin", last_name: "Chee Yap", company_id: 1, department_id: 1, project_id: 1},
-  {first_name: "Lee", last_name: "Xiao Long", company_id: 1, department_id: 1, project_id: 1},
-  {first_name: "Ahmad", last_name: "Johari", company_id: 1, department_id: 2, project_id: 1},
-  {first_name: "Simon", last_name: "Kong", company_id: 1, department_id: 3, project_id: 2},
-  {first_name: "Syaiful", last_name: "Bukhari", company_id: 1, department_id: 3, project_id: 3},
-  {first_name: "Daniel", last_name: "Nelson", company_id: 1, department_id: 3, project_id: 4},
-  {first_name: "Tan", last_name: "Manager", company_id: 1, department_id: 3, project_id: 2},
-  {first_name: "Wong", last_name: "Manager", company_id: 1, department_id: 3, project_id: 3},
-  {first_name: "Kong", last_name: "Manager", company_id: 1, department_id: 3, project_id: 4},
-  {first_name: "Lee", last_name: "Manager", company_id: 1, department_id: 3, project_id: 4},
-])
-
-User.create!([
-  {username: "super", email: "super@magicell.com", password: "M@g!c3lL", webrole_id: 3, employee_id: 1},
-  {username: "admin1", email: "admin1@magicell.com", password: "@dmin!23", webrole_id: 3, employee_id: 2},
-  {username: "xiaolong", email: "xiaolong@magicell.com", password: "qwerasdf", webrole_id: 1, employee_id: 3},
-  {username: "johari", email: "johari@magicell.com", password: "qwerasdf", webrole_id: 6, employee_id: 4},
-  {username: "simon", email: "simon@magicell.com", password: "qwerasdf", webrole_id: 7, employee_id: 5},
-  {username: "ahmad", email: "ahmad@magicell.com", password: "qwerasdf", webrole_id: 8, employee_id: 6},
-  {username: "nelson", email: "nelson@magicell.com", password: "qwerasdf", webrole_id: 9, employee_id: 7},
-  {username: "manager1", email: "mgr1@magicell.com", password: "qwerasdf", webrole_id: 5, employee_id: 8},
-  {username: "manager2", email: "mgr2@magicell.com", password: "qwerasdf", webrole_id: 5, employee_id: 9},
-  {username: "manager3", email: "mgr3@magicell.com", password: "qwerasdf", webrole_id: 5, employee_id: 10}
-])
-
 Company.create!([
   {name: "Magicell", description: "Magicell Sdn Bhd, Malaysia"}
 ])
@@ -75,6 +49,32 @@ Department.create!([
   {name: "Finance", description: "Finance Management", company_id: 1},
   {name: "IT", description: "IT Management", company_id: 1},
   {name: "Project Team", description: "Project Management", company_id: 1}
+])
+
+Employee.create!([
+  {first_name: "Shin", last_name: "Chee Yap", employee_id: "M001", company_id: 1, department_id: 4, project_id: 1},
+  {first_name: "Lee", last_name: "Xiao Long", employee_id: "M002",company_id: 1, department_id: 1, project_id: 1},
+  {first_name: "Ahmad", last_name: "Johari", employee_id: "M003",company_id: 1, department_id: 2, project_id: 1},
+  {first_name: "Simon", last_name: "Kong", employee_id: "M004",company_id: 1, department_id: 3, project_id: 2},
+  {first_name: "Syaiful", last_name: "Bukhari", employee_id: "M005",company_id: 1, department_id: 5, project_id: 3},
+  {first_name: "Daniel", last_name: "Nelson", employee_id: "M006",company_id: 1, department_id: 5, project_id: 4},
+  {first_name: "Tan", last_name: "Manager", employee_id: "M007",company_id: 1, department_id: 5, project_id: 2},
+  {first_name: "Wong", last_name: "Manager", employee_id: "M008",company_id: 1, department_id: 5, project_id: 3},
+  {first_name: "Kong", last_name: "Manager", employee_id: "M009",company_id: 1, department_id: 5, project_id: 4},
+  {first_name: "Lee", last_name: "Manager", employee_id: "M010",company_id: 1, department_id: 5, project_id: 4},
+])
+
+User.create!([
+  {username: "owner", email: "owner@magicell.com", password: "M@g!c3lL", webrole_id: 3, employee_id: 1},
+  {username: "admin1", email: "admin1@magicell.com", password: "@dmin!23", webrole_id: 3, employee_id: 2},
+  {username: "xiaolong", email: "xiaolong@magicell.com", password: "qwerasdf", webrole_id: 1, employee_id: 3},
+  {username: "johari", email: "johari@magicell.com", password: "qwerasdf", webrole_id: 6, employee_id: 4},
+  {username: "simon", email: "simon@magicell.com", password: "qwerasdf", webrole_id: 7, employee_id: 5},
+  {username: "ahmad", email: "ahmad@magicell.com", password: "qwerasdf", webrole_id: 8, employee_id: 6},
+  {username: "nelson", email: "nelson@magicell.com", password: "qwerasdf", webrole_id: 9, employee_id: 7},
+  {username: "manager1", email: "mgr1@magicell.com", password: "qwerasdf", webrole_id: 5, employee_id: 8},
+  {username: "manager2", email: "mgr2@magicell.com", password: "qwerasdf", webrole_id: 5, employee_id: 9},
+  {username: "manager3", email: "mgr3@magicell.com", password: "qwerasdf", webrole_id: 5, employee_id: 10}
 ])
 
 Project.create!([
@@ -92,12 +92,6 @@ Leavetype.create!([
   {name: "Compassionate Leave"},
   {name: "Unpaid Leave"},
   {name: "Others"}
-])
-
-Leaveap.create!([
-  {employee_id: 1, apv_mgr_1_id: 8, apv_mgr_2_id: 9, leavetype_id: 1, reason: "Balik Kampung", contact_person: "Shin", contact_number: "012-3456789", from_date: "2019-08-22", to_date: "2019-08-23"},
-  {employee_id: 1, apv_mgr_1_id: 8, apv_mgr_2_id: 9, leavetype_id: 2, reason: "Balik Rumah", contact_person: "Shin", contact_number: "012-3456789", from_date: "2019-08-22", to_date: "2019-08-24"},
-  {employee_id: 1, apv_mgr_1_id: 8, apv_mgr_2_id: 9, leavetype_id: 3, reason: "Balik Hometown", contact_person: "Shin", contact_number: "012-3456789", from_date: "2019-08-22", to_date: "2019-08-25"}
 ])
 
 TimesheetCategory.create!([

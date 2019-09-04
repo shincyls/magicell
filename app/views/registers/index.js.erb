@@ -1,7 +1,0 @@
-$('#search').append("<%= j (render 'list') %>");
-$('.pagination a').attr('data-remote', 'true');
-<% case @registers.next_page %>
-    $('#load-more').html('<%= link_to 'Click To Load More', registers_path(:page => @registers.next_page), class: "btn btn-xl mt-3 mb-3", remote: true %>');
-<% else %>
-    $('#load-more').html('<p>No more records, this is the bottom of search.</p>');
-<% end %>
