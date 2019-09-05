@@ -4,10 +4,13 @@
   <thead class="text-dark">
     <tr>
       <th>Employee</th>
-      <th>Employee ID</th>
-      <th>Email</th>
-      <th>Activated</th>
       <th>Webrole</th>
+      <th>Email</th>
+      <th>Username</th>
+      <% if current_user.webrole.wr_it %>
+      <th>Edit</th>
+      <th>Delete</th>
+      <% end %>
     </tr>
   </thead>
 
@@ -16,16 +19,20 @@
   <% @employees.each do |e| %>
     <tr>
       <td><%=e.full_name%></td>
-      <td><%=e.employee_id%></td>
-      <td><%=e.company_email%></td>
       <td>
         <%=e.user.username if e.user%>
         <% unless e.user%>
-        <span class="bg-info rounded p-1 m-1"><%= link_to 'Create', new_user_path(e), class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span>
+        <span class="bg-info rounded p-1 m-1"><%= link_to 'Create', make_user_path(e), class: "small text-white", method: 'post', remote: true, data: { confirm: 'Please confirm this action.' } %></span>
         <% end %>
       </td>
+      <td><%=e.company_email%></td>
       <td><%=e.user.webrole.role if e.user%></td>
+      <% if current_user.webrole.wr_it %>
+      <td>Edit</td>
+      <td>Delete</td>
+      <% end %>
     </tr>
+    
   <% end %>
   <% end %>
   </tbody>

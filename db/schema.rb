@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "contact_1"
     t.string "contact_2"
     t.string "description"
+    t.string "email_domain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -253,7 +254,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "username"
     t.string "password_digest"
     t.string "remember_digest"
-    t.bigint "webrole_id"
+    t.bigint "webrole_id", default: 2
     t.bigint "employee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -264,6 +265,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
 
   create_table "webapp_contents", force: :cascade do |t|
     t.string "name"
+    t.string "param"
     t.float "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

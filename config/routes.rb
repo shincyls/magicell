@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   get 'magicnet/view_it/webrole', to: 'magicnets#webrole', as: 'webrole'
   get 'magicnet/view_it/account', to: 'magicnets#account', as: 'account'
 
-
   resources :employees do
     collection do
     end
@@ -53,7 +52,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users do
+    collection do
+    end
+    member do
+      post :make
+    end
+  end
+
   resources :sessions
 
   # get 'statics/login', to: 'statics#login', as: 'modal_login'

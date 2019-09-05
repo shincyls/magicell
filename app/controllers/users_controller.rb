@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except:[:index, :show, :new, :create]
+  before_action :authenticate_user!, except:[:index, :show, :new, :create, :make]
 
   # When registering for new user
   def new
@@ -29,6 +29,23 @@ class UsersController < ApplicationController
       flash.now[:success] = "Employee's login account have been successfully created."
     else
       flash.now[:warning] = @employee.errors.full_messages
+    end
+  end
+
+  # POST
+  def make
+    respond_to :html, :js
+    @employee = Employee.find(params[:id])
+    unless @employee.company_email.empty?
+      @dfpw = WebappContent.find_by(name: "Default Password").param
+      @user = User.new(username: @employee.company_email.split('@').first, password: @dfpw, employee_id: params[:id])
+      if @user.save
+        flash.now[:success] = "#{@user.username} login have been successfully created."
+      else
+        flash.now[:warning] = "Oops! Something was wrong, please check with admin"
+      end
+    else
+      flash.now[:warning] = "Employee's Company Email with @magicell.com.my must be presense."
     end
   end
 

@@ -7,6 +7,7 @@ class CreateCompanies < ActiveRecord::Migration[5.2]
         t.string :contact_1
         t.string :contact_2
         t.string :description
+        t.string :email_domain
         t.timestamps
       end
     end

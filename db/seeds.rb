@@ -24,7 +24,7 @@ require 'open-uri'
 # end
 
 WebappContent.create!([
-  {name: "Default Password", value: "M@gic31!"}
+  {name: "Default Password", param: "Magicell!23"}
 ])
 
 Webrole.create!([

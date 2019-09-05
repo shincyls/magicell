@@ -4,7 +4,7 @@
     <div class="row text-special text-dark mt-2 mb-3">
       <div class="col-lg-3 col-md-6 mb-2">
         <label>Full Name*</label>
-        <div><%= f.text_field :first_name, placeholder: "First Name", class: "form-control form-control-sm" %></div>
+        <div><%= f.text_field :full_name, placeholder: "Full Name", class: "form-control form-control-sm" %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
@@ -44,7 +44,7 @@
 
       <div class="col-lg-3 mb-2">
         <label class="d-block">Birthday</label>
-        <%= f.date_select :birthday, {start_year: Date.today.year - 15, end_year: Date.today.year - 70}, class: "d-inline-block form-control form-control-sm", style: "width:30%;" %>
+        <%= f.date_select :birthday, {start_year: Date.today.year - 15, end_year: Date.today.year - 70, include_blank: "Select"}, class: "d-inline-block form-control form-control-sm", style: "width:30%;" %>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
@@ -73,15 +73,15 @@
       </div>
     </div>
 
-    <h5 class="text-special text-success">Contracted Employee Only</h5>
+    <h5 class="text-special text-alert">Contract Employee Only</h5>
     <div class="row text-special text-dark mt-2 mb-3">
       <div class="col-lg-3 col-md-3 mb-2">
         <label class="d-block">Start</label>
-        <%= f.date_select :contract_start, {start_year: Date.today.year - 1, end_year: Date.today.year + 2}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
+        <%= f.date_select :contract_start, {start_year: Date.today.year - 1, end_year: Date.today.year + 2, include_blank: "Select"}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
       </div>
       <div class="col-lg-3 col-md-3 mb-2">
         <label class="d-block">End</label>
-        <%= f.date_select :contract_end, {start_year: Date.today.year - 1, end_year: Date.today.year + 2}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
+        <%= f.date_select :contract_end, {start_year: Date.today.year - 1, end_year: Date.today.year + 2, include_blank: "Select"}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
       </div>
     </div>
 
