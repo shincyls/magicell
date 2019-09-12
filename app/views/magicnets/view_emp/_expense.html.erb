@@ -1,0 +1,20 @@
+<div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <%= button_to "New Expense", new_expense_path, remote: true, method: 'get', class: "btn btn-outline-info" %>
+        </div>
+    </div>
+  </div>
+
+  <div id="employee-expense-table">
+    <%= render partial: "magicnets/view_emp/expense_table", local: @expenses %>
+  </div>
+</div>
+
+<hr>
+
+<div id="list-form">
+</div>
+
+

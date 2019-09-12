@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "company_email"
     t.string "employee_id"
     t.string "position"
+    t.string "title"
     t.string "phone_number"
     t.string "phone_number_2"
     t.string "address"
@@ -92,6 +93,9 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.date "contract_end"
     t.integer "category", default: 0
     t.integer "employement_status", default: 0
+    t.boolean "approve_expense", default: false
+    t.boolean "approve_leave", default: false
+    t.boolean "approve_timesheet", default: false
     t.bigint "department_id"
     t.bigint "project_id"
     t.bigint "company_id"
@@ -102,17 +106,44 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["project_id"], name: "index_employees_on_project_id"
   end
 
+  create_table "expense_approvals", force: :cascade do |t|
+    t.bigint "expense_id"
+    t.bigint "employee_id"
+    t.bigint "manager_id"
+    t.boolean "approval", default: false
+    t.boolean "reject", default: false
+    t.string "reject_reason"
+    t.string "manager_remark"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_expense_approvals_on_employee_id"
+    t.index ["expense_id"], name: "index_expense_approvals_on_expense_id"
+    t.index ["manager_id"], name: "index_expense_approvals_on_manager_id"
+  end
+
+  create_table "expense_lists", force: :cascade do |t|
+    t.bigint "expense_id"
+    t.bigint "employee_id"
+    t.date "date"
+    t.float "fuel_claim"
+    t.float "toll_claim"
+    t.float "parking_claim"
+    t.float "allowance_claim"
+    t.float "medical_claim"
+    t.float "others_claim"
+    t.string "remarks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_expense_lists_on_employee_id"
+    t.index ["expense_id"], name: "index_expense_lists_on_expense_id"
+  end
+
   create_table "expenses", force: :cascade do |t|
     t.bigint "employee_id"
+    t.string "session"
+    t.integer "year"
     t.integer "month"
-    t.float "month_salary"
-    t.float "expenses_claim", default: 0.0
-    t.float "others_claim", default: 0.0
-    t.float "leave_deduction", default: 0.0
-    t.float "socso", default: 0.0
-    t.float "epf_employer", default: 0.0
-    t.float "epf_employee", default: 0.0
-    t.float "operator"
+    t.boolean "submitted", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_expenses_on_employee_id"
@@ -202,25 +233,18 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   end
 
   create_table "timesheet_approvals", force: :cascade do |t|
+    t.bigint "timesheet_id"
     t.bigint "employee_id"
-    t.string "session"
-    t.integer "year"
-    t.integer "month"
-    t.bigint "apv_mgr_1_id"
-    t.bigint "apv_mgr_2_id"
-    t.bigint "apv_mgr_3_id"
-    t.boolean "apv_1", default: false
-    t.boolean "apv_2", default: false
-    t.boolean "apv_3", default: false
-    t.string "apv_reject_1"
-    t.string "apv_reject_2"
-    t.string "apv_reject_3"
+    t.bigint "manager_id"
+    t.boolean "approval", default: false
+    t.boolean "reject", default: false
+    t.string "reject_reason"
+    t.string "manager_remark"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["apv_mgr_1_id"], name: "index_timesheet_approvals_on_apv_mgr_1_id"
-    t.index ["apv_mgr_2_id"], name: "index_timesheet_approvals_on_apv_mgr_2_id"
-    t.index ["apv_mgr_3_id"], name: "index_timesheet_approvals_on_apv_mgr_3_id"
     t.index ["employee_id"], name: "index_timesheet_approvals_on_employee_id"
+    t.index ["manager_id"], name: "index_timesheet_approvals_on_manager_id"
+    t.index ["timesheet_id"], name: "index_timesheet_approvals_on_timesheet_id"
   end
 
   create_table "timesheet_categories", force: :cascade do |t|
@@ -230,11 +254,9 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "timesheets", force: :cascade do |t|
+  create_table "timesheet_tasks", force: :cascade do |t|
+    t.bigint "timesheet_id"
     t.bigint "employee_id"
-    t.bigint "timesheet_category_id"
-    t.bigint "timesheet_approval_id"
-    t.bigint "project_id"
     t.string "activity"
     t.string "site_name"
     t.string "location"
@@ -244,9 +266,22 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.integer "time_break", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_timesheet_tasks_on_employee_id"
+    t.index ["timesheet_id"], name: "index_timesheet_tasks_on_timesheet_id"
+  end
+
+  create_table "timesheets", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.bigint "timesheet_category_id"
+    t.bigint "project_id"
+    t.string "session"
+    t.integer "year"
+    t.integer "month"
+    t.boolean "submitted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_timesheets_on_employee_id"
     t.index ["project_id"], name: "index_timesheets_on_project_id"
-    t.index ["timesheet_approval_id"], name: "index_timesheets_on_timesheet_approval_id"
     t.index ["timesheet_category_id"], name: "index_timesheets_on_timesheet_category_id"
   end
 

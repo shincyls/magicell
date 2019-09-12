@@ -1,19 +1,13 @@
 class CreateTimesheetApprovals < ActiveRecord::Migration[5.2]
   def change
     create_table :timesheet_approvals do |t|
+      t.references :timesheet
       t.references :employee
-      t.string :session
-      t.integer :year
-      t.integer :month
-      t.references :apv_mgr_1
-      t.references :apv_mgr_2
-      t.references :apv_mgr_3
-      t.boolean :apv_1, default: false
-      t.boolean :apv_2, default: false
-      t.boolean :apv_3, default: false
-      t.string :apv_reject_1
-      t.string :apv_reject_2
-      t.string :apv_reject_3
+      t.references :manager
+      t.boolean :approval, default: false
+      t.boolean :reject, default: false
+      t.string :reject_reason
+      t.string :manager_remark
       t.timestamps
     end
   end

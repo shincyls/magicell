@@ -7,6 +7,8 @@ class Employee < ApplicationRecord
     has_many :leaveaps
     has_many :timesheets
     has_many :timesheet_approvals
+    has_many :expenses
+    has_many :expense_approvals
 
     validates :full_name, presence: {message: "must present."}
     validates :identity_passport_no, presence: {message: "must present."}, uniqueness: {message: "already exists!"}

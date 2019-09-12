@@ -10,50 +10,44 @@ class TimesheetsController < ApplicationController
       @session = Date.today.strftime("%Y-%b")
       @timesheet = Timesheet.new
     end
+
+    def new
+      respond_to :html, :js
+      @timesheet = Timesheet.new
+    end
   
     # POST /timesheets
     def create
-      respond_to :html, :js
-      date_now = Date.parse(params["timesheet"][:multi_date_from])
-      date_end = Date.parse(params["timesheet"][:multi_date_to])
-      params["timesheet"].delete("multi_date_from")
-      params["timesheet"].delete("multi_date_to")
-
-      while date_end >= date_now
-        unless date_now.saturday? or date_now.sunday?
-          @timesheet = Timesheet.new(timesheet_params)
-          unless Timesheet.exists?(employee_id: @timesheet.employee.id, date: date_now)
-            @timesheet.date = date_now
-            @timesheet.save
-          else
-            @timesheet = Timesheet.find_by(employee_id: @timesheet.employee.id, date: date_now)
-            @timesheet.update(timesheet_params)
-          end
+      @timesheet = Timesheet.new(timesheet_params)
+      unless Timesheet.exists?(employee_id: @timesheet.employee_id, project_id: @timesheet.project_id, year: @timesheet.year, month: @timesheet.month)
+        if @timesheet.save
+          flash.now[:success] = "Your Timesheet is successfully created."
         end
-        date_now += 1.day
+      else
+        flash.now[:warning] = "Your Timesheet for #{@timesheet.project.name} #{@timesheet.year}-#{@timesheet.month} is already exist."
       end
-      flash.now[:success] = "Your Timesheet have been created."
-      @timesheets = current_user.employee.timesheets.order("date desc").year_month(Date.today.year,Date.today.month)
-    end
-
-    # GET /timesheets/1
-    def show
     end
 
     # GET /timesheets/1/edit
     def edit
+      respond_to :html, :js
       @timesheet = Timesheet.find(params[:id])
+    end
+    
+    # GET /timesheets/1
+    def show
     end
   
     # PATCH/PUT /timesheets/1
     def update
       respond_to :html, :js
       @timesheet = Timesheet.find(params[:id])
-      if @timesheet.update(timesheet_params)
-        flash.now[:success] = "Timesheet's entry have been updated."
-        @timesheets = current_user.employee.timesheets.order("date desc").year_month(@timesheet.date.year,@timesheet.date.month)
+      unless Timesheet.exists?(employee_id: @timesheet.employee.id, project_id: @timesheet.project_id, year: @timesheet.year, month: @timesheet.month)
+        if @timesheet.update(timesheet_params)
+          flash.now[:success] = "Your Timesheet is successfully created."
+        end
       else
-        flash.now[:success] = "This action couldn't performed due to error, please check with admin."
+        flash.now[:warning] = "Your Timesheet for #{@timesheet.project.name} #{@timesheet.year}-#{@timesheet.month} is already exist."
       end
     end
   
@@ -63,18 +57,42 @@ class TimesheetsController < ApplicationController
       respond_to :html, :js
       @timesheet = Timesheet.find(params[:id])
       if @timesheet.destroy
-        flash.now[:success] = "Timesheet's entry have been removed."
-        @timesheets = current_user.employee.timesheets.order("date desc").year_month(@timesheet.date.year,@timesheet.date.month)
+        flash.now[:success] = "Timesheet have been remove."
       else
         flash.now[:warning] = "This action couldn't performed due to error, please check with admin."
       end
     end
 
-    def retrieve
+    # GET /timesheets/1/taskadd
+    def taskadd
       respond_to :html, :js
-      @session = params[:button]
-      @timesheets = current_user.employee.timesheets.year_month(@session.to_date.year, @session.to_date.month).order("date desc") if current_user.employee
+      @timesheet = Timesheet.find(params[:id])
+      @task = TimesheetTask.new
     end
+
+    # GET /timesheets/1/taskadd
+    def approvaladd
+      respond_to :html, :js
+      @timesheet = Timesheet.find(params[:id])
+      @timesheet_approval = TimesheetApproval.new
+    end
+
+    # POST /timesheets/1/submit
+    def submit
+      respond_to :html, :js
+      @timesheet = Timesheet.find(params[:id])
+      if @timesheet.submitted
+        flash.now[:success] = "Your Timesheet is already submitted."
+      elsif (@timesheet.timesheet_approvals.count <= 0)
+        flash.now[:warning] = "Your must enter at least 1 Manager Approval."
+      else
+        if @timesheet.update(submitted: true)
+          flash.now[:success] = "Your Timesheet have been succesfully submitted."
+        end
+      end
+      @timesheet_approval = TimesheetApproval.new
+      @timesheets = current_user.employee.timesheets
+  end
   
     private
   
@@ -87,7 +105,41 @@ class TimesheetsController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_params
-        params.require(:timesheet).permit(:id, :employee_id, :timesheet_category_id, :project_id, :site_name, :activity, :location, :date, :time_in, :time_out, :time_break)
+      params.require(:timesheet).permit(:employee_id, :timesheet_category_id, :project_id, :year, :month)
+    end
+
+    def no_duplicate
+      @timesheet = Timesheet.find(params[:id])
+      if Timesheet.exists?(employee_id: @timesheet.employee.id, project_id: @timesheet.project_id, year: @timesheet.year, month: @timesheet.month)
+        return false
+      else
+        return true
+      end
     end
       
   end
+
+
+  # def create2
+    #   respond_to :html, :js
+    #   date_now = Date.parse(params["timesheet"][:multi_date_from])
+    #   date_end = Date.parse(params["timesheet"][:multi_date_to])
+    #   params["timesheet"].delete("multi_date_from")
+    #   params["timesheet"].delete("multi_date_to")
+      
+    #   while date_end >= date_now
+    #     unless date_now.saturday? or date_now.sunday?
+    #       @timesheet = Timesheet.new(timesheet_params)
+    #       unless Timesheet.exists?(employee_id: @timesheet.employee.id, date: date_now)
+    #         @timesheet.date = date_now
+    #         @timesheet.save
+    #       else
+    #         @timesheet = Timesheet.find_by(employee_id: @timesheet.employee.id, date: date_now)
+    #         @timesheet.update(timesheet_params)
+    #       end
+    #     end
+    #     date_now += 1.day
+    #   end
+    #   flash.now[:success] = "Your Timesheet have been created."
+    #   @timesheets = current_user.employee.timesheets.order("date desc").year_month(Date.today.year,Date.today.month)
+  # end

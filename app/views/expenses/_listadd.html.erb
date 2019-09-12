@@ -1,0 +1,9 @@
+<h4 class="text-left text-primary">Add List for <%= @expense.year %>-<%= @expense.month %></h4>
+<%= render partial: "expenses/listform", local: @list %>
+
+<br>
+
+<h4 class="text-left text-primary">Expenses List</h4>
+<div id="expense-list-table">
+<%= render partial: "expenses/listtable", local: @expense %>
+</div>

@@ -1,0 +1,20 @@
+<div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <%= button_to "New Timesheet", new_timesheet_path, remote: true, method: 'get', class: "btn btn-outline-info" %>
+        </div>
+    </div>
+  </div>
+
+  <div id="employee-timesheet-table">
+    <%= render partial: "magicnets/view_emp/timesheet_table", local: @timesheets %>
+  </div>
+</div>
+
+<hr>
+
+<div id="task-form">
+</div>
+
+

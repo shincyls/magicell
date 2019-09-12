@@ -8,6 +8,7 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
         t.string :company_email
         t.string :employee_id
         t.string :position
+        t.string :title
         t.string :phone_number
         t.string :phone_number_2
         t.string :address
@@ -32,6 +33,9 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
         t.date :contract_end
         t.integer :category, default: 0
         t.integer :employement_status, default: 0
+        t.boolean :approve_expense, default: false
+        t.boolean :approve_leave, default: false
+        t.boolean :approve_timesheet, default: false
         t.references :department
         t.references :project
         t.references :company

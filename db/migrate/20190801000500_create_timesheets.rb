@@ -3,15 +3,11 @@ class CreateTimesheets < ActiveRecord::Migration[5.2]
         create_table :timesheets do |t|
           t.references :employee
           t.references :timesheet_category
-          t.references :timesheet_approval
           t.references :project
-          t.string :activity
-          t.string :site_name
-          t.string :location
-          t.date :date
-          t.integer :time_in, default: 9
-          t.integer :time_out, default: 18
-          t.integer :time_break, default: 1
+          t.string :session
+          t.integer :year
+          t.integer :month
+          t.boolean :submitted, default: false
           t.timestamps
         end
     end

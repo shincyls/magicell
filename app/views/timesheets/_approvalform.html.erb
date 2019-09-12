@@ -1,0 +1,22 @@
+<%= form_for @timesheet_approval, remote: true do |f| %>
+
+    <%= f.hidden_field :employee_id, value: current_user.employee.id %>
+    <%= f.hidden_field :timesheet_id, value: @timesheet.id %>
+
+    <div class="row text-dark text-special mt-2 mb-3">
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <div>
+          <%= f.select(:manager_id, Employee.where(approve_timesheet: true).collect {|e| [e.full_name, e.id]}, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <div>
+          <%= f.submit "Add Manager", class: "btn-sm btn-primary", data: { confirm: 'Please Confirm' } %>
+        </div>
+      </div>
+      
+    </div>
+
+<% end %>

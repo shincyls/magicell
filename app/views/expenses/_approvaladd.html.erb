@@ -1,0 +1,16 @@
+<h4 class="text-left text-primary">Manager Approval for Expense Claim <%= @expense.year %>-<%= @expense.month %></h4>
+
+<% if @expense.submitted %>
+    <h5 class="text-dark text-special">This expense claim has already been submitted.</h5>
+<% else %>
+    <br>
+    <%= render partial: "expenses/approvalform", local: @expense_approval %>
+    <%= button_to "Submit Expense", submit_expense_path(@expense), method: "post", class: "btn btn-success", remote: true, data: { confirm: 'Please confirm, once submitted You cannot edit the data anymore.' }  %>
+<% end %>
+
+<hr>
+
+<h4 class="text-left text-primary">Approval List</h4>
+<div id="expense-list-table">
+<%= render partial: "expenses/approvaltable", local: @expense %>
+</div>

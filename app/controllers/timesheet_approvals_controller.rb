@@ -3,41 +3,41 @@ class TimesheetApprovalsController < ApplicationController
     before_action :require_login
 
     def new
-        @timesheet_approval = TimesheetApproval.new
-    end
-
-    def show
-        respond_to :html, :js
-        @timesheet_approval = TimesheetApproval.find(params[:id])
-        @session = @timesheet_approval.session.to_date
-        @timesheets = @timesheet_approval.employee.timesheets.order("date desc").year_month(@session.year,@session.month)
     end
 
     def create
+      respond_to :html, :js
+      @timesheet_approval = TimesheetApproval.new(timesheet_approval_params)
+      @count = @timesheet_approval.timesheet.timesheet_approvals.count
+      
+      unless TimesheetApproval.exists?(timesheet_id: @timesheet_approval.timesheet_id, employee_id: @timesheet_approval.employee_id, manager_id: @timesheet_approval.manager_id)
+        if (@count.to_i < 3)
+            if @timesheet_approval.save
+            flash.now[:success] = "Your Timesheet Approval have been created."
+            end
+        else
+            flash.now[:warning] = "You cannot have more than 3 manager approvals for each timesheet."
+        end 
+      else
+        flash.now[:warning] = "Manager Approval is already exists."
+      end
+      @timesheet = @timesheet_approval.timesheet
+      @timesheets = current_user.employee.timesheets
+    end
+
+    def update
+    end
+
+    def destroy
         respond_to :html, :js
-        @timesheet_approval = TimesheetApproval.new(timesheet_approval_params)
-        if TimesheetApproval.exists?(employee_id: @timesheet_approval.employee_id, session: @timesheet_approval.session)
-            flash.now[:warning] =  "Your Timesheet have been submitted before."
-        elsif @timesheet_approval.save
-            flash.now[:success] = "Your Timesheet have been sent to manager for review and approval."
+        @timesheet_approval = TimesheetApproval.find(params[:id])
+        if @timesheet_approval.destroy
+            flash.now[:success] = "Timesheet Approval  have been succesfully removed."
+        else
+            flash.now[:warning] = "This action couldn't performed due to error, please check with admin."
         end
-        @timesheets = current_user.employee.timesheets.order("date desc") if current_user.employee
-        @timesheets = @timesheets.year_month(@timesheet_approval.session.to_date.year,@timesheet_approval.session.to_date.month)
-        @session = @timesheet_approval.session
-    end
-
-    def ts_approval1
-        respond_to :html, :js
-        @ts = TimesheetApproval.find(params[:id])
-        @ts.apv_1 = !@ts.apv_1
-        @ts.save
-    end
-
-    def ts_approval2
-        respond_to :html, :js
-        @ts = TimesheetApproval.find(params[:id])
-        @ts.apv_2 = !@ts.apv_2
-        @ts.save
+        @timesheet = @timesheet_approval.timesheet
+        @timesheets = current_user.employee.timesheets
     end
     
     private
@@ -51,7 +51,7 @@ class TimesheetApprovalsController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_approval_params
-        params.require(:timesheet_approval).permit(:employee_id, :session, :year, :month, :apv_mgr_1_id, :apv_mgr_2_id)
+        params.require(:timesheet_approval).permit(:timesheet_id, :employee_id, :manager_id)
     end
 
 end

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'magicnet/view_hr/dashhr', to: 'magicnets#dashhr', as: 'dashhr'
   # EMP Pages' Route as below:
   get 'magicnet/view_emp/dashemployee', to: 'magicnets#dashemployee', as: 'dashemployee'
+  get 'magicnet/view_emp/timesheetemployee', to: 'magicnets#timesheetemployee', as: 'timesheetemployee'
+  get 'magicnet/view_emp/expenseemployee', to: 'magicnets#expenseemployee', as: 'expenseemployee'
   # FIN Pages' Route as below:
   get 'magicnet/view_fin/dashfinance', to: 'magicnets#dashfinance', as: 'dashfinance'
   # PM Pages' Route as below:
@@ -37,7 +39,16 @@ Rails.application.routes.draw do
 
   resources :timesheets do
     collection do
-      get :retrieve
+    end
+    member do
+      get :taskadd
+      get :approvaladd
+      post :submit
+    end
+  end
+
+  resources :timesheet_tasks do
+    collection do
     end
     member do
     end
@@ -47,8 +58,31 @@ Rails.application.routes.draw do
     collection do
     end
     member do
-      post :ts_approval1
-      post :ts_approval2
+    end
+  end
+
+  # Expense
+  resources :expenses do
+    collection do
+    end
+    member do
+      get :listadd
+      get :approvaladd
+      post :submit
+    end
+  end
+
+  resources :expense_lists do
+    collection do
+    end
+    member do
+    end
+  end
+
+  resources :expense_approvals do
+    collection do
+    end
+    member do
     end
   end
 

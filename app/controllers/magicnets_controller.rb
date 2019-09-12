@@ -20,6 +20,19 @@ class MagicnetsController < ApplicationController
       render template: "magicnets/view_emp/dashemployee"
     end
 
+    # Load The Page
+    def timesheetemployee
+      respond_to :html, :js
+      render template: "magicnets/view_emp/timesheetemployee"
+    end
+
+    def expenseemployee
+      respond_to :html, :js
+      render template: "magicnets/view_emp/expenseemployee"
+    end
+
+
+
     # Finance Pages
     def dashfinance
       respond_to :html, :js

@@ -1,4 +1,3 @@
 $('#flash-message').html("<%= j (render 'statics/message') %>");
-$('#monthly-selection').html("<%= j (render 'timesheets/month') %>");
-$("#monthly-approval").html("<%= j (render 'timesheet_approvals/approval') %>");
-$("#timesheet-table").html("<%= j (render 'timesheets/table') %>");
+$('#main-dashboard').html("<%= j (render 'magicnets/view_emp/timesheet') %>");
+$("#modal-form").modal('hide');
