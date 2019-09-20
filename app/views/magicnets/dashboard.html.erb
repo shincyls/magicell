@@ -122,14 +122,7 @@ function loadjs(table, sortColumn, pageLength) {
       },
       "pageLength": pageLength,
       "dom": 'Blfrtip',
-      buttons: [
-        {
-            extend: 'excel',
-            exportOptions: {
-                orthogonal: 'sort'
-            }
-        }        
-      ]
+      buttons: ['csv', 'excel', 'pdf']
     });
 };
 
