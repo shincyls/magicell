@@ -1,0 +1,5 @@
+$("#modal-header").html("Show Expense List");
+$("#modal-header").append(" (<%=@expense_approval.expense.employee.full_name%> <%=@expense_approval.expense.year%>-<%=@expense_approval.expense.month%>)");
+$("#modal-body").html("<%= j (render 'expenses/listtable') %>");
+$("#modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>");
+$("#modal-form").modal();

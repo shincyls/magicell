@@ -53,6 +53,8 @@ class MagicnetsController < ApplicationController
 
     def approval
       respond_to :html, :js
+      @timesheets = TimesheetApproval.where(manager_id: current_user.employee.id).joins("LEFT JOIN timesheets on timesheet_approvals.timesheet_id = timesheets.id").where("timesheets.submitted = ?", true)
+      @expenses = ExpenseApproval.where(manager_id: current_user.employee.id).joins("LEFT JOIN expenses on expense_approvals.expense_id = expenses.id").where("expenses.submitted = ?", true)
       render template: "magicnets/view_pm/approval"
     end
 

@@ -1,0 +1,5 @@
+$("#modal-header").html("Show Timesheet Tasks");
+$("#modal-header").append(" (<%=@timesheet_approval.timesheet.employee.full_name%> <%=@timesheet_approval.timesheet.year%>-<%=@timesheet_approval.timesheet.month%>)");
+$("#modal-body").html("<%= j (render 'timesheets/tasktable') %>");
+$("#modal-footer").html("<button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>");
+$("#modal-form").modal();

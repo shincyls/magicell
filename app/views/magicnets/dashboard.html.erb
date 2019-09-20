@@ -27,7 +27,7 @@
     </div>
 </div>
 
-<div class="row text-dark text-special mt-4 mb-4 pl-4 pr-4 bg-glass rounded">
+<div class="row text-dark text-special mt-4 mb-4 p-4 bg-glass rounded">
 
     <div class="mt-4 mb-4">
 
@@ -113,5 +113,24 @@ function myFunction() {
   var element = getElementsByClassName("btn-sm")
   element.classList.add("active");
 }
+
+function loadjs(table, sortColumn, pageLength) {
+    $(table).DataTable({
+      "order": [sortColumn],
+      "search": {
+        "caseInsensitive": true
+      },
+      "pageLength": pageLength,
+      "dom": 'Blfrtip',
+      buttons: [
+        {
+            extend: 'excel',
+            exportOptions: {
+                orthogonal: 'sort'
+            }
+        }        
+      ]
+    });
+};
 
 </script>

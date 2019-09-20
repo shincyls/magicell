@@ -1,7 +1,7 @@
-<table id="leave-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+<table id="employees-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
   <h4 class="text-left text-primary">EMPLOYEES</h4>
   <p class="text-info">Total: <%= Employee.all.count %></p>
-  <thead class="text-dark">
+  <thead>
     <tr>
       <th>Name</th>
       <th>Employee ID</th>
@@ -41,3 +41,7 @@
     <% end %>
   </tbody>
 </table>
+
+<script>
+loadjs('#employees-table', 1, 50);
+</script>

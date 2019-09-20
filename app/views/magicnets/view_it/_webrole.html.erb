@@ -1,6 +1,6 @@
 <% @webroles = Webrole.all %>
 <h4 class="text-left text-primary">Webrole List</h4>
-<table id="webuser-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+<table id="webrole-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
   
   <thead class="text-dark">
     <tr>
@@ -58,3 +58,7 @@
   <% end %>
   </tbody>
 </table>
+
+<script>
+loadjs('#webuser-table', 3, 20);
+</script>

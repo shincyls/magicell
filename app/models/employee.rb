@@ -6,9 +6,11 @@ class Employee < ApplicationRecord
     has_one :user, dependent: :destroy
     has_many :leaveaps
     has_many :timesheets
-    has_many :timesheet_approvals
+    has_many :emp_timesheet_approvals, class_name: 'TimesheetApproval', foreign_key: 'employee_id'
+    has_many :mgr_timesheet_approvals, class_name: 'TimesheetApproval', foreign_key: 'manager_id'
     has_many :expenses
-    has_many :expense_approvals
+    has_many :emp_expense_approvals, class_name: 'TimesheetApproval', foreign_key: 'employee_id'
+    has_many :mgr_expense_approvals, class_name: 'TimesheetApproval', foreign_key: 'manager_id'
 
     validates :full_name, presence: {message: "must present."}
     validates :identity_passport_no, presence: {message: "must present."}, uniqueness: {message: "already exists!"}

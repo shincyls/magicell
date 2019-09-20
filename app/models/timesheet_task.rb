@@ -7,4 +7,14 @@ class TimesheetTask < ApplicationRecord
     belongs_to :timesheet
     belongs_to :employee
 
+    def total_hours
+        @sum = self.time_out - self.time_in - self.time_break
+        return @sum
+    end
+
+    def total_wages
+        @sum = (self.time_out - self.time_in - self.time_break)*30
+        return @sum
+    end
+
 end

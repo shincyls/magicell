@@ -58,6 +58,8 @@ Rails.application.routes.draw do
     collection do
     end
     member do
+      post :approve
+      post :reject
     end
   end
 
@@ -83,6 +85,8 @@ Rails.application.routes.draw do
     collection do
     end
     member do
+      post :approve
+      post :reject
     end
   end
 

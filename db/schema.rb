@@ -157,6 +157,21 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "leaveap_approvals", force: :cascade do |t|
+    t.bigint "leaveap_id"
+    t.bigint "employee_id"
+    t.bigint "manager_id"
+    t.boolean "approval", default: false
+    t.boolean "reject", default: false
+    t.string "reject_reason"
+    t.string "manager_remark"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_leaveap_approvals_on_employee_id"
+    t.index ["leaveap_id"], name: "index_leaveap_approvals_on_leaveap_id"
+    t.index ["manager_id"], name: "index_leaveap_approvals_on_manager_id"
+  end
+
   create_table "leaveaps", force: :cascade do |t|
     t.bigint "employee_id"
     t.bigint "leavetype_id", default: 1

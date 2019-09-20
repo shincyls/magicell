@@ -1,0 +1,54 @@
+<table id="manager-timesheet-approval" class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
+    
+    <thead>
+      <tr>
+        <th style="width:10rem;">Employee</th>
+        <th style="width:5rem;">Session</th>
+        <th style="width:10rem;">Project</th>
+        <th style="width:5rem;">Total Hours</th>
+        <th style="width:5rem;">Show</th>
+        <th>Approval</th>
+        <th>Reject</th>
+        <th>Reject Reason</th>
+      </tr>
+    </thead>
+
+    <tbody class="text-dark" id="timesheet-row">
+        <% unless @timesheets.nil? %>
+        <% @timesheets.each do |a| %>
+        <tr>
+            <td><%=a.employee.full_name%></td>
+            <td><%=a.timesheet.year%>-<%=a.timesheet.month%></td>
+            <td><%=a.timesheet.project.name%> (<%=a.timesheet.timesheet_category.name%>)</td>
+            <td><%=a.timesheet.total_hours%>h</td>
+            <td><%= button_to 'Show', timesheet_approval_path(a), method: "get", class: "btn-sm btn-success", remote: true %></td>
+            <td>
+                <%= radio_button_tag(
+                "Manager_Timesheet_Approval", a.id, a.approval,
+                name: "manager-timesheet-approval-#{a.id}",
+                data: {
+                remote: true,
+                url: url_for(controller: 'timesheet_approvals', action: 'approve', id: a.id),
+                method: 'POST' }) %>
+            </td>
+            <td>
+                <%= radio_button_tag(
+                "Manager_Timesheet_Reject", a.id, a.reject,
+                name: "manager-timesheet-approval-#{a.id}",
+                data: {
+                remote: true,
+                url: url_for(controller: 'timesheet_approvals', action: 'reject', id: a.id),
+                method: 'POST' }) %>
+            </td>
+            <td><%=a.reject_reason%></td>
+        </tr>
+        <% end %>
+        <% end %>
+    </tbody>
+    
+</table>
+
+<script>
+loadjs('#manager-timesheet-approval', 1, 30);
+</script>
+

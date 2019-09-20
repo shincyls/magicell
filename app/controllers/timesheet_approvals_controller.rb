@@ -28,6 +28,12 @@ class TimesheetApprovalsController < ApplicationController
     def update
     end
 
+    def show
+        respond_to :html, :js
+        @timesheet_approval = TimesheetApproval.find(params[:id])
+        @timesheet = @timesheet_approval.timesheet
+    end
+
     def destroy
         respond_to :html, :js
         @timesheet_approval = TimesheetApproval.find(params[:id])
@@ -38,6 +44,24 @@ class TimesheetApprovalsController < ApplicationController
         end
         @timesheet = @timesheet_approval.timesheet
         @timesheets = current_user.employee.timesheets
+    end
+
+    def approve
+        respond_to :html, :js
+        @la = TimesheetApproval.find(params[:id])
+        @la.approval = !@la.approval
+        @la.reject = !@la.approval
+        @la.save
+        flash.now[:success] = "Timesheet Approval is #{"Approved" if @la.approval}#{"Rejected" if @la.reject}."
+    end
+
+    def reject
+        respond_to :html, :js
+        @la = TimesheetApproval.find(params[:id])
+        @la.reject = !@la.reject
+        @la.approval = !@la.reject
+        @la.save
+        flash.now[:warning] = "Timesheet Approval is #{"Approved" if @la.approval}#{"Rejected" if @la.reject}."
     end
     
     private

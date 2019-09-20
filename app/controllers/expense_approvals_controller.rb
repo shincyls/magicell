@@ -28,6 +28,12 @@ class ExpenseApprovalsController < ApplicationController
     def update
     end
 
+    def show
+        respond_to :html, :js
+        @expense_approval = ExpenseApproval.find(params[:id])
+        @expense = @expense_approval.expense
+    end
+
     def destroy
         respond_to :html, :js
         @expense_approval = ExpenseApproval.find(params[:id])
@@ -39,6 +45,25 @@ class ExpenseApprovalsController < ApplicationController
         @expense = @expense_approval.expense
         @expenses = current_user.employee.expenses
     end
+
+    def approve
+        respond_to :html, :js
+        @la = ExpenseApproval.find(params[:id])
+        @la.approval = !@la.approval
+        @la.reject = !@la.approval
+        @la.save
+        flash.now[:success] = "Expense Claim Approval is #{"Approved" if @la.approval}#{"Rejected" if @la.reject}."
+    end
+
+    def reject
+        respond_to :html, :js
+        @la = ExpenseApproval.find(params[:id])
+        @la.reject = !@la.reject
+        @la.approval = !@la.reject
+        @la.save
+        flash.now[:warning] = "Expense Claim Approval is #{"Approved" if @la.approval}#{"Rejected" if @la.reject}."
+    end
+
     
     private
   

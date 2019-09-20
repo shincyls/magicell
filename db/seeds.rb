@@ -52,7 +52,7 @@ Department.create!([
 ])
 
 Employee.create!([
-  {full_name: "Shin Chee Yap", first_name: "Shin", last_name: "Chee Yap", employee_id: "M001", company_id: 1, department_id: 4, project_id: 1, personal_email: "owner@gmail.com", company_email: "owner@magicell.com.my", identity_passport_no: "810101-01-6475", phone_number: "012-3456789"},
+  {full_name: "Manager Account", first_name: "Test", last_name: "Manager Account", employee_id: "M001", company_id: 1, department_id: 4, project_id: 1, personal_email: "owner@gmail.com", company_email: "owner@magicell.com.my", identity_passport_no: "810101-01-6475", phone_number: "012-3456789", approve_expense: true, approve_leave: true, approve_timesheet: true},
   {full_name: "Lee Xiao Long", first_name: "Lee", last_name: "Xiao Long", employee_id: "M002",company_id: 1, department_id: 1, project_id: 1, personal_email: "user1@gmail.com", company_email: "user1@magicell.com.my", identity_passport_no: "810101-02-6475", phone_number: "012-3456788"},
   {full_name: "Ahmad Johari", first_name: "Ahmad", last_name: "Johari", employee_id: "M003",company_id: 1, department_id: 2, project_id: 1, personal_email: "user2@gmail.com", company_email: "user2@magicell.com.my", identity_passport_no: "810101-03-6475", phone_number: "012-3456787"},
   {full_name: "Simon Kong", first_name: "Simon", last_name: "Kong", employee_id: "M004",company_id: 1, department_id: 3, project_id: 2, personal_email: "user3@gmail.com", company_email: "user3@magicell.com.my", identity_passport_no: "810101-04-6475", phone_number: "012-3456786"},

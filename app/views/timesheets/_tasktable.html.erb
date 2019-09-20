@@ -1,10 +1,17 @@
 <table class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
     
+    <h6>Total Hours: <%=@timesheet.total_hours%></h6>
+    <h6>Total Wages: RM<%=@timesheet.total_wages%></h6>
+
     <thead class="text-dark">
       <tr>
         <th>Date</th>
         <th>Activity</th>
-        <th>Time In-Out/Break</th>
+        <th style="width:5rem;">Time In</th>
+        <th style="width:5rem;">Time Out</th>
+        <th style="width:5rem;">Time Break</th>
+        <th style="width:10rem;">Working Hours</th>
+        <th style="width:5rem;">Wages(RM)</th>
         <th>Site Name</th>
         <th>Location</th>
         <% if (current_user == @timesheet.employee.user) & (@timesheet.submitted == false) %>
@@ -20,7 +27,11 @@
         <tr>
             <td><%=t.date%></td>
             <td><%=t.activity%></td>
-            <td><%=t.time_in%>-<%=t.time_out%>/<%=t.time_break%></td>
+            <td><%=t.time_in%></td>
+            <td><%=t.time_out%></td>
+            <td><%=t.time_break%></td>
+            <td><%=t.total_hours%></td>
+            <td><%=t.total_wages%></td>
             <td><%=t.site_name%></td>
             <td><%=t.location%></td>
             <% if (current_user == @timesheet.employee.user) & (@timesheet.submitted == false) %>
@@ -29,6 +40,7 @@
         </tr>
         <% end %>
         <% end %>
+
     </tbody>
     
 </table>

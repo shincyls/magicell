@@ -5,11 +5,10 @@ class Leaveap < ApplicationRecord
     # validates :drawing_chance, presence: {message: " must be selected."}
     # validates :email, uniqueness: {message: " must be unique."}, format: {with: /.+@.+\..+/, message: " format must be valid."}, presence: {message: " must presence."}
 
-
     belongs_to :employee
     belongs_to :leavetype
+    has_many :leaveap_approvals
 
-    belongs_to :employee
     belongs_to :apv_mgr_1, class_name: 'User', foreign_key: 'apv_mgr_1_id'
     belongs_to :apv_mgr_2, class_name: 'User', foreign_key: 'apv_mgr_2_id', optional: true
     # belongs_to :apv_mgr_3, class_name: 'User', foreign_key: 'apv_mgr_3_id'

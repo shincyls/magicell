@@ -19,12 +19,12 @@ class TimesheetsController < ApplicationController
     # POST /timesheets
     def create
       @timesheet = Timesheet.new(timesheet_params)
-      unless Timesheet.exists?(employee_id: @timesheet.employee_id, project_id: @timesheet.project_id, year: @timesheet.year, month: @timesheet.month)
+      unless Timesheet.exists?(employee_id: @timesheet.employee_id, project_id: @timesheet.project_id, timesheet_category_id: @timesheet.timesheet_category_id, year: @timesheet.year, month: @timesheet.month)
         if @timesheet.save
-          flash.now[:success] = "Your Timesheet is successfully created."
+          flash.now[:success] = "Your Timesheet for #{@timesheet.project.name} (#{@timesheet.timesheet_category.name}) #{@timesheet.year}-#{@timesheet.month} has successfully created."
         end
       else
-        flash.now[:warning] = "Your Timesheet for #{@timesheet.project.name} #{@timesheet.year}-#{@timesheet.month} is already exist."
+        flash.now[:warning] = "Your Timesheet for #{@timesheet.project.name} (#{@timesheet.timesheet_category.name}) #{@timesheet.year}-#{@timesheet.month} is already exist."
       end
     end
 
@@ -41,13 +41,14 @@ class TimesheetsController < ApplicationController
     # PATCH/PUT /timesheets/1
     def update
       respond_to :html, :js
-      @timesheet = Timesheet.find(params[:id])
-      unless Timesheet.exists?(employee_id: @timesheet.employee.id, project_id: @timesheet.project_id, year: @timesheet.year, month: @timesheet.month)
+      @timesheet = Timesheet.new(timesheet_params)
+      unless Timesheet.exists?(employee_id: @timesheet.employee_id, project_id: @timesheet.project_id, timesheet_category_id: @timesheet.timesheet_category_id, year: @timesheet.year, month: @timesheet.month)
+        @timesheet = Timesheet.find(params[:id])
         if @timesheet.update(timesheet_params)
-          flash.now[:success] = "Your Timesheet is successfully created."
+          flash.now[:success] = "Your Timesheet for #{@timesheet.project.name} (#{@timesheet.timesheet_category.name}) #{@timesheet.year}-#{@timesheet.month} has successfully updated."
         end
       else
-        flash.now[:warning] = "Your Timesheet for #{@timesheet.project.name} #{@timesheet.year}-#{@timesheet.month} is already exist."
+        flash.now[:warning] = "Your Timesheet for #{@timesheet.project.name} (#{@timesheet.timesheet_category.name}) #{@timesheet.year}-#{@timesheet.month} is already exist."
       end
     end
   

@@ -1,0 +1,53 @@
+<table id="manager-expense-approval" class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
+    
+    <thead>
+      <tr>
+        <th style="width:10rem;">Employee</th>
+        <th style="width:5rem;">Session</th>
+        <th style="width:15rem;">Total Claims</th>
+        <th style="width:5rem;">Show</th>
+        <th>Approve</th>
+        <th>Reject</th>
+        <th>Reject Reason</th>
+      </tr>
+    </thead>
+    
+
+    <tbody class="text-dark" id="expense-row">
+        <% unless @expenses.nil? %>
+        <% @expenses.each do |a| %>
+        <tr>
+            <td><%=a.employee.full_name%></td>
+            <td><%=a.expense.year%>-<%=a.expense.month%></td>
+            <td>RM<%=a.expense.total_claims%></td>
+            <td><%= button_to 'Show', expense_approval_path(a), method: "get", class: "btn-sm btn-success", remote: true %></td>
+            <td>
+                <%= radio_button_tag(
+                "Manager_Expense_Approval", a.id, a.approval,
+                name: "manager-expense-approval-#{a.id}",
+                data: {
+                remote: true,
+                url: url_for(controller: 'expense_approvals', action: 'approve', id: a.id),
+                method: 'POST' }) %>
+            </td>
+            <td>
+                <%= radio_button_tag(
+                "Manager_Expense_Reject", a.id, a.reject,
+                name: "manager-expense-approval-#{a.id}",
+                data: {
+                remote: true,
+                url: url_for(controller: 'expense_approvals', action: 'reject', id: a.id),
+                method: 'POST' }) %>
+            </td>
+            <td><%=a.reject_reason%></td>
+        </tr>
+        <% end %>
+        <% end %>
+    </tbody>
+    
+</table>
+
+
+<script>
+loadjs('#manager-expense-approval', 1, 30);
+</script>

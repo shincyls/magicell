@@ -22,14 +22,19 @@
         <% @expenses.each do |t| %>
         <tr>
             <td><%=t.year%>-<%=t.month%></td>
-            <td><%=t.submitted%></td>
+            <td><%="YES" if t.submitted%></td>
             <td><%=t.expense_approvals.where(approval: true).count%>/<%=t.expense_approvals.count%></td>
             <td><%=t.expense_approvals.where(reject: true).count%>/<%=t.expense_approvals.count%></td>
             <% if current_user == t.employee.user %>
             <td><span class="bg-primary rounded p-1 m-1"><%= link_to 'Approval', approvaladd_expense_path(t), class: "small text-white", remote: true %></span></td>
             <td><span class="bg-info rounded p-1 m-1"><%= link_to 'List', listadd_expense_path(t), class: "small text-white", remote: true %></span></td>
+            <% unless t.submitted %>
             <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_expense_path(t), class: "small text-white", remote: true %></span></td>
             <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Confirm Delete?' } %></span></td>
+            <% else %>
+            <td></td>
+            <td></td>
+            <% end %>
             <% end %>
         </tr>
         <% end %>
@@ -37,3 +42,7 @@
     </tbody>
     
 </table>
+
+<script>
+loadjs('#expense-table', 0, 10);
+</script>
