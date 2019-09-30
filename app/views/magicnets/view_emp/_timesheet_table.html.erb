@@ -4,8 +4,6 @@
     
     <thead class="text-dark">
       <tr>
-        <th>Category</th>
-        <th>Project</th>
         <th>Year-Month</th>
         <th>Submitted?</th>
         <th>Approve Status</th>
@@ -23,8 +21,6 @@
         <% unless @timesheets.nil? %>
         <% @timesheets.each do |t| %>
         <tr>
-            <td><%=t.timesheet_category.name%></td>
-            <td><%=t.project.name%></td>
             <td><%=t.year%>-<%=t.month%></td>
             <td><%="YES" if t.submitted%></td>
             <td><%=t.timesheet_approvals.where(approval: true).count%>/<%=t.timesheet_approvals.count%></td>

@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   get 'magicnet/view_it/webrole', to: 'magicnets#webrole', as: 'webrole'
   get 'magicnet/view_it/account', to: 'magicnets#account', as: 'account'
 
+  resources :password_resets
+  
   resources :employees do
     collection do
     end

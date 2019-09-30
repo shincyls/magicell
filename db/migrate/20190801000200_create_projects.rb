@@ -7,6 +7,9 @@ class CreateProjects < ActiveRecord::Migration[5.2]
         t.string :operator
         t.references :company
         t.references :department
+        t.references :manager 
+        t.boolean :site?, default: false
+        t.boolean :vehicle?, default: false
         t.timestamps
       end
     end

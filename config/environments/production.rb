@@ -63,8 +63,6 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "magicell_#{Rails.env}"
 
-  config.action_mailer.perform_caching = false
-
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
@@ -91,4 +89,22 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # SMTP settings for Magicell Email
+  config.action_mailer.default_url_options = {host: "magicell.herokuapp.com"}
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "mail.magicell.com.my",
+    :port                 => 26,
+    :domain               => "magicell.herokuapp.com",
+    :user_name            => ENV['mgc_username'],
+    :password             => ENV['mgc_password'],
+    :authentication       => "plain",
+    :openssl_verify_mode  => "none",
+    :enable_starttls_auto => true
+  }
+   
 end

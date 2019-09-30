@@ -4,6 +4,7 @@
     <title>Magicell Sdn Bhd</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <%= favicon_link_tag 'brand/favicon.png' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -28,16 +29,13 @@
   <body>
     <div id="flash-message"><%= render partial: 'statics/message' %></div>
     <%= render partial: 'statics/navbar' %>
-
-    <div class="container">
-      <%= yield %>
+      <div class="container pt-lg-md">
+        <%= yield %>
+      </div>
+      <%= render partial: 'statics/modal' %>
     </div>
-    
-    <%= render partial: 'statics/modal' %>
     <%= render partial: 'statics/footer' %>
-    </div>
   </body>
-
 
 </html>
 

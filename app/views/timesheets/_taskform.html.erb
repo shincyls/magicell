@@ -21,18 +21,13 @@
     <div class="row text-dark text-special mt-2 mb-3">
 
       <div class="col-lg-6 mb-2">
+        <label>Project</label>
+        <div><%= f.select(:project_id, Project.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+      <div class="col-lg-6 mb-2">
         <label>Activity</label>
         <div><%= f.text_field :activity, placeholder: "Activity", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-3 mb-2">
-        <label>Site Name</label>
-        <div><%= f.text_field :site_name, placeholder: "Site Name", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-3 mb-2">
-        <label>Location</label>
-        <div><%= f.text_field :location, placeholder: "Location", class: "form-control form-control-sm" %></div>
       </div>
 
       <div class="col-lg-2 mb-2">
@@ -48,6 +43,26 @@
       <div class="col-lg-2 mb-2">
         <label>Time Break</label>
         <%= f.select(:time_break, [0,1,2,3,4,5], {include_blank: "Time Out"}, class: "custom-select custom-select-sm") %>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Site Name</label>
+        <div><%= f.text_field :site_name, placeholder: "Site Name", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Region</label>
+        <div><%= f.text_field :location, placeholder: "Region", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Car Number</label>
+        <div><%= f.text_field :vehicle_number, placeholder: "Site Name", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Car Owner</label>
+        <div><%= f.select(:vehicle_owner_id, VehicleOwner.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Owner"}, class: "custom-select custom-select-sm") %></div>
       </div>
       
     </div>

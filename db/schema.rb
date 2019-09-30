@@ -241,10 +241,14 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "operator"
     t.bigint "company_id"
     t.bigint "department_id"
+    t.bigint "manager_id"
+    t.boolean "site?", default: false
+    t.boolean "vehicle?", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_projects_on_company_id"
     t.index ["department_id"], name: "index_projects_on_department_id"
+    t.index ["manager_id"], name: "index_projects_on_manager_id"
   end
 
   create_table "timesheet_approvals", force: :cascade do |t|
@@ -272,9 +276,12 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   create_table "timesheet_tasks", force: :cascade do |t|
     t.bigint "timesheet_id"
     t.bigint "employee_id"
+    t.bigint "project_id"
     t.string "activity"
     t.string "site_name"
     t.string "location"
+    t.string "vehicle_number"
+    t.bigint "vehicle_owner_id"
     t.date "date"
     t.integer "time_in", default: 9
     t.integer "time_out", default: 18
@@ -282,13 +289,13 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_timesheet_tasks_on_employee_id"
+    t.index ["project_id"], name: "index_timesheet_tasks_on_project_id"
     t.index ["timesheet_id"], name: "index_timesheet_tasks_on_timesheet_id"
+    t.index ["vehicle_owner_id"], name: "index_timesheet_tasks_on_vehicle_owner_id"
   end
 
   create_table "timesheets", force: :cascade do |t|
     t.bigint "employee_id"
-    t.bigint "timesheet_category_id"
-    t.bigint "project_id"
     t.string "session"
     t.integer "year"
     t.integer "month"
@@ -296,8 +303,6 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_timesheets_on_employee_id"
-    t.index ["project_id"], name: "index_timesheets_on_project_id"
-    t.index ["timesheet_category_id"], name: "index_timesheets_on_timesheet_category_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -306,11 +311,19 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "remember_digest"
     t.bigint "webrole_id", default: 2
     t.bigint "employee_id"
+    t.string "password_reset_token"
+    t.datetime "password_reset_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar"
     t.index ["employee_id"], name: "index_users_on_employee_id"
     t.index ["webrole_id"], name: "index_users_on_webrole_id"
+  end
+
+  create_table "vehicle_owners", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "webapp_contents", force: :cascade do |t|

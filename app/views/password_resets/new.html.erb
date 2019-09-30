@@ -1,0 +1,23 @@
+<br><br><br>
+<div class="container">
+    <div class="jumbotron">
+        <div class="row justify-content-center m-4">
+            <h2 class="text-dark text-special sm-2">Reset Password</h2>
+            <br><br><br>
+        </div>
+        <div class="row justify-content-center m-4 p-4">
+          <%= form_tag password_resets_path, remote: true, :method => :post do %>
+            <div class='field'>
+              <h6 class="text-special text-dark">Enter Your Email to Receive Temporary Password</h6>
+              <%= text_field_tag :email, params[:email], placeholder: "Email", class: "form-control form-control-sm mb-2 mt-2" %>
+            </div>
+            <div class='actions'>
+              <%= submit_tag "Reset Password", class: "btn btn-primary text-center mb-2 mt-2" %>
+            </div>
+          <% end %>
+        </div>
+    </div>
+</div>
+<br><br><br>
+
+

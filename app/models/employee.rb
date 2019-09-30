@@ -3,7 +3,6 @@ class Employee < ApplicationRecord
     belongs_to :department, optional: true
     belongs_to :company, optional: true
     belongs_to :project, optional: true
-    has_one :user, dependent: :destroy
     has_many :leaveaps
     has_many :timesheets
     has_many :emp_timesheet_approvals, class_name: 'TimesheetApproval', foreign_key: 'employee_id'

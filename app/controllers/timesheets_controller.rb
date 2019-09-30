@@ -5,7 +5,6 @@ class TimesheetsController < ApplicationController
     def index
       respond_to :html, :js
       @timesheets = current_user.employee.timesheets.order("date desc") if current_user.employee
-      # @history = @timesheets.collect {|l| l.date.strftime("%Y-%b")}.uniq
       @timesheets = @timesheets.year_month(Date.today.year,Date.today.month)
       @session = Date.today.strftime("%Y-%b")
       @timesheet = Timesheet.new
@@ -19,12 +18,12 @@ class TimesheetsController < ApplicationController
     # POST /timesheets
     def create
       @timesheet = Timesheet.new(timesheet_params)
-      unless Timesheet.exists?(employee_id: @timesheet.employee_id, project_id: @timesheet.project_id, timesheet_category_id: @timesheet.timesheet_category_id, year: @timesheet.year, month: @timesheet.month)
+      unless Timesheet.exists?(employee_id: @timesheet.employee_id, year: @timesheet.year, month: @timesheet.month)
         if @timesheet.save
-          flash.now[:success] = "Your Timesheet for #{@timesheet.project.name} (#{@timesheet.timesheet_category.name}) #{@timesheet.year}-#{@timesheet.month} has successfully created."
+          flash.now[:success] = "Your Timesheet for #{@timesheet.year}-#{@timesheet.month} has successfully created."
         end
       else
-        flash.now[:warning] = "Your Timesheet for #{@timesheet.project.name} (#{@timesheet.timesheet_category.name}) #{@timesheet.year}-#{@timesheet.month} is already exist."
+        flash.now[:warning] = "Your Timesheet for #{@timesheet.year}-#{@timesheet.month} is already exist."
       end
     end
 

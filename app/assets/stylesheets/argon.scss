@@ -64,6 +64,7 @@ html
 {
     font-family: sans-serif;
     line-height: 1.15;
+    min-height: 100%;
 
     -webkit-text-size-adjust: 100%;
         -ms-text-size-adjust: 100%;
@@ -96,17 +97,13 @@ body
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-
     margin: 0;
     text-align: left;
-
-    color: white;
-    background-color:white;
     background-image: url("landing/bg.jpg");
     background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
-	background-attachment: fixed;
+	
 }
 
 [tabindex='-1']:focus
@@ -15169,8 +15166,7 @@ a.btn-icon-only
 .footer
 {
     padding: 3rem 0; 
-
-    background: #d5d5d6;
+    background: #f4f5f7;
 }
 .footer .col-footer .heading
 {

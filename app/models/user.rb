@@ -19,5 +19,26 @@ class User < ApplicationRecord
     def fullname
        self.first_name + " " + self.last_name
     end
+    
+    def send_password_reset
+        self.password_reset_token = generate_token
+        self.password_reset_sent_at = Time.now
+        self.save
+        UserMailer.forgot_password(self.id).deliver # This sends an e-mail with a link for the user to reset the password
+    end
+     
+    # This generates a random password reset token for the user
+    def generate_token
+        return SecureRandom.urlsafe_base64
+    end
+
+    protected
+
+    def generate_token
+        self.password_reset_token = loop do
+        random_token = SecureRandom.urlsafe_base64(nil, false)
+        break random_token unless User.exists?(password_reset_token: random_token)
+        end
+    end
 
 end

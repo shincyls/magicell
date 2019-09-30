@@ -6,6 +6,7 @@ class TimesheetTask < ApplicationRecord
 
     belongs_to :timesheet
     belongs_to :employee
+    belongs_to :project
 
     def total_hours
         @sum = self.time_out - self.time_in - self.time_break
