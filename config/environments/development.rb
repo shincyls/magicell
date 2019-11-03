@@ -64,8 +64,8 @@ Rails.application.configure do
     :address              => "mail.magicell.com.my",
     :port                 => 26,
     :domain               => "localhost:3000",
-    :user_name            => "none",
-    :password             => "none",
+    :user_name            => "noreply@magicell.com.my",
+    :password             => "M@g!c3lLweb",
     :authentication       => "plain",
     :openssl_verify_mode  => "none",
     :enable_starttls_auto => true

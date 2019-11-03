@@ -42,6 +42,17 @@ class LeaveapsController < ApplicationController
         flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
       end
     end
+
+    def submit
+      respond_to :html, :js
+      @la = Leaveap.find(params[:id])
+      @la.submitted = true
+      if @la.save
+        flash.now[:success] = "Your Leave Application Have Been Submitted."
+      end
+      @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
+      @leaveap = Leaveap.new
+    end
   
     # DELETE /leaveaps/1
     # DELETE /leaveaps/1.json

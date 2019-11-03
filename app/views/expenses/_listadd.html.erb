@@ -1,9 +1,12 @@
-<h4 class="text-left text-primary">Add List for <%= @expense.year %>-<%= @expense.month %></h4>
-<%= render partial: "expenses/listform", local: @list %>
+<h4 class="text-left text-success">Step 2: Add List for Expenses Claim <%= @expense.year %>-<%= @expense.month %></h4>
 
-<br>
-
-<h4 class="text-left text-primary">Expenses List</h4>
-<div id="expense-list-table">
-<%= render partial: "expenses/listtable", local: @expense %>
-</div>
+<% if @expense.submitted %>
+    <h5 class="text-dark text-special">This expenses claim has been submitted.</h5>
+<% else %>
+    <%= render partial: "expenses/listform", local: @list %>
+<% end %>
+    <br>
+    <h4 class="text-left text-primary">Expenses List</h4>
+    <div id="expense-list-table">
+        <%= render partial: "expenses/listtable", local: @expense %>
+    </div>

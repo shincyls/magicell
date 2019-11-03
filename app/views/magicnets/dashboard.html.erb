@@ -64,7 +64,9 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <%= link_to "Dashboard", dashpm_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Approval", approval_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Leave Approval", leave_pm_approval_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Timsheet Approval", timesheet_pm_approval_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Expense Approval", expense_pm_approval_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
         <% end %>
@@ -114,15 +116,15 @@ function myFunction() {
   element.classList.add("active");
 }
 
-function loadjs(table, sortColumn, pageLength) {
+function loadjs(table, sortColumn, pageLength, dom) {
     $(table).DataTable({
       "order": [sortColumn],
       "search": {
         "caseInsensitive": true
       },
       "pageLength": pageLength,
-      "dom": 'Blfrtip',
-      buttons: ['csv', 'excel', 'pdf']
+      "dom": dom,
+      buttons: ['csv']
     });
 };
 

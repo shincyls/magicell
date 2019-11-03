@@ -9,10 +9,7 @@
         <th>Approve Status</th>
         <th>Reject Status</th>
         <% if current_user %>
-        <th>Approval</th>
-        <th>Task</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>Action</th>
         <% end %>
       </tr>
     </thead>
@@ -21,16 +18,21 @@
         <% unless @timesheets.nil? %>
         <% @timesheets.each do |t| %>
         <tr>
-            <td><%=t.year%>-<%=t.month%></td>
-            <td><%="YES" if t.submitted%></td>
+            <td>
+                <span class="bg-secondary rounded p-1 m-1">>> <%= link_to t.session, taskadd_timesheet_path(t), remote: true %></span>
+            </td>
+            <td>
+                <%="YES" if t.submitted%>
+                <%="NO" unless t.submitted%>
+            </td>
             <td><%=t.timesheet_approvals.where(approval: true).count%>/<%=t.timesheet_approvals.count%></td>
             <td><%=t.timesheet_approvals.where(reject: true).count%>/<%=t.timesheet_approvals.count%></td>
-            <% if current_user == t.employee.user %>
-            <td><span class="bg-primary rounded p-1 m-1"><%= link_to 'Approval', approvaladd_timesheet_path(t), class: "small text-white", remote: true %></span></td>
-            <td><span class="bg-info rounded p-1 m-1"><%= link_to 'Task', taskadd_timesheet_path(t), class: "small text-white", remote: true %></span></td>
+            <% if current_user %>
             <% unless t.submitted %>
-            <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_path(t), class: "small text-white", remote: true %></span></td>
-            <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Confirm Delete?' } %></span></td>
+            <td>
+                <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_path(t), class: "small text-white", remote: true %></span>
+                <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Confirm Delete?' } %></span>
+            </td>
             <% else %>
             <td></td>
             <td></td>
@@ -44,5 +46,5 @@
 </table>
 
 <script>
-loadjs('#timesheet-table', 0, 10);
+loadjs('#timesheet-table', 0, 10, 'rtp');
 </script>

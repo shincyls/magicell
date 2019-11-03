@@ -1,6 +1,8 @@
+<h4 class="text-left text-primary">Expenses Claim Approval</h4>
+
 <table id="manager-expense-approval" class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
     
-    <thead class="bg-success">
+    <thead>
       <tr>
         <th style="width:10rem;">Employee</th>
         <th style="width:5rem;">Session</th>
@@ -10,15 +12,14 @@
         <th>Reject Reason</th>
       </tr>
     </thead>
-    
 
     <tbody class="text-dark" id="expense-row">
         <% unless @expenses.nil? %>
         <% @expenses.each do |a| %>
         <tr>
             <td><%=a.employee.full_name%></td>
-            <td><%=a.expense.year%>-<%=a.expense.month%></td>
-            <td>RM<%=a.expense.total_claims%></td>
+            <td><%=a.expense.session%></td>
+            <td>RM <%=a.expense.total_claims%></td>
             <td><%= button_to 'Show', expense_approval_path(a), method: "get", class: "btn-sm btn-success", remote: true %></td>
             <td>
                 <label class="custom-toggle">
@@ -42,5 +43,5 @@
 
 
 <script>
-loadjs('#manager-expense-approval', 1, 30);
+loadjs('#manager-expense-approval', 1, 50, 'Blfrtip');
 </script>

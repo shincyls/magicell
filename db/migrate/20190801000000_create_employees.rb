@@ -1,13 +1,16 @@
 class CreateEmployees < ActiveRecord::Migration[5.2]
     def change
       create_table :employees do |t|
+        t.references :department, default: 1
+        t.references :project, default: 1
+        t.references :company, default: 1
+        t.references :employee_position, default: 1
         t.string :first_name
         t.string :last_name
         t.string :full_name
         t.string :personal_email
         t.string :company_email
         t.string :employee_id
-        t.string :position
         t.string :title
         t.string :phone_number
         t.string :phone_number_2
@@ -33,12 +36,6 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
         t.date :contract_end
         t.integer :category, default: 0
         t.integer :employement_status, default: 0
-        t.boolean :approve_expense, default: false
-        t.boolean :approve_leave, default: false
-        t.boolean :approve_timesheet, default: false
-        t.references :department
-        t.references :project
-        t.references :company
         t.timestamps
       end
     end

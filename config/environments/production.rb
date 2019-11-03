@@ -106,5 +106,5 @@ Rails.application.configure do
     :openssl_verify_mode  => "none",
     :enable_starttls_auto => true
   }
-   
+  
 end

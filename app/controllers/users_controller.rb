@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     respond_to :html, :js
     @user = User.new(user_params)
     if @user.save
-      flash.now[:success] = "Employee's login account have been successfully created."
+      flash.now[:success] = "Employee's login account have been successfully created. Default Password is 'Magicell!23', please change password at login page."
     else
       flash.now[:warning] = @employee.errors.full_messages
     end

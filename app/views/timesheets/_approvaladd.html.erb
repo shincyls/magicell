@@ -1,16 +1,16 @@
-<h4 class="text-left text-primary">Manager Approval for Timesheet <%= @timesheet.project.name %> <%= @timesheet.year %>-<%= @timesheet.month %></h4>
+<h4 class="text-left text-success">Step 3: Submit Manager Approval for Timesheet <%= @timesheet.year %>-<%= @timesheet.month %></h4>
 
 <% if @timesheet.submitted %>
-    <h5 class="text-dark text-special">This timesheet has already been submitted.</h5>
+    <p class="text-dark text-special">This timesheet has been submitted.</p>
 <% else %>
     <br>
-    <%= render partial: "timesheets/approvalform", local: @timesheet_approval %>
+    <p class="text-dark text-special">This timesheet has not submit yet, upon submit it will auto send to corresponding project manager.</p>
     <%= button_to "Submit Timesheet", submit_timesheet_path(@timesheet), method: "post", class: "btn btn-success", remote: true, data: { confirm: 'Please confirm, once submitted You cannot edit the data anymore.' }  %>
 <% end %>
 
-<hr>
+<br>
 
 <h4 class="text-left text-primary">Approval List</h4>
 <div id="timesheet-task-table">
-<%= render partial: "timesheets/approvaltable", local: @timesheet %>
+    <%= render partial: "timesheets/approvaltable", local: @timesheet %>
 </div>

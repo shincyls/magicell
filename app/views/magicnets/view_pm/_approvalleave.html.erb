@@ -1,69 +1,6 @@
-<% @ts1 = current_user.primary_tsas %>
-<% @ts2 = current_user.secondary_tsas %>
+<% @leap1 = Leaveap.where(apv_mgr_1_id: current_user.employee.id) %>
+<% @leap2 = Leaveap.where(apv_mgr_2_id: current_user.employee.id) %> 
 
-<h4 class="text-left text-primary">Timesheets Approval</h4>
-<table id="ts-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
-  
-  <thead class="text-dark">
-    <tr>
-      <th>Name</th>
-      <th>Session</th>
-      <th>Project</th>
-      <th>Year-Month</th>
-      <th>Days/Hours</th>
-      <th>Detail</th>
-      <th>Approve?</th>
-    </tr>
-  </thead>
-
-  <tbody class="text-dark">
-  <% unless @ts1.nil? %>
-  <% @ts1.each do |t| %>
-    <tr>
-      <td><%=t.employee.full_name%></td>
-      <td><%=t.session%></td>
-      <td><%=t.year%></td>
-      <td><%=t.month%></td>
-      <td><span class="bg-info rounded p-1 m-1"><%= link_to 'Detail', timesheet_approval_path(t), class: "small text-white", remote: true %></span></td>
-      <td>
-        <%= check_box_tag(
-            "completed", t.id, t.apv_1,
-            data: {
-            remote: true,
-            url: url_for(controller: 'timesheet_approvals', action: 'ts_approval1', id: t.id),
-            class: "custom-control-input",
-            method: 'POST' }) %>
-      </td>
-    </tr>
-  <% end %>
-  <% end %>
-  <% unless @ts2.nil? %>
-  <% @ts2.each do |t| %>
-    <tr>
-      <td><%=t.employee.full_name%></td>
-      <td><%=t.session%></td>
-      <td><%=t.year%></td>
-      <td><%=t.month%></td>
-      <td><span class="bg-info rounded p-1 m-1"><%= link_to 'Detail', timesheet_approval_path(t), class: "small text-white", remote: true %></span></td>
-      <td>
-        <%= check_box_tag(
-            "completed", t.id, t.apv_2,
-            data: {
-            remote: true,
-            url: url_for(controller: 'timesheet_approvals', action: 'ts_approval2', id: t.id),
-            method: 'POST' }) %>
-      </td>
-    </tr>
-  <% end %>
-  <% end %>
-  </tbody>
-
-</table>
-
-<hr>
-
-<% @leap1 = current_user.primary_las %>
-<% @leap2 = current_user.secondary_las %>
 <h4 class="text-left text-primary">Leaves Approval</h4>
 <table id="la-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
   
@@ -94,12 +31,16 @@
       <td><%=l.employee.annual_leave_taken%>/<%=l.employee.annual_leave_entitled%></td>
       <td><%=l.employee.medical_leave_taken%>/<%=l.employee.medical_leave_entitled%></td>
       <td>
-        <%= check_box_tag(
-            "completed", l.id, l.apv_1,
-            data: {
-            remote: true,
-            url: url_for(controller: 'leaveaps', action: 'leave_approval1', id: l.id),
-            method: 'POST' }) %>
+        <label class="custom-toggle">
+                <%= check_box_tag(
+                "Leave_Approval_1", l.id, l.apv_1,
+                name: "leave-approval1-#{l.id}",
+                data: {
+                remote: true,
+                url: url_for(controller: 'leaveaps', action: 'leave_approval1', id: l.id),
+                method: 'POST' }) %>
+                <span class="custom-toggle-slider rounded-circle"></span>
+          </label>
       </td>
   <% end %>
   <% end %>
@@ -115,12 +56,16 @@
       <td><%=l.employee.annual_leave_taken%>/<%=l.employee.annual_leave_entitled%></td>
       <td><%=l.employee.medical_leave_taken%>/<%=l.employee.medical_leave_entitled%></td>
       <td>
-        <%= check_box_tag(
-            "completed", l.id, l.apv_2,
-            data: {
-            remote: true,
-            url: url_for(controller: 'leaveaps', action: 'leave_approval2', id: l.id),
-            method: 'POST' }) %>
+        <label class="custom-toggle">
+                <%= check_box_tag(
+                "Leave_Approval_2", l.id, l.apv_2,
+                name: "leave-approval1-#{l.id}",
+                data: {
+                remote: true,
+                url: url_for(controller: 'leaveaps', action: 'leave_approval2', id: l.id),
+                method: 'POST' }) %>
+                <span class="custom-toggle-slider rounded-circle"></span>
+          </label>
       </td>
   <% end %>
   <% end %>
@@ -128,3 +73,8 @@
 
   
 </table>
+
+
+<script>
+loadjs('#la-table', 1, 50, 'Blfrtip');
+</script>

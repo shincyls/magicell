@@ -5,16 +5,12 @@
     <tr>
       <th>Name</th>
       <th>Employee ID</th>
-      <th>Position</th>
       <th>Category</th>
+      <th>Position</th>
       <th>Department</th>
       <th>Project</th>
-      <th>Status</th>
-      <th>Joined</th>
       <% if current_user.webrole.wr_hr %>
-      <th>Details</th>
-      <th>Edit</th>
-      <th>Delete</th>
+      <th>Action</th>
       <% end %>
     </tr>
   </thead>
@@ -25,16 +21,15 @@
     <tr>
         <td><%=e.full_name%></td>
         <td><%=e.employee_id%></td>
-        <td><%=e.position%></td>
         <td><%=e.category%></td>
-        <td></td>
-        <td></td>
-        <td><%=e.employement_status%></td>
-        <td><%=e.joined_since%></td>
+        <td><%=e.employee_position.position if e.employee_position.position%></td>
+        <td><%=e.department.name if e.department.name%></td>
+        <td><%=e.project.name if e.project.name%></td>
         <% if current_user.webrole.wr_hr %>
-        <td><span class="Details"></td>
-        <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_employee_path(e), class: "small text-white", remote: true %></span></td>
-        <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', e, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span></td>
+        <td>
+          <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_employee_path(e), class: "small text-white", remote: true %></span>
+          <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', e, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span>
+        </td>
         <% end %>
     </tr>
     <% end %>
@@ -43,5 +38,5 @@
 </table>
 
 <script>
-loadjs('#employees-table', 1, 50);
+loadjs('#employees-table', 1, 50, 'Blfrtip');
 </script>

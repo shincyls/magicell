@@ -1,10 +1,11 @@
+<h4 class="text-left text-primary">Timesheet Approval</h4>
+
 <table id="manager-timesheet-approval" class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
     
-    <thead class="bg-success">
+    <thead>
       <tr>
         <th style="width:10rem;">Employee</th>
         <th style="width:5rem;">Session</th>
-        <th style="width:10rem;">Project</th>
         <th style="width:5rem;">Total Hours</th>
         <th style="width:5rem;">Show</th>
         <th>Approval</th>
@@ -17,8 +18,7 @@
         <% @timesheets.each do |a| %>
         <tr>
             <td><%=a.employee.full_name%></td>
-            <td><%=a.timesheet.year%>-<%=a.timesheet.month%></td>
-            <td><%=a.timesheet.project.name%> (<%=a.timesheet.timesheet_category.name%>)</td>
+            <td><%=a.timesheet.session%></td>
             <td><%=a.timesheet.total_hours%>h</td>
             <td><%= button_to 'Show', timesheet_approval_path(a), method: "get", class: "btn-sm btn-success", remote: true %></td>
             <td>
@@ -42,6 +42,6 @@
 </table>
 
 <script>
-loadjs('#manager-timesheet-approval', 1, 30);
+loadjs('#manager-timesheet-approval', 1, 50, 'Blfrtip');
 </script>
 

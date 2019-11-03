@@ -53,7 +53,7 @@ class TimesheetTasksController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_task_params
-        params.require(:timesheet_task).permit(:employee_id, :project_id, :activity, :site_name, :location, :date, :time_in, :time_out, :time_break)
+        params.require(:timesheet_task).permit(:employee_id, :project_id, :activity, :site_name, :location, :date, :time_in, :time_out, :time_break, :timesheet_id, :vehicle_number, :vehicle_owner_id)
     end
 
 end

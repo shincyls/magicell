@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   get 'magicnet/view_fin/dashfinance', to: 'magicnets#dashfinance', as: 'dashfinance'
   # PM Pages' Route as below:
   get 'magicnet/view_pm/dashpm', to: 'magicnets#dashpm', as: 'dashpm'
-  get 'magicnet/view_pm/approval', to: 'magicnets#approval', as: 'approval'
+  get 'magicnet/view_pm/leave_approval', to: 'magicnets#leave_approval', as: 'leave_pm_approval'
+  get 'magicnet/view_pm/timesheet_approval', to: 'magicnets#timesheet_approval', as: 'timesheet_pm_approval'
+  get 'magicnet/view_pm/expense_approval', to: 'magicnets#expense_approval', as: 'expense_pm_approval'
   # IT Pages' Route as below:
   get 'magicnet/view_it/dashboard', to: 'magicnets#dashit', as: 'dashit'
   get 'magicnet/view_it/webrole', to: 'magicnets#webrole', as: 'webrole'
@@ -34,6 +36,7 @@ Rails.application.routes.draw do
     collection do
     end
     member do
+      post :submit
       post :leave_approval1
       post :leave_approval2
     end

@@ -84,7 +84,23 @@
 
     </div>
 
-    <h5 class="text-special text-alert">Contract Employee Only</h5>
+    <h5 class="text-special text-success">Employee Role</h5>
+    <div class="row text-special text-dark mt-2 mb-3">
+      <div class="col-lg-3 col-md-3 mb-2">
+        <label class="d-block">Position</label>
+        <%= f.select(:employee_position_id, EmployeePosition.all.collect {|e| [e.position, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
+      </div>
+      <div class="col-lg-3 col-md-3 mb-2">
+        <label class="d-block">Department (If Any)</label>
+        <%= f.select(:department_id, Department.all.collect {|e| [e.name, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
+      </div>
+      <div class="col-lg-3 col-md-3 mb-2">
+        <label class="d-block">Project (If Any)</label>
+        <%= f.select(:project_id, Project.all.collect {|e| [e.name, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
+      </div>
+    </div>
+
+    <h5 class="text-special text-success">Contract Employee Only</h5>
     <div class="row text-special text-dark mt-2 mb-3">
       <div class="col-lg-3 col-md-3 mb-2">
         <label class="d-block">Start</label>

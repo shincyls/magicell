@@ -32,11 +32,11 @@ Webrole.create!([
   {role: "Employee", vw_emp: true, wr_emp: true},
   {role: "Webmaster", vw_emp: true, wr_emp: true, vw_pro_mgr: true, wr_pro_mgr: true, vw_dpt_mgr: true, wr_dpt_mgr: true, vw_finance: true, wr_finance: true, vw_it: true, wr_it: true, vw_hr: true, wr_hr: true},
   {role: "Director", vw_emp: true, wr_emp: true, vw_pro_mgr: true, wr_pro_mgr: true, vw_dpt_mgr: true, wr_dpt_mgr: true, vw_finance: true, wr_finance: true, vw_it: true, wr_it: true, vw_hr: true, wr_hr: true},
-  {role: "Project Manager", vw_emp: true, wr_emp: true, vw_pro_mgr: true, wr_pro_mgr: true},
-  {role: "Department Manager", vw_emp: true, wr_emp: true, vw_dpt_mgr: true, wr_dpt_mgr: true},
+  {role: "Manager", vw_emp: true, wr_emp: true, vw_pro_mgr: true, wr_pro_mgr: true},
   {role: "Finance", vw_emp: true, wr_emp: true, vw_finance: true, wr_finance: true},
   {role: "IT", vw_emp: true, wr_emp: true, vw_it: true, wr_it: true},
-  {role: "HR", vw_emp: true, wr_emp: true, vw_hr: true, wr_hr: true}
+  {role: "HR Admin", vw_emp: true, wr_emp: true, vw_hr: true, wr_hr: true, vw_it: true, wr_it: true},
+  {role: "HR Finance", vw_emp: true, wr_emp: true, vw_hr: true, wr_hr: true, vw_finance: true, wr_finance: true}
 ])
 
 Company.create!([
@@ -44,6 +44,7 @@ Company.create!([
 ])
 
 Department.create!([
+  {name: "None", description: "Not Assigned", company_id: 1},
   {name: "Director", description: "Owner of Company", company_id: 1},
   {name: "Humans Resources", description: "Humans Resource Management", company_id: 1},
   {name: "Finance", description: "Finance Management", company_id: 1},
@@ -51,18 +52,23 @@ Department.create!([
   {name: "Project Team", description: "Project Management", company_id: 1}
 ])
 
+EmployeePosition.create!([
+  {position: "Employee", description: "Normal Employee"},
+  {position: "Manager", description: "Department or Project Manager"}
+])
+
 Employee.create!([
-  {full_name: "Manager Account", first_name: "Test", last_name: "Manager Account", employee_id: "M001", company_id: 1, department_id: 4, project_id: 1, personal_email: "owner@gmail.com", company_email: "owner@magicell.com.my", identity_passport_no: "810101-01-1234", phone_number: "012-3456789", approve_expense: true, approve_leave: true, approve_timesheet: true},
-  {full_name: "Lee Xiao Long", first_name: "Lee", last_name: "Xiao Long", employee_id: "M002",company_id: 1, department_id: 1, project_id: 1, personal_email: "user1@gmail.com", company_email: "user1@magicell.com.my", identity_passport_no: "810101-02-1234", phone_number: "012-3456788"},
-  {full_name: "Ahmad Johari", first_name: "Ahmad", last_name: "Johari", employee_id: "M003",company_id: 1, department_id: 2, project_id: 1, personal_email: "user2@gmail.com", company_email: "user2@magicell.com.my", identity_passport_no: "810101-03-1234", phone_number: "012-3456787"},
-  {full_name: "Simon Kong", first_name: "Simon", last_name: "Kong", employee_id: "M004",company_id: 1, department_id: 5, project_id: 2, personal_email: "user3@gmail.com", company_email: "user3@magicell.com.my", identity_passport_no: "810101-04-1234", phone_number: "012-3456786"},
-  {full_name: "Syaiful Bukhari", first_name: "Syaiful", last_name: "Bukhari", employee_id: "M005",company_id: 1, department_id: 5, project_id: 3, personal_email: "user4@gmail.com", company_email: "user4@magicell.com.my", identity_passport_no: "810101-05-1234", phone_number: "012-3456785"},
-  {full_name: "Daniel Nelson", first_name: "Daniel", last_name: "Nelson", employee_id: "M006",company_id: 1, department_id: 5, project_id: 4, personal_email: "user5@gmail.com", company_email: "user5@magicell.com.my", identity_passport_no: "810101-06-1234", phone_number: "012-3456784"},
-  {full_name: "Tan Manager", first_name: "Tan", last_name: "Manager", employee_id: "M007",company_id: 1, department_id: 5, project_id: 2, personal_email: "user6@gmail.com", company_email: "user6@magicell.com.my", identity_passport_no: "810101-07-1234", phone_number: "012-3456783", approve_expense: true, approve_leave: true, approve_timesheet: true},
-  {full_name: "Wong Manager", first_name: "Wong", last_name: "Manager", employee_id: "M008",company_id: 1, department_id: 5, project_id: 3, personal_email: "user7@gmail.com", company_email: "user7@magicell.com.my", identity_passport_no: "810101-08-1234", phone_number: "012-3456782", approve_expense: true, approve_leave: true, approve_timesheet: true},
-  {full_name: "Kong Manager", first_name: "Kong", last_name: "Manager", employee_id: "M009",company_id: 1, department_id: 5, project_id: 4, personal_email: "user8@gmail.com", company_email: "user8@magicell.com.my", identity_passport_no: "810101-09-1234", phone_number: "012-3456781", approve_expense: true, approve_leave: true, approve_timesheet: true},
-  {full_name: "Lee Manager", first_name: "Lee", last_name: "Manager", employee_id: "M010",company_id: 1, department_id: 5, project_id: 4, personal_email: "user9@gmail.com", company_email: "user9@magicell.com.my", identity_passport_no: "810101-10-1234", phone_number: "012-3456780", approve_expense: true, approve_leave: true, approve_timesheet: true},
-  {full_name: "Shin CY", first_name: "Shin", last_name: "CY", employee_id: "M001", company_id: 1, department_id: 4, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_passport_no: "861125-03-1234", phone_number: "012-5353080", approve_expense: true, approve_leave: true, approve_timesheet: true}
+  {full_name: "Manager Account", first_name: "Test", last_name: "Manager Account", employee_id: "M001", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "owner@gmail.com", company_email: "owner@magicell.com.my", identity_passport_no: "810101-01-1234", phone_number: "012-3456789"},
+  {full_name: "Lee Xiao Long", first_name: "Lee", last_name: "Xiao Long", employee_id: "M002",company_id: 1, department_id: 1, employee_position_id: 1, project_id: 1, personal_email: "user1@gmail.com", company_email: "user1@magicell.com.my", identity_passport_no: "810101-02-1234", phone_number: "012-3456788"},
+  {full_name: "Ahmad Johari", first_name: "Ahmad", last_name: "Johari", employee_id: "M003",company_id: 1, department_id: 2, employee_position_id: 1, project_id: 1, personal_email: "user2@gmail.com", company_email: "user2@magicell.com.my", identity_passport_no: "810101-03-1234", phone_number: "012-3456787"},
+  {full_name: "Simon Kong", first_name: "Simon", last_name: "Kong", employee_id: "M004",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 2, personal_email: "user3@gmail.com", company_email: "user3@magicell.com.my", identity_passport_no: "810101-04-1234", phone_number: "012-3456786"},
+  {full_name: "Syaiful Bukhari", first_name: "Syaiful", last_name: "Bukhari", employee_id: "M005",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 3, personal_email: "user4@gmail.com", company_email: "user4@magicell.com.my", identity_passport_no: "810101-05-1234", phone_number: "012-3456785"},
+  {full_name: "Daniel Nelson", first_name: "Daniel", last_name: "Nelson", employee_id: "M006",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 4, personal_email: "user5@gmail.com", company_email: "user5@magicell.com.my", identity_passport_no: "810101-06-1234", phone_number: "012-3456784"},
+  {full_name: "Tan Manager", first_name: "Tan", last_name: "Manager", employee_id: "M007",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 2, personal_email: "user6@gmail.com", company_email: "user6@magicell.com.my", identity_passport_no: "810101-07-1234", phone_number: "012-3456783"},
+  {full_name: "Wong Manager", first_name: "Wong", last_name: "Manager", employee_id: "M008",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 3, personal_email: "user7@gmail.com", company_email: "user7@magicell.com.my", identity_passport_no: "810101-08-1234", phone_number: "012-3456782"},
+  {full_name: "Kong Manager", first_name: "Kong", last_name: "Manager", employee_id: "M009",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user8@gmail.com", company_email: "user8@magicell.com.my", identity_passport_no: "810101-09-1234", phone_number: "012-3456781"},
+  {full_name: "Lee Manager", first_name: "Lee", last_name: "Manager", employee_id: "M010",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user9@gmail.com", company_email: "user9@magicell.com.my", identity_passport_no: "810101-10-1234", phone_number: "012-3456780"},
+  {full_name: "Shin CY", first_name: "Shin", last_name: "CY", employee_id: "M001", company_id: 1, department_id: 4, employee_position_id: 1, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_passport_no: "861125-03-1234", phone_number: "012-5353080"}
 ])
 
 User.create!([
@@ -72,7 +78,7 @@ User.create!([
   {username: "johari", password: "qwerasdf", webrole_id: 6, employee_id: 4},
   {username: "simon", password: "qwerasdf", webrole_id: 7, employee_id: 5},
   {username: "ahmad", password: "qwerasdf", webrole_id: 8, employee_id: 6},
-  {username: "nelson", password: "qwerasdf", webrole_id: 9, employee_id: 7},
+  {username: "nelson", password: "qwerasdf", webrole_id: 8, employee_id: 7},
   {username: "manager1", password: "qwerasdf", webrole_id: 5, employee_id: 8},
   {username: "manager2", password: "qwerasdf", webrole_id: 5, employee_id: 9},
   {username: "manager3", password: "qwerasdf", webrole_id: 5, employee_id: 10},
@@ -109,7 +115,8 @@ Project.create!([
   {name: "Nokia DTA", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Nokia DTE", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
   {name: "Nokia PLM Test", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Nokia Others", department_id: 5, company_id: 1, manager_id: 1}
+  {name: "Nokia Others", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Others", department_id: 5, company_id: 1, manager_id: 1}
 ])
 
 Leavetype.create!([

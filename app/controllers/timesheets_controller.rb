@@ -36,7 +36,7 @@ class TimesheetsController < ApplicationController
     # GET /timesheets/1
     def show
     end
-  
+    
     # PATCH/PUT /timesheets/1
     def update
       respond_to :html, :js
@@ -82,17 +82,26 @@ class TimesheetsController < ApplicationController
       respond_to :html, :js
       @timesheet = Timesheet.find(params[:id])
       if @timesheet.submitted
-        flash.now[:success] = "Your Timesheet is already submitted."
-      elsif (@timesheet.timesheet_approvals.count <= 0)
-        flash.now[:warning] = "Your must enter at least 1 Manager Approval."
+        flash.now[:alert] = "Your Timesheet is already submitted."
       else
+        # Get All Unique Projects and Create Task Approval for each unique Manager
+        @projects = TimesheetTask.where(timesheet_id: @timesheet.id).pluck(:project_id).uniq!
+        @projects.each do |p|
+          @manager = Project.find(p).manager
+          unless TimesheetApproval.exists?(timesheet_id: @timesheet.id, employee_id: @timesheet.employee_id, manager_id: @manager.id)
+            @timesheet_approval = TimesheetApproval.new(timesheet_id: @timesheet.id, employee_id: @timesheet.employee_id, manager_id: @manager.id)
+            @timesheet_approval.save
+          end
+        end
         if @timesheet.update(submitted: true)
           flash.now[:success] = "Your Timesheet have been succesfully submitted."
         end
       end
-      @timesheet_approval = TimesheetApproval.new
+
+      @timesheet_approval = current_user.employee.emp_timesheet_approvals
       @timesheets = current_user.employee.timesheets
-  end
+      
+    end
   
     private
   

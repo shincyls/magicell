@@ -15,11 +15,11 @@ class ExpenseListsController < ApplicationController
       while date_end >= date_now
         unless date_now.saturday? or date_now.sunday?
           @expense_list = ExpenseList.new(expense_list_params)
-          unless ExpenseList.exists?(employee_id: @expense_list.employee_id, date: date_now)
+          unless ExpenseList.exists?(employee_id: @expense_list.employee_id, project_id: @expense_list.project_id, date: date_now)
             @expense_list.date = date_now
             @expense_list.save
           else # Update/Overwrite
-            @expense_list = ExpenseList.find_by(employee_id: @expense_list.employee_id, date: date_now)
+            @expense_list = ExpenseList.find_by(employee_id: @expense_list.employee_id, project_id: @expense_list.project_id, date: date_now)
             @expense_list.update(expense_list_params)
           end
         end
@@ -54,7 +54,7 @@ class ExpenseListsController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def expense_list_params
-        params.require(:expense_list).permit(:employee_id, :expense_id, :fuel_claim, :toll_claim, :parking_claim, :allowance_claim, :others_claim, :medical_claim, :remarks)
+        params.require(:expense_list).permit(:employee_id, :project_id, :expense_id, :fuel_claim, :toll_claim, :parking_claim, :allowance_claim, :others_claim, :medical_claim, :remarks)
     end
 
 end

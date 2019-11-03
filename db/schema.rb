@@ -60,14 +60,24 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["project_id"], name: "index_employee_contracts_on_project_id"
   end
 
+  create_table "employee_positions", force: :cascade do |t|
+    t.string "position"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employees", force: :cascade do |t|
+    t.bigint "department_id", default: 1
+    t.bigint "project_id", default: 1
+    t.bigint "company_id", default: 1
+    t.bigint "employee_position_id", default: 1
     t.string "first_name"
     t.string "last_name"
     t.string "full_name"
     t.string "personal_email"
     t.string "company_email"
     t.string "employee_id"
-    t.string "position"
     t.string "title"
     t.string "phone_number"
     t.string "phone_number_2"
@@ -93,16 +103,11 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.date "contract_end"
     t.integer "category", default: 0
     t.integer "employement_status", default: 0
-    t.boolean "approve_expense", default: false
-    t.boolean "approve_leave", default: false
-    t.boolean "approve_timesheet", default: false
-    t.bigint "department_id"
-    t.bigint "project_id"
-    t.bigint "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_employees_on_company_id"
     t.index ["department_id"], name: "index_employees_on_department_id"
+    t.index ["employee_position_id"], name: "index_employees_on_employee_position_id"
     t.index ["project_id"], name: "index_employees_on_project_id"
   end
 
@@ -124,18 +129,20 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   create_table "expense_lists", force: :cascade do |t|
     t.bigint "expense_id"
     t.bigint "employee_id"
+    t.bigint "project_id"
     t.date "date"
-    t.float "fuel_claim"
-    t.float "toll_claim"
-    t.float "parking_claim"
-    t.float "allowance_claim"
-    t.float "medical_claim"
-    t.float "others_claim"
+    t.float "fuel_claim", default: 0.0
+    t.float "toll_claim", default: 0.0
+    t.float "parking_claim", default: 0.0
+    t.float "allowance_claim", default: 0.0
+    t.float "medical_claim", default: 0.0
+    t.float "others_claim", default: 0.0
     t.string "remarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_expense_lists_on_employee_id"
     t.index ["expense_id"], name: "index_expense_lists_on_expense_id"
+    t.index ["project_id"], name: "index_expense_lists_on_project_id"
   end
 
   create_table "expenses", force: :cascade do |t|
@@ -182,7 +189,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "from_ampm", default: "AM"
     t.date "to_date"
     t.string "to_ampm", default: "PM"
-    t.boolean "app_confirm", default: false
+    t.boolean "submitted", default: false
     t.bigint "apv_mgr_1_id"
     t.bigint "apv_mgr_2_id"
     t.bigint "apv_mgr_3_id"

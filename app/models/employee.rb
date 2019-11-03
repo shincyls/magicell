@@ -1,8 +1,9 @@
 class Employee < ApplicationRecord
 
-    belongs_to :department, optional: true
+    belongs_to :employee_position, optional: true
     belongs_to :company, optional: true
     belongs_to :project, optional: true
+    belongs_to :department, optional: true
     has_many :leaveaps
     has_many :timesheets
     has_many :emp_timesheet_approvals, class_name: 'TimesheetApproval', foreign_key: 'employee_id'
@@ -10,6 +11,7 @@ class Employee < ApplicationRecord
     has_many :expenses
     has_many :emp_expense_approvals, class_name: 'TimesheetApproval', foreign_key: 'employee_id'
     has_many :mgr_expense_approvals, class_name: 'TimesheetApproval', foreign_key: 'manager_id'
+    has_one :user
 
     validates :full_name, presence: {message: "must present."}
     validates :identity_passport_no, presence: {message: "must present."}, uniqueness: {message: "already exists!"}

@@ -8,21 +8,29 @@ class TimesheetApprovalsController < ApplicationController
     def create
       respond_to :html, :js
       @timesheet_approval = TimesheetApproval.new(timesheet_approval_params)
-      @count = @timesheet_approval.timesheet.timesheet_approvals.count
-      
-      unless TimesheetApproval.exists?(timesheet_id: @timesheet_approval.timesheet_id, employee_id: @timesheet_approval.employee_id, manager_id: @timesheet_approval.manager_id)
-        if (@count.to_i < 3)
-            if @timesheet_approval.save
-            flash.now[:success] = "Your Timesheet Approval have been created."
-            end
-        else
-            flash.now[:warning] = "You cannot have more than 3 manager approvals for each timesheet."
-        end 
-      else
-        flash.now[:warning] = "Manager Approval is already exists."
+
+      @projects = TimesheetTask.where(timesheet_id: 4).pluck(:project_id).uniq!
+      @managersid = Array.new
+      @projects.each do |p|
+        @managersid.append(Project.find(p).manager_id)
       end
+
+        # @count = @timesheet_approval.timesheet.timesheet_approvals.count
+          unless TimesheetApproval.exists?(timesheet_id: @timesheet_approval.timesheet_id, employee_id: @timesheet_approval.employee_id, manager_id: @timesheet_approval.manager_id)
+            if (@count.to_i < 3)
+                if @timesheet_approval.save
+                flash.now[:success] = "Your Timesheet Approval have been created."
+                end
+            else
+                flash.now[:warning] = "You cannot have more than 3 manager approvals for each timesheet."
+            end 
+          else
+            flash.now[:warning] = "Manager Approval is already exists."
+          end
+
       @timesheet = @timesheet_approval.timesheet
       @timesheets = current_user.employee.timesheets
+
     end
 
     def update

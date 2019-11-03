@@ -10,7 +10,7 @@ class CreateLeaveaps< ActiveRecord::Migration[5.2]
         t.string :from_ampm, default: "AM"
         t.date :to_date
         t.string :to_ampm, default: "PM"
-        t.boolean :app_confirm, default: false
+        t.boolean :submitted, default: false
         t.references :apv_mgr_1
         t.references :apv_mgr_2
         t.references :apv_mgr_3

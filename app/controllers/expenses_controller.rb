@@ -79,17 +79,25 @@ class ExpensesController < ApplicationController
       respond_to :html, :js
       @expense = Expense.find(params[:id])
       if @expense.submitted
-        flash.now[:success] = "Your Expense Claim is already submitted."
-      elsif (@expense.expense_approvals.count <= 0)
-        flash.now[:warning] = "Your must enter at least 1 Manager Approval."
+        flash.now[:success] = "Your Expenses Claim is already submitted."
       else
+        # Get All Unique Projects and Create Task Approval for each unique Manager
+        @projects = ExpenseList.where(expense_id: @expense.id).pluck(:project_id).uniq!
+        @projects.each do |p|
+          @manager = Project.find(p).manager
+          unless ExpenseApproval.exists?(expense_id: @expense.id, employee_id: @expense.employee_id, manager_id: @manager.id)
+            @expense_approval = ExpenseApproval.new(expense_id: @expense.id, employee_id: @expense.employee_id, manager_id: @manager.id)
+            @expense_approval.save
+          end
+        end
         if @expense.update(submitted: true)
-          flash.now[:success] = "Your Expense Claim have been succesfully submitted."
+          flash.now[:success] = "Your Expenses Claim have been succesfully submitted."
         end
       end
-      @expense_approval = ExpenseApproval.new
+
+      @expense_approval = current_user.employee.emp_expense_approvals
       @expenses = current_user.employee.expenses
-  end
+    end
   
     private
   

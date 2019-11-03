@@ -16,12 +16,9 @@
       <th>From</th>
       <th>To</th>
       <th>Days</th>
-      <th>Approval</th>
       <% if current_user %>
-      <th>Edit</th>
-      <th>Delete</th>
+      <th>Action</th>
       <% end %>
-
     </tr>
   </thead>
 
@@ -31,3 +28,8 @@
       <% end %>
   </tbody>
 </table>
+
+
+<script>
+loadjs('#leave-table', 4, 25, 'rtp');
+</script>

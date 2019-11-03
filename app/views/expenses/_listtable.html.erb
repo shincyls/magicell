@@ -1,18 +1,19 @@
 <table class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
 
-    <h6>Total Claims: <%=@expense.total_claims%></h6>
+    <h6>Total: RM <%= @expense.total_claims %></h6>
 
     <thead class="text-dark">
       <tr>
         <th>Date</th>
+        <th>Project</th>
         <th>Fuel(RM)</th>
         <th>Toll(RM)</th>
         <th>Parking(RM)</th>
         <th>Allowance(RM)</th>
         <th>Medical(RM)</th>
         <th>Others(RM)</th>
-        <th>Total(RM)</th>
-        <% if (current_user == @expense.employee.user) & (@expense.submitted == false) %>
+        <th>Total</th>
+        <% if (@expense.submitted == false) %>
         <th>Delete</th>
         <% end %>
       </tr>
@@ -24,19 +25,23 @@
         <% @lists.each do |t| %>
         <tr>
             <td><%=t.date%></td>
+            <td><%=t.project.name%></td>
             <td><%=t.fuel_claim%></td>
             <td><%=t.toll_claim%></td>
             <td><%=t.parking_claim%></td>
             <td><%=t.allowance_claim%></td>
             <td><%=t.medical_claim%></td>
             <td><%=t.others_claim%></td>
-            <td><%=t.total_claims%></td>
-            <% if (current_user == @expense.employee.user) & (@expense.submitted == false) %>
-            <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></span></td>
+            <th><%=t.total_claim%></th>
+            <% if (@expense.submitted == false) %>
+            <td>
+                <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_task_path(t), class: "small text-white", remote: true %></span>
+                <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></span>
+            </td>
             <% end %>
         </tr>
         <% end %>
         <% end %>
-
     </tbody>
+    
 </table>
