@@ -49,7 +49,7 @@ Department.create!([
   {name: "Humans Resources", description: "Humans Resource Management", company_id: 1},
   {name: "Finance", description: "Finance Management", company_id: 1},
   {name: "IT", description: "IT Management", company_id: 1},
-  {name: "Project Team", description: "Project Management", company_id: 1}
+  {name: "Project", description: "Project Team", company_id: 1}
 ])
 
 EmployeePosition.create!([
@@ -86,37 +86,37 @@ User.create!([
 ])
 
 Project.create!([
-  {name: "Celcom Refarming", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Celcom KPM", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Celcom Opti+", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Celcom OSS (SSO)", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Celcom DTA (SSO)", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Celcom DTE (SSO)", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Celcom/Digi DTC", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Celcom PSP", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Celcom Management", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Celcom Others", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Digi DTA (SSV)", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Digi DTA (AFS)", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Digi OSS (AFS)", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Digi TI", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Celcom Refarming", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Celcom KPM", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Celcom Opti+", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Celcom OSS (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Celcom DTA (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Celcom DTE (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Celcom/Digi DTC", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Celcom PSP", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Celcom Management", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Celcom Others", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Digi DTA (SSV)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Digi DTA (AFS)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Digi OSS (AFS)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Digi TI", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
   {name: "SPDH Survey", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Digi Management", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Digi Others", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Digi DTA (L21)", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Digi OSS (L21)", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Digi DTE", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Digi TI Safety", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Digi SPDH Planner", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Digi SPDH Integration", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Digi SPDH TI", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Nokia Management", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Nokia DTC", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Nokia DTA", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Nokia DTE", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Nokia PLM Test", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Nokia Others", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Others", department_id: 5, company_id: 1, manager_id: 1}
+  {name: "Digi Management", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Digi Others", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Digi DTA (L21)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Digi OSS (L21)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Digi DTE", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Digi TI Safety", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Digi SPDH Planner", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Digi SPDH Integration", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Digi SPDH TI", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Nokia Management", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Nokia DTC", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Nokia DTA", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Nokia DTE", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Nokia PLM Test", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Nokia Others", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Others", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1}
 ])
 
 Leavetype.create!([
@@ -139,6 +139,15 @@ TimesheetCategory.create!([
 VehicleOwner.create!([
   {name: "Magicell"},
   {name: "Mayflower"}
+])
+
+ProjectRegion.create!([
+  {name: "Central"},
+  {name: "Eastern"},
+  {name: "Northern"},
+  {name: "Southern"},
+  {name: "Sabah"},
+  {name: "Sarawak"}
 ])
 
 Holiday.create!([

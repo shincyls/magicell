@@ -28,9 +28,9 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
         t.date :joined_since
         t.date :joined_last
         t.float :base_salary, default: 0
-        t.float :annual_leave_entitled, default: 0
+        t.float :annual_leave_entitled, default: 12
         t.float :annual_leave_taken, default: 0
-        t.float :medical_leave_entitled, default: 0
+        t.float :medical_leave_entitled, default: 12
         t.float :medical_leave_taken, default: 0
         t.date :contract_start
         t.date :contract_end

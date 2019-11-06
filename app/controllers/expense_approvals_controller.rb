@@ -50,21 +50,27 @@ class ExpenseApprovalsController < ApplicationController
         respond_to :html, :js
         @la = ExpenseApproval.find(params[:id])
         @la.approval = !@la.approval
-        @la.reject = !@la.approval
         @la.save
-        flash.now[:success] = "Expense Claim Approval is #{"Approved" if @la.approval}#{"Rejected" if @la.reject}."
+        if @la.approval
+            flash.now[:success] = "Expense Claim Approval is Approved." 
+            UserMailer.approve_expense(@la.id).deliver
+        end
     end
 
     def reject
         respond_to :html, :js
         @la = ExpenseApproval.find(params[:id])
         @la.reject = !@la.reject
-        @la.approval = !@la.reject
         @la.save
-        flash.now[:warning] = "Expense Claim Approval is #{"Approved" if @la.approval}#{"Rejected" if @la.reject}."
+        if @la.reject
+            flash.now[:alert] = "Expense Claim Approval is Rejected." 
+            # Allow Applicant to Edit and Resubmit
+            @expense = @la.expense
+            @expense.update(submitted: false)
+            @expense.save
+        end
     end
 
-    
     private
   
     def require_login

@@ -1,35 +1,9 @@
-<h4 class="text-left text-primary">NEW LEAVE</h4>
+<h4 class="text-left text-success">New Leave</h4>
 
 <%= render partial: "leaveaps/form" %>
 
 <hr>
 
-<table id="leave-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
-  <h4 class="text-left text-primary">LEAVE HISTORY</h4>
-  <p class="text-info">Annual Leave: <%= current_user.employee.annual_leave_taken %>/<%= current_user.employee.annual_leave_entitled %>, Medical Leave: <%= current_user.employee.medical_leave_taken %>/<%= current_user.employee.medical_leave_entitled %></p>
-  <thead class="text-dark">
-    <tr>
-      <th>Leave</th>
-      <th>Reason</th>
-      <th>Contact</th>
-      <th>Person</th>
-      <th>From</th>
-      <th>To</th>
-      <th>Days</th>
-      <% if current_user %>
-      <th>Action</th>
-      <% end %>
-    </tr>
-  </thead>
-
-  <tbody class="text-dark" id="leave-tablerow">
-      <% unless @leaveaps.nil? %>
-      <%= render partial: "leaveaps/table", local: @leaveaps %>
-      <% end %>
-  </tbody>
-</table>
-
-
-<script>
-loadjs('#leave-table', 4, 25, 'rtp');
-</script>
+<div id="leveaps-list">
+  <%= render partial: "leaveaps/table", local: @leaveaps %>
+</div>

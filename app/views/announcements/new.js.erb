@@ -1,0 +1,4 @@
+$("#modal-header").html("New Announcement");
+$("#modal-body").html("<%= j (render 'announcements/new') %>");
+$("#modal-footer").html("<button type='submit' form='new_announcement' value='Create' class='btn btn-primary'>Create Announcement</button>");
+$("#modal-form").modal();

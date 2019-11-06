@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="form-group">
+          <%= button_to "New Project", new_project_path, remote: true, method: 'get', class: "btn btn-outline-info" %>
+      </div>
+  </div>
+</div>
+
+<div id="project-table">
+  <%= render partial: "projects/table" %>
+</div>

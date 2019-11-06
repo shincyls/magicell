@@ -1,8 +1,8 @@
 <% @leap1 = Leaveap.where(apv_mgr_1_id: current_user.employee.id) %>
 <% @leap2 = Leaveap.where(apv_mgr_2_id: current_user.employee.id) %> 
 
-<h4 class="text-left text-primary">Leaves Approval</h4>
-<table id="la-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+<h4 class="text-left text-success">Leaves Approval</h4>
+<table id="la-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
   
   <thead class="text-dark">
     <tr>
@@ -26,7 +26,7 @@
       <td><%=l.leavetype.name%></td>
       <td><%=l.reason%></td>
       <td><%=l.contact_person%> <%=l.contact_number%></td>
-      <td><%=l.from_date%><%=l.from_ampm%>:<%=l.to_date%><%=l.to_ampm%></td>
+      <td><%=l.from_date%> <%=l.from_ampm%> to <%=l.to_date%> <%=l.to_ampm%></td>
       <td><%=l.total_days%></td>
       <td><%=l.employee.annual_leave_taken%>/<%=l.employee.annual_leave_entitled%></td>
       <td><%=l.employee.medical_leave_taken%>/<%=l.employee.medical_leave_entitled%></td>
@@ -76,5 +76,5 @@
 
 
 <script>
-loadjs('#la-table', 1, 50, 'Blfrtip');
+loadjs('#la-table', 4, 50, 'Blfrtip');
 </script>

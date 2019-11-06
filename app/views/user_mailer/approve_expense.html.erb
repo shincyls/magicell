@@ -1,0 +1,15 @@
+<div class="row justify-content-center mt-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card text-special bg-secondary shadow border-0">
+            <div class="card-header text-center bg-white">
+                <h4 class="text-dark">Greetings! <%= @whoto %></h4>
+                <h5 class="text-primary">Your Expenses Claim <%= @expense.expense.session%> have been approved by <%= @whofrom %>.</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h5>Don't know what this is?</h5>
+<h6>This message is auto sent from <a href="http://magicell.herokuapp.com/magicnet">magicell.com.my</a> when you have used the magicell application recently.</h6>
+<h6>Please do not reply on this email.</h6>

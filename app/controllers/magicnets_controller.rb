@@ -31,12 +31,16 @@ class MagicnetsController < ApplicationController
       render template: "magicnets/view_emp/expenseemployee"
     end
 
-
-
     # Finance Pages
     def dashfinance
       respond_to :html, :js
       render template: "magicnets/view_fin/dashfinance"
+    end
+
+    def finance_timesheet
+      respond_to :html, :js
+      @timesheets = Timesheet.where(submitted: true)
+      render template: "magicnets/view_fin/finance_timesheet"
     end
 
     # HR Pages
@@ -53,19 +57,18 @@ class MagicnetsController < ApplicationController
 
     def leave_approval
       respond_to :html, :js
-      @leaveaps = TimesheetApproval.where(manager_id: current_user.employee.id).joins("LEFT JOIN timesheets on timesheet_approvals.timesheet_id = timesheets.id").where("timesheets.submitted = ?", true)
       render template: "magicnets/view_pm/leave_approval"
     end
 
     def timesheet_approval
       respond_to :html, :js
-      @timesheets = TimesheetApproval.where(manager_id: current_user.employee.id).joins("LEFT JOIN timesheets on timesheet_approvals.timesheet_id = timesheets.id")
+      @timesheets = TimesheetApproval.where(manager_id: current_user.employee.id).joins("LEFT JOIN timesheets on timesheet_approvals.timesheet_id = timesheets.id").where("timesheets.submitted = ?", true)
       render template: "magicnets/view_pm/timesheet_approval"
     end
 
     def expense_approval
       respond_to :html, :js
-      @expenses = ExpenseApproval.where(manager_id: current_user.employee.id).joins("LEFT JOIN expenses on expense_approvals.expense_id = expenses.id")
+      @expenses = ExpenseApproval.where(manager_id: current_user.employee.id).joins("LEFT JOIN expenses on expense_approvals.expense_id = expenses.id").where("expenses.submitted = ?", true)
       render template: "magicnets/view_pm/expense_approval" 
     end
 

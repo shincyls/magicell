@@ -1,6 +1,6 @@
 <% @webroles = Webrole.all %>
-<h4 class="text-left text-primary">Webrole List</h4>
-<table id="webrole-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+<h4 class="text-left text-primary">Webrole List (Read/Write)</h4>
+<table id="webrole-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
   
   <thead class="text-dark">
     <tr>
@@ -10,7 +10,7 @@
       <th><span class="text-info">FIN</span></th>
       <th><span class="text-primary">PM</span></th>
       <th><span class="text-danger">IT</span></th>
-      <th><span class="text-warning">EMP</span></th>
+      <th><span class="text-warning">Employee</span></th>
     </tr>
   </thead>
 
@@ -20,45 +20,13 @@
     <tr>
       <td><%=w.role%></td>
       <td><%=w.description%></td>
-      <td><%=w.vw_hr%></td>
-      <td><%=w.vw_finance%></td>
-      <td><%=w.vw_pro_mgr%></td>
-      <td><%=w.vw_it%></td>
-      <td><%=w.vw_emp%></td>
+      <td><%=w.vw_hr%>/<%=w.wr_hr%></td>
+      <td><%=w.vw_finance%>/<%=w.wr_finance%></td>
+      <td><%=w.vw_pro_mgr%>/<%=w.wr_pro_mgr%></td>
+      <td><%=w.vw_it%>/<%=w.wr_it%></td>
+      <td><%=w.vw_emp%>/<%=w.wr_emp%></td> 
     </tr>
   <% end %>
   <% end %>
   </tbody>
 </table>
-
-<hr>
-
-<% @users = User.all %>
-<h4 class="text-left text-primary">User's Webrole</h4>
-<table id="webuser-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
-  <thead class="text-dark">
-    <tr>
-      <th>Username</th>
-      <th>Full Name</th>
-      <th>Email</th>
-      <th>Webrole</th>
-    </tr>
-  </thead>
-
-  <tbody class="text-dark">
-  <% unless @users.nil? %>
-  <% @users.each do |u| %>
-    <tr>
-      <td><%=u.username%></td>
-      <td><%=u.employee.full_name%></td>
-      <td><%=u.employee.company_email%></td>
-      <td><%=u.webrole.role%></td>
-    </tr>
-  <% end %>
-  <% end %>
-  </tbody>
-</table>
-
-<script>
-loadjs('#webuser-table', 3, 25, 'Blfrtip');
-</script>

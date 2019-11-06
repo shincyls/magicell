@@ -1,0 +1,26 @@
+<%= form_for @announcement, id: 'new-holiday-form', remote: true  do |f| %>
+
+    <h5 class="text-special text-success">Announcement Detail</h5>
+    <div class="row text-special text-dark mt-2 mb-3 datepicker input-daterange">
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label class="d-block">Date</label>
+        <%= f.date_select :start_date, {start_year: Date.today.year - 1, end_year: Date.today.year + 1, include_blank: "Select"}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
+      </div>
+
+      <div class="col-lg-6 col-md-6 mb-2">
+        <label>Message</label>
+        <div><%= f.text_field :announcement, placeholder: "Message", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Remarks</label>
+        <div><%= f.text_field :remarks, placeholder: "Description", class: "form-control form-control-sm" %></div>
+      </div>
+    </div>
+
+
+<% end %>
+
+
+

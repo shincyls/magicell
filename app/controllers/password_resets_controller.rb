@@ -4,8 +4,10 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
-    if Employee.find_by(company_email: params[:email])
-      @employee = Employee.find_by(company_email: params[:email])
+
+ 
+    if Employee.exists?(company_email: params[:email]) || Employee.exists?(personal_email: params[:email])
+      @employee = Employee.find_by(company_email: params[:email]) || Employee.find_by(personal_email: params[:email])
       @user = User.find_by(employee_id: @employee.id)
       @user.send_password_reset
       @user.save(validate: false)

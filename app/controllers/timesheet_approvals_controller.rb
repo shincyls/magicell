@@ -46,7 +46,7 @@ class TimesheetApprovalsController < ApplicationController
         respond_to :html, :js
         @timesheet_approval = TimesheetApproval.find(params[:id])
         if @timesheet_approval.destroy
-            flash.now[:success] = "Timesheet Approval  have been succesfully removed."
+            flash.now[:success] = "Timesheet Approval have been succesfully removed."
         else
             flash.now[:warning] = "This action couldn't performed due to error, please check with admin."
         end
@@ -58,18 +58,25 @@ class TimesheetApprovalsController < ApplicationController
         respond_to :html, :js
         @la = TimesheetApproval.find(params[:id])
         @la.approval = !@la.approval
-        @la.reject = !@la.approval
         @la.save
-        flash.now[:success] = "Timesheet Approval is #{"Approved" if @la.approval}#{"Rejected" if @la.reject}."
+        if @la.approval
+            flash.now[:success] = "Timesheet Approval is Approved." 
+            UserMailer.approve_timesheet(@la.id).deliver
+        end
     end
 
     def reject
         respond_to :html, :js
         @la = TimesheetApproval.find(params[:id])
         @la.reject = !@la.reject
-        @la.approval = !@la.reject
         @la.save
-        flash.now[:warning] = "Timesheet Approval is #{"Approved" if @la.approval}#{"Rejected" if @la.reject}."
+        if @la.reject
+            flash.now[:alert] = "Timesheet Approval is Rejected." 
+            # Allow Applicant to Edit and Resubmit
+            @timesheet = @la.timesheet
+            @timesheet.update(submitted: false)
+            @timesheet.save
+        end
     end
     
     private

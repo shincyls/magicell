@@ -1,0 +1,40 @@
+<table id="projects-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+  <h4 class="text-left text-primary">Project Lists</h4>
+  <p class="text-info">Total: <%= Project.all.count %></p>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Vendor</th>
+      <th>Operator</th>
+      <th>PM</th>
+      <% if current_user.webrole.wr_hr %>
+      <th>Action</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody class="text-dark">
+    <% unless @projects.nil? %>
+    <% @projects.each do |e| %>
+    <tr>
+        <td><%=e.name%></td>
+        <td><%=e.description%></td>
+        <td><%=e.vendor%></td>
+        <td><%=e.operator%></td>
+        <td><%=e.manager.full_name%></td>
+        <% if current_user.webrole.wr_hr %>
+        <td>
+          <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_project_path(e), class: "small text-white m-1", remote: true %></span>
+          <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', e, method: :delete, class: "small text-white m-1", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span>
+        </td>
+        <% end %>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+loadjs('#projects-table', 1, 25, 'Blfrtip');
+</script>

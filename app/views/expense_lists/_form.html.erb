@@ -1,0 +1,52 @@
+<%= form_for @list, remote: true do |f| %>
+
+    <div class="row text-dark text-special mt-2 mb-3">
+    
+      <div class="col-lg-3 mb-2">
+        <label>Date</label>
+        <div><%= f.text_field :date, class: "form-control form-control-sm", disabled: true %></div>
+      </div>
+      
+      <div class="col-lg-3 mb-2">
+        <label>Project</label>
+        <div><%= f.select(:project_id, Project.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Fuel</label>
+        <div><%= f.text_field :fuel_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Toll</label>
+        <div><%= f.text_field :toll_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Parking</label>
+        <div><%= f.text_field :parking_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Allowance</label>
+        <div><%= f.text_field :allowance_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Medical</label>
+        <div><%= f.text_field :medical_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Others</label>
+        <div><%= f.text_field :others_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Remarks</label>
+        <div><%= f.text_field :remarks, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+      
+    </div>
+    
+<% end %>

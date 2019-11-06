@@ -1,0 +1,35 @@
+<table id="finance-employees-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+  <h4 class="text-left text-primary">Employee Lists</h4>
+
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Base Salary</th>
+      <th>Position</th>
+      <th>Department</th>
+      <th>Project</th>
+      <th>Category</th>
+      <th>Contract End</th>
+    </tr>
+  </thead>
+
+  <tbody class="text-dark">
+    <% unless @employees.nil? %>
+    <% @employees.each do |e| %>
+    <tr>
+        <td><%=e.full_name%></td>
+        <td><%=e.employee_id%></td>
+        <td><%=e.employee_position.position if e.employee_position.position%></td>
+        <td><%=e.department.name if e.department.name%></td>
+        <td><%=e.project.name if e.project.name%></td>
+        <td><%=e.category%></td>
+        <td><%=e.contract_end if e.contract_end%></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+loadjs('#employees-table', 1, 25, 'Blfrtip');
+</script>

@@ -1,4 +1,4 @@
-<table class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
+<table class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem">
     
     <thead class="text-dark">
       <tr>
@@ -6,9 +6,6 @@
         <th>Approval</th>
         <th>Rejection</th>
         <th>Reject Reason</th>
-        <% if (@expense.submitted == false) %>
-        <th>Delete</th>
-        <% end %>
       </tr>
     </thead>
 
@@ -24,9 +21,6 @@
             </td>
             <td><%="Rejected" if a.reject%></td>
             <td><%=a.reject_reason%></td>
-            <% if (@expense.submitted == false) %>
-            <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', a, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Please Confirm' } %></span></td>
-            <% end %>
         </tr>
         <% end %>
         <% end %>

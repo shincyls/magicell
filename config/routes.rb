@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'magicnet/view_emp/expenseemployee', to: 'magicnets#expenseemployee', as: 'expenseemployee'
   # FIN Pages' Route as below:
   get 'magicnet/view_fin/dashfinance', to: 'magicnets#dashfinance', as: 'dashfinance'
+  get 'magicnet/view_fin/finance_timesheet', to: 'magicnets#finance_timesheet', as: 'finance_timesheet'
   # PM Pages' Route as below:
   get 'magicnet/view_pm/dashpm', to: 'magicnets#dashpm', as: 'dashpm'
   get 'magicnet/view_pm/leave_approval', to: 'magicnets#leave_approval', as: 'leave_pm_approval'
@@ -29,6 +30,28 @@ Rails.application.routes.draw do
     collection do
     end
     member do
+    end
+  end
+
+  resources :projects do
+    collection do
+    end
+    member do
+    end
+  end
+
+  resources :holidays do
+    collection do
+    end
+    member do
+    end
+  end
+
+  resources :announcements do
+    collection do
+    end
+    member do
+      post :display
     end
   end
 
@@ -100,6 +123,7 @@ Rails.application.routes.draw do
     end
     member do
       post :make
+      get :role
     end
   end
 

@@ -1,6 +1,6 @@
 <% @timesheets = current_user.employee.timesheets.order("month desc") if current_user.employee %>
 
-<table id="timesheet-table" class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
+<table id="timesheet-table" class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem">
     
     <thead class="text-dark">
       <tr>
@@ -30,8 +30,8 @@
             <% if current_user %>
             <% unless t.submitted %>
             <td>
-                <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_path(t), class: "small text-white", remote: true %></span>
-                <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Confirm Delete?' } %></span>
+                <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_path(t), class: "small text-white m-1", remote: true %></span>
+                <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white m-1", remote: true, data: { confirm: 'Confirm Delete?' } %></span>
             </td>
             <% else %>
             <td></td>

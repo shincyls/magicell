@@ -15,12 +15,6 @@ class EmployeesController < ApplicationController
       respond_to :html, :js
     end
   
-    # GET /employees/1/edit
-    def edit
-      respond_to :html, :js
-      @employee = Employee.find(params[:id])
-    end
-  
     # POST /employees
     def create
       respond_to :html, :js
@@ -32,6 +26,12 @@ class EmployeesController < ApplicationController
       end
       @employees = Employee.all.order("created_at desc")
     end
+
+    # GET /employees/1/edit
+    def edit
+      respond_to :html, :js
+      @employee = Employee.find(params[:id])
+    end
   
     # PATCH/PUT /employees/1
     def update
@@ -39,6 +39,12 @@ class EmployeesController < ApplicationController
       @employee = Employee.find(params[:id])
       if @employee.update(employee_params)
         flash.now[:success] = "Employee Information have been successfully updated."
+        # Automatic Update Webrole as Manager
+        if (@employee.employee_position.position == "Manager") & (@employee.user)
+          @user = @employee.user
+          @user.webrole_id = Webrole.find_by(role: "Manager").id
+          @user.save
+        end
         @employees = Employee.all.order("created_at desc")
       else
         flash.now[:warning] = @employee.errors.full_messages

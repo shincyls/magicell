@@ -1,0 +1,14 @@
+<% @announcements = Announcement.where(show: true).order("start_date desc") %>
+<% unless @announcements.empty? %>
+<div class="row alert bg-primary alert-dismissible text-special fade show" role="alert">
+    <span class="alert-inner--icon my-auto"><i class="ni ni-bell-55"></i></span>
+    <ul>
+    <% @announcements.each do |a| %>
+    <li><strong>[<%=a.start_date%>]</strong> <%=a.announcement%></li>
+    <% end %>
+    </ul>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% end %>

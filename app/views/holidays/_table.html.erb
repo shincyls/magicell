@@ -1,0 +1,35 @@
+<table id="holidays-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+  <h4 class="text-left text-primary">Holiday Lists</h4>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Active</th>
+      <% if current_user.webrole.wr_hr %>
+      <th>Action</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody class="text-dark">
+    <% unless @holidays.nil? %>
+    <% @holidays.each do |e| %>
+    <tr>
+        <td><%=e.date%></td>
+        <td><%=e.remarks%></td>
+        <td><%=e.show%></td>
+        <% if current_user.webrole.wr_hr %>
+        <td>
+          <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_holiday_path(e), class: "small text-white m-1", remote: true %></span>
+          <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', e, method: :delete, class: "small text-white m-1", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span>
+        </td>
+        <% end %>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+loadjs('#holidays-table', 0, 25, 'Blfrtip');
+</script>

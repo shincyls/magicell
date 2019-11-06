@@ -1,6 +1,6 @@
-<h4 class="text-left text-primary">Timesheet Approval</h4>
+<h4 class="text-left text-success">Timesheet Approval</h4>
 
-<table id="manager-timesheet-approval" class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
+<table id="manager-timesheet-approval" class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem">
     
     <thead>
       <tr>
@@ -9,6 +9,7 @@
         <th style="width:5rem;">Total Hours</th>
         <th style="width:5rem;">Show</th>
         <th>Approval</th>
+        <th>Reject</th>
         <th>Reject Reason</th>
       </tr>
     </thead>
@@ -29,6 +30,18 @@
                 data: {
                 remote: true,
                 url: url_for(controller: 'timesheet_approvals', action: 'approve', id: a.id),
+                method: 'POST' }) %>
+                <span class="custom-toggle-slider rounded-circle"></span>
+                </label>
+            </td>
+            <td>
+                <label class="custom-toggle">
+                <%= check_box_tag(
+                "Manager_Timesheet_Rejection", a.id, a.reject,
+                name: "manager-timesheet-rejection-#{a.id}",
+                data: {
+                remote: true,
+                url: url_for(controller: 'timesheet_approvals', action: 'reject', id: a.id),
                 method: 'POST' }) %>
                 <span class="custom-toggle-slider rounded-circle"></span>
                 </label>

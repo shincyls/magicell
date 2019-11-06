@@ -1,30 +1,10 @@
-<div class="row alert bg-primary alert-dismissible fade show" role="alert">
-    <span class="alert-inner--icon"><i class="ni ni-bell-55"></i></span>
-    <span class="alert-inner--text"><strong>Announcement!</strong> HR can post something and to be shown here!</span>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+<div id="announcement-board">
+    <%= render partial: "announcements/board" %>
 </div>
 
 <div class="row text-special pl-4 pr-4 pt-2 pb-2 bg-chrome rounded">
     <div class="col-12 text-white">Welcome Back! <span class="text-primary"><%=current_user.username%></span>  </div>
     <div class="col-12 text-white">Your webrole is: <span class="text-danger"><%=current_user.webrole.role%></span></div>
-    <div class="col-12">
-        View Access >>
-        <span class="text-success">HR: <%= current_user.webrole.vw_hr %><span>,
-        <span class="text-info">Finance: <%= current_user.webrole.vw_finance %><span>,
-        <span class="text-primary">PM: <%= current_user.webrole.vw_pro_mgr %><span>,
-        <span class="text-danger">IT: <%= current_user.webrole.vw_it %><span>,
-        <span class="text-warning">Employee: <%= current_user.webrole.vw_emp %><span>
-    </div>
-    <div class="col-12">
-        Write Access >>
-        <span class="text-success">HR: <%= current_user.webrole.wr_hr %><span>,
-        <span class="text-info">Finance: <%= current_user.webrole.wr_finance %><span>,
-        <span class="text-primary">PM: <%= current_user.webrole.wr_pro_mgr %><span>,
-        <span class="text-danger">IT: <%= current_user.webrole.wr_it %><span>,
-        <span class="text-warning">Employee: <%= current_user.webrole.wr_emp %><span>
-    </div>
 </div>
 
 <div class="row text-dark text-special mt-4 mb-4 p-4 bg-glass rounded">
@@ -39,9 +19,10 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <%= link_to "Dashboard", dashhr_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Employee", employees_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Payroll", "", class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Project", projects_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Equipment", "", class: "dropdown-item disabled", remote: true %>
-                <%= link_to "Announcement", "", class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Announcement", announcements_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Holiday", holidays_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
         <% end %>
@@ -53,6 +34,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <%= link_to "Dashboard", dashfinance_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Timesheet Overview", finance_timesheet_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
         <% end %>

@@ -1,6 +1,6 @@
 <% @employees = Employee.all %>
 <h4 class="text-left text-primary">Employees Account</h4>
-<table id="webuser-table" class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+<table id="webuser-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
   <thead class="text-dark">
     <tr>
       <th>Employee</th>
@@ -8,8 +8,7 @@
       <th>Email</th>
       <th>Webrole</th>
       <% if current_user.webrole.wr_it %>
-      <th>Edit</th>
-      <th>Delete</th>
+      <th>Action</th>
       <% end %>
     </tr>
   </thead>
@@ -28,8 +27,11 @@
       <td><%=e.company_email%></td>
       <td><%=e.user.webrole.role if e.user%></td>
       <% if current_user.webrole.wr_it %>
-      <td>Edit</td>
-      <td>Delete</td>
+      <td>
+        <% if e.user %>
+        <span class="bg-success rounded p-1 m-1"><%= link_to 'Change', role_user_path(e.user), class: "small text-white", remote: true %></span>
+        <% end %>
+      </td>
       <% end %>
     </tr>
     

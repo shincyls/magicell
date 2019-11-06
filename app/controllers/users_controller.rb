@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except:[:index, :show, :new, :create, :make]
+  before_action :authenticate_user!, except:[:index, :show, :new, :create, :make, :role, :update]
 
   # When registering for new user
   def new
@@ -21,11 +21,27 @@ class UsersController < ApplicationController
   def edit
   end
 
+  # PATCH/PUT /users/:id
+  def update
+    respond_to :html, :js
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      flash.now[:success] = "User information have been updated."
+    else
+      flash.now[:warning] = "User information failed to update, please check with admin."
+    end
+  end
+
   # POST /users
   def create
     respond_to :html, :js
     @user = User.new(user_params)
+    # Automatic Update Webrole as Manager
     if @user.save
+      if (@user.employee.employee_position.position == "Manager")
+        @user.webrole_id = Webrole.find_by(role: "Manager").id
+        @user.save
+      end
       flash.now[:success] = "Employee's login account have been successfully created. Default Password is 'Magicell!23', please change password at login page."
     else
       flash.now[:warning] = @employee.errors.full_messages
@@ -40,6 +56,10 @@ class UsersController < ApplicationController
       @dfpw = WebappContent.find_by(name: "Default Password").param
       @user = User.new(username: @employee.company_email.split('@').first, password: @dfpw, employee_id: params[:id])
       if @user.save
+        if (@user.employee.employee_position.position == "Manager")
+          @user.webrole_id = Webrole.find_by(role: "Manager").id
+          @user.save
+        end
         flash.now[:success] = "#{@user.username} login have been successfully created."
       else
         flash.now[:warning] = "Oops! Something was wrong, please check with admin"
@@ -49,14 +69,10 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/:id
-  def update
+  # Webrole
+  def role
     respond_to :html, :js
-    if @user.update(user_params)
-      redirect_to @user, flash: { success: 'User was successfully updated.' }
-    else
-      redirect_to root_url, flash: { danger: 'Failed to Edit user.' }
-    end
+    @user = User.find(params[:id])
   end
 
   # DELETE /users/:id
@@ -83,7 +99,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :first_name, :last_name, :email, :birthday, :password, :avatar)
+      params.require(:user).permit(:username, :first_name, :last_name, :webrole_id, :email, :birthday, :password, :avatar)
     end
     
 end

@@ -1,0 +1,28 @@
+<table id="finance-timesheet-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+  <h4 class="text-left text-primary">Timesheet</h4>
+  <thead>
+    <tr>
+      <th>Session</th>
+      <th>Employee</th>
+      <th>Base(RM)</th>
+      <th>Hours</th>
+    </tr>
+  </thead>
+ 
+  <tbody class="text-dark">
+    <% unless @timesheets.nil? %>
+    <% @timesheets.each do |t| %>
+    <tr>
+        <td><%=t.session%></td>
+        <td><%=t.employee.full_name%></td>
+        <td><%=t.employee.base_salary%></td>
+        <td><%=t.total_hours%></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+loadjs('#finance-timesheet-table', 1, 25, 'Blfrtip');
+</script>

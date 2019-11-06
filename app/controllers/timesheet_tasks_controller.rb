@@ -7,6 +7,7 @@ class TimesheetTasksController < ApplicationController
 
     def create
       respond_to :html, :js
+      message = ""
       date_now = Date.parse(params["timesheet_task"][:multi_date_from])
       date_end = Date.parse(params["timesheet_task"][:multi_date_to])
       params["timesheet_task"].delete("multi_date_from")
@@ -14,21 +15,39 @@ class TimesheetTasksController < ApplicationController
       while date_end >= date_now
         unless date_now.saturday? or date_now.sunday?
           @timesheet_task = TimesheetTask.new(timesheet_task_params)
-          unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, date: date_now)
-            @timesheet_task.date = date_now
-            @timesheet_task.save
-          else # Update/Overwrite
-            @timesheet_task = TimesheetTask.find_by(employee_id: @timesheet_task.employee_id, date: date_now)
-            @timesheet_task.update(timesheet_task_params)
+          if (@timesheet_task.timesheet.session) == (date_now.year.to_s + "-" + date_now.month.to_s)
+            unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, date: date_now)
+              @timesheet_task.date = date_now
+              @timesheet_task.save
+            else # Update/Overwrite
+              @timesheet_task = TimesheetTask.find_by(employee_id: @timesheet_task.employee_id, date: date_now)
+              @timesheet_task.update(timesheet_task_params)
+            end
+          else
+            message = ", but tasks not from #{@timesheet_task.timesheet.session} are ignored"
           end
         end
         date_now += 1.day
       end
-      flash.now[:success] = "Your Timesheet have been created/updated."
+      flash.now[:success] = "Your Timesheet have been created/updated#{message}."
       @timesheet = @timesheet_task.timesheet
     end
 
+    def edit
+      respond_to :html, :js
+      @task = TimesheetTask.find(params[:id])
+    end
+
     def update
+      respond_to :html, :js
+      @timesheet_task = TimesheetTask.find(params[:id])
+      if @timesheet_task.update(timesheet_task_params)
+        flash.now[:success] = "Your Form have been updated."
+        @timesheet_tasks = current_user.employee.timesheet_tasks.order("created_at desc") if current_user.employee
+      else
+        flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
+      end
+      @timesheet = @timesheet_task.timesheet
     end
 
     def destroy
@@ -53,7 +72,7 @@ class TimesheetTasksController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_task_params
-        params.require(:timesheet_task).permit(:employee_id, :project_id, :activity, :site_name, :location, :date, :time_in, :time_out, :time_break, :timesheet_id, :vehicle_number, :vehicle_owner_id)
+        params.require(:timesheet_task).permit(:employee_id, :project_id, :activity, :date, :time_in, :time_out, :time_break, :timesheet_id, :site_name, :project_region_id, :vehicle_number, :vehicle_owner_id)
     end
 
 end

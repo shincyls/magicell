@@ -17,9 +17,9 @@ class CreateLeaveaps< ActiveRecord::Migration[5.2]
         t.boolean :apv_1, default: false
         t.boolean :apv_2, default: false
         t.boolean :apv_3, default: false
-        t.string :apv_reject_1
-        t.string :apv_reject_2
-        t.string :apv_reject_3
+        t.boolean :rjt_1, default: false
+        t.boolean :rjt_2, default: false
+        t.boolean :rjt_3, default: false
         t.timestamps
       end
     end

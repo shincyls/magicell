@@ -1,0 +1,61 @@
+<%= form_for @task, remote: true do |f| %>
+
+    <div class="row text-dark text-special mt-2 mb-3">
+
+      <div class="col-lg-4 mb-2">
+        <label>Date</label>
+        <div><%= f.text_field :date, class: "form-control form-control-sm", disabled: true %></div>
+      </div>
+
+      <div class="col-lg-4 mb-2">
+        <label>Project</label>
+        <div><%= f.select(:project_id, Project.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+      <div class="col-lg-4 mb-2">
+        <label>Activity</label>
+        <div><%= f.text_field :activity, placeholder: "Activity", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <label>Time In</label>
+        <%= f.select(:time_in, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {include_blank: "Time In"}, class: "custom-select custom-select-sm") %>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <label>Time Out</label>
+        <%= f.select(:time_out, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {include_blank: "Time Out"}, class: "custom-select custom-select-sm") %>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <label>Time Break</label>
+        <%= f.select(:time_break, [0,1,2,3,4,5], {include_blank: "Time Out"}, class: "custom-select custom-select-sm") %>
+      </div>
+      
+    </div>
+
+    <p>For Drive Test Only</p>
+
+    <div class="row text-dark text-special mt-2 mb-3">
+      <div class="col-lg-2 mb-2">
+        <label>Site Name</label>
+        <div><%= f.text_field :site_name, placeholder: "Site Name", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <label>Project Region</label>
+        <div><%= f.select(:project_region_id, ProjectRegion.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Region"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <label>Car Number</label>
+        <div><%= f.text_field :vehicle_number, placeholder: "Car Number", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-2 mb-2">
+        <label>Car Owner</label>
+        <div><%= f.select(:vehicle_owner_id, VehicleOwner.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Owner"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+    </div>
+    
+<% end %>

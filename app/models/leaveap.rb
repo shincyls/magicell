@@ -1,16 +1,18 @@
 class Leaveap < ApplicationRecord
 
-    # validates :full_name, presence: {message: " must presense."}
-    # validates :last_name, presence: {message: " must presense."}
-    # validates :drawing_chance, presence: {message: " must be selected."}
-    # validates :email, uniqueness: {message: " must be unique."}, format: {with: /.+@.+\..+/, message: " format must be valid."}, presence: {message: " must presence."}
+    validates :from_date, presence: {message: " must exist."}
+    validates :to_date, presence: {message: " must exist."}
+    validates :leavetype_id, presence: {message: " must exist."}
+    validates :reason, presence: {message: " must exist."}
+    validates :contact_person, presence: {message: " must exist."}
+    validates :contact_number, presence: {message: " must exist."}
 
     belongs_to :employee
     belongs_to :leavetype
     has_many :leaveap_approvals
 
-    belongs_to :apv_mgr_1, class_name: 'User', foreign_key: 'apv_mgr_1_id'
-    belongs_to :apv_mgr_2, class_name: 'User', foreign_key: 'apv_mgr_2_id', optional: true
+    belongs_to :apv_mgr_1, class_name: 'Employee', foreign_key: 'apv_mgr_1_id'
+    belongs_to :apv_mgr_2, class_name: 'Employee', foreign_key: 'apv_mgr_2_id', optional: true
 
     # Calculate Total Days taken for this leave
     def total_days
@@ -27,6 +29,14 @@ class Leaveap < ApplicationRecord
             @total_days = 0
         end
         return @total_days
+    end
+
+    def approved
+        if self.apv_mgr_2
+            return (self.apv_1 & self.apv_2)
+        else
+            return (self.apv_1)
+        end
     end
 
 end

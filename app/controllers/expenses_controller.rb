@@ -21,7 +21,7 @@ class ExpensesController < ApplicationController
           flash.now[:warning] = "Oops, something wrong."
         end
       else
-        flash.now[:warning] = "Your Expense Claim for #{@expense.year}-#{@expense.month} is already exist."
+        flash.now[:warning] = "Your Expense Claim for #{@expense.session} is already exist."
       end
     end
 
@@ -44,7 +44,7 @@ class ExpensesController < ApplicationController
           flash.now[:success] = "Your Expense is successfully created."
         end
       else
-        flash.now[:warning] = "Your Expense for #{@expense.year}-#{@expense.month} is already exist."
+        flash.now[:warning] = "Your Expense for #{@expense.session} is already exist."
       end
     end
   
@@ -87,14 +87,18 @@ class ExpensesController < ApplicationController
           @manager = Project.find(p).manager
           unless ExpenseApproval.exists?(expense_id: @expense.id, employee_id: @expense.employee_id, manager_id: @manager.id)
             @expense_approval = ExpenseApproval.new(expense_id: @expense.id, employee_id: @expense.employee_id, manager_id: @manager.id)
-            @expense_approval.save
+          else # If Exist then it is resubmit
+            @expense_approval = ExpenseApproval.find_by(expense_id: @expense.id, employee_id: @expense.employee_id, manager_id: @manager.id)
+            @expense_approval.update(reject: false)
+          end
+          if @expense_approval.save
+            UserMailer.submit_expense(@expense_approval.id).deliver
           end
         end
         if @expense.update(submitted: true)
           flash.now[:success] = "Your Expenses Claim have been succesfully submitted."
         end
       end
-
       @expense_approval = current_user.employee.emp_expense_approvals
       @expenses = current_user.employee.expenses
     end

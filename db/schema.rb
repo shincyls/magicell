@@ -16,11 +16,11 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   enable_extension "plpgsql"
 
   create_table "announcements", force: :cascade do |t|
-    t.string "title"
+    t.string "announcement"
     t.string "remarks"
-    t.datetime "from"
-    t.datetime "until"
-    t.boolean "display", default: false
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "show", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -95,9 +95,9 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.date "joined_since"
     t.date "joined_last"
     t.float "base_salary", default: 0.0
-    t.float "annual_leave_entitled", default: 0.0
+    t.float "annual_leave_entitled", default: 12.0
     t.float "annual_leave_taken", default: 0.0
-    t.float "medical_leave_entitled", default: 0.0
+    t.float "medical_leave_entitled", default: 12.0
     t.float "medical_leave_taken", default: 0.0
     t.date "contract_start"
     t.date "contract_end"
@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   create_table "holidays", force: :cascade do |t|
     t.date "date"
     t.string "remarks"
-    t.boolean "holiday", default: true
+    t.boolean "show", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -241,11 +241,20 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end
 
+  create_table "project_regions", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.string "vendor"
     t.string "operator"
+    t.date "start_date"
+    t.date "end_date"
     t.bigint "company_id"
     t.bigint "department_id"
     t.bigint "manager_id"
@@ -286,9 +295,9 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.bigint "project_id"
     t.string "activity"
     t.string "site_name"
-    t.string "location"
     t.string "vehicle_number"
     t.bigint "vehicle_owner_id"
+    t.bigint "project_region_id"
     t.date "date"
     t.integer "time_in", default: 9
     t.integer "time_out", default: 18
@@ -297,6 +306,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_timesheet_tasks_on_employee_id"
     t.index ["project_id"], name: "index_timesheet_tasks_on_project_id"
+    t.index ["project_region_id"], name: "index_timesheet_tasks_on_project_region_id"
     t.index ["timesheet_id"], name: "index_timesheet_tasks_on_timesheet_id"
     t.index ["vehicle_owner_id"], name: "index_timesheet_tasks_on_vehicle_owner_id"
   end
@@ -329,6 +339,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
 
   create_table "vehicle_owners", force: :cascade do |t|
     t.string "name"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

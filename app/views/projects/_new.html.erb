@@ -1,0 +1,36 @@
+<%= form_for @project, id: 'new-project-form', remote: true  do |f| %>
+
+    <h5 class="text-special text-success">Project Detail</h5>
+    <div class="row text-special text-dark mt-2 mb-3">
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Name</label>
+        <div><%= f.text_field :name, placeholder: "Project Name", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Description</label>
+        <div><%= f.text_field :description, placeholder: "Project Description", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Vendor</label>
+        <div><%= f.text_field :vendor, placeholder: "Vendor", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Operator</label>
+        <div><%= f.text_field :operator, placeholder: "Operator", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>Project Manager</label>
+        <div><%= f.select(:manager_id, Employee.where(employee_position_id: 2).collect {|e| [e.full_name, e.id]}, {include_blank: "Select Project Manager"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+    </div>
+
+
+<% end %>
+
+
+

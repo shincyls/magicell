@@ -1,4 +1,4 @@
-<table class="table table-sm table-responsive-lg mt-4" style="font-size:0.8rem">
+<table id="employee-expense-list" class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem">
 
     <h6>Total: RM <%= @expense.total_claims %></h6>
 
@@ -12,7 +12,7 @@
         <th>Allowance(RM)</th>
         <th>Medical(RM)</th>
         <th>Others(RM)</th>
-        <th>Total</th>
+        <th>Total(RM)</th>
         <% if (@expense.submitted == false) %>
         <th>Delete</th>
         <% end %>
@@ -35,8 +35,8 @@
             <th><%=t.total_claim%></th>
             <% if (@expense.submitted == false) %>
             <td>
-                <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_task_path(t), class: "small text-white", remote: true %></span>
-                <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></span>
+                <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_timesheet_task_path(t), class: "small text-white m-1", remote: true %></span>
+                <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', t, method: :delete, class: "small text-white m-1", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></span>
             </td>
             <% end %>
         </tr>
@@ -45,3 +45,7 @@
     </tbody>
     
 </table>
+
+<script>
+loadjs('#employee-expense-list', 0, 50, 'rtp');
+</script>

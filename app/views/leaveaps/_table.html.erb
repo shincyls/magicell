@@ -1,29 +1,67 @@
-<% @leaveaps.each do |l| %>
+<table id="leave-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+  <h4 class="text-left text-success">Leave History</h4>
+  <p>
+  <span class="badge badge-secondary">Annual Leaves</span>
+  <span class="badge badge-info">Entitled: <%= current_user.employee.annual_leave_entitled %></span>
+  <span class="badge badge-success">Approved: <%= current_user.employee.annual_days(true) %></span>
+  <span class="badge badge-danger">Pending: <%= current_user.employee.annual_days(false) %></span>
+  </p>
+  <p>
+  <span class="badge badge-secondary">Medical Leaves</span>
+  <span class="badge badge-info">Entitled: <%= current_user.employee.medical_leave_entitled %></span>
+  <span class="badge badge-success">Approved: <%= current_user.employee.medical_days(true) %></span>
+  <span class="badge badge-danger">Pending: <%= current_user.employee.medical_days(false) %></span>
+  </p>
 
-<tr>
-    <td><%=l.leavetype.name%></td>
-    <td><%=l.reason%></td>
-    <td><%=l.contact_person%></td>
-    <td><%=l.contact_number%></td>
-    <td><%=l.from_date%> <%=l.from_ampm%></td>
-    <td><%=l.to_date%> <%=l.to_ampm%></td>
-    <td><%=l.total_days%></td>
-    <% if current_user %>
-    <td>
-        <% unless l.submitted %>
-        <span class="bg-info rounded p-1 m-1"><%= link_to 'Submit', submit_leaveap_path(l), class: "small text-white", method: 'post', remote: true %></span>
-        <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_leaveap_path(l), class: "small text-white", remote: true %></span>
-        <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', l, method: :delete, class: "small text-white", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></span>
-        <% else %>
-        <% if l.apv_mgr_1%>
-            <li><%=l.apv_mgr_1.employee.full_name%> : <%="Approved" if l.apv_1%><%="Pending" unless l.apv_1%></li>
-        <% end %>
-        <% if l.apv_mgr_2%>
-            <li><%=l.apv_mgr_2.employee.full_name%> : <%="Approved" if l.apv_2%><%="Pending" unless l.apv_2%></li>
-        <% end %>
-        <% end %>
-    </td>
-    <% end %>
-</tr>
+  <thead class="text-dark">
+    <tr>
+      <th>Leave</th>
+      <th>Reason</th>
+      <th>Contact</th>
+      <th>Person</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Days</th>
+      <% if current_user %>
+      <th>Action</th>
+      <% end %>
+    </tr>
+  </thead>
 
-<% end %>
+  <tbody class="text-dark">
+      <% unless @leaveaps.nil? %>
+      <% @leaveaps.each do |l| %>
+        <tr>
+            <td><%=l.leavetype.name%></td>
+            <td><%=l.reason%></td>
+            <td><%=l.contact_person%></td>
+            <td><%=l.contact_number%></td>
+            <td><%=l.from_date%> <%=l.from_ampm%></td>
+            <td><%=l.to_date%> <%=l.to_ampm%></td>
+            <td><%=l.total_days%></td>
+            <% if current_user %>
+            <td>
+                <% unless l.submitted %>
+                <%= link_to 'Submit', submit_leaveap_path(l), class: "btn-sm btn-info m-1", method: 'post', remote: true %>
+                <%= link_to 'Edit', edit_leaveap_path(l), class: "btn-sm btn-success m-1", remote: true %>
+                <%= link_to 'Delete', l, method: :delete, class: "btn-sm btn-danger m-1", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %>
+                <% else %>
+                <% if l.apv_mgr_1%>
+                    <li><%=l.apv_mgr_1.full_name%> : <%="Approved" if l.apv_1%><%="Pending" unless l.apv_1%></li>
+                <% end %>
+                <% if l.apv_mgr_2%>
+                    <li><%=l.apv_mgr_2.full_name%> : <%="Approved" if l.apv_2%><%="Pending" unless l.apv_2%></li>
+                <% end %>
+                <% end %>
+            </td>
+            <% end %>
+        </tr>
+      <% end %>
+      <% end %>
+  </tbody>
+</table>
+
+
+<script>
+loadjs('#leave-table', 4, 25, 'rtp');
+</script>

@@ -5,6 +5,8 @@ class CreateProjects < ActiveRecord::Migration[5.2]
         t.string :description
         t.string :vendor
         t.string :operator
+        t.date :start_date
+        t.date :end_date
         t.references :company
         t.references :department
         t.references :manager 

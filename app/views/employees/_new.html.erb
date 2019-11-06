@@ -1,6 +1,6 @@
 <%= form_for @employee, id: 'new-employee-form', remote: true  do |f| %>
 
-    <h5 class="text-special text-success">Personal Detail</h5>
+    <h5 class="text-special text-success">Employee Detail</h5>
     <div class="row text-special text-dark mt-2 mb-3">
       <div class="col-lg-3 col-md-6 mb-2">
         <label>Full Name*</label>
@@ -58,47 +58,58 @@
       </div>
 
       <div class="col-lg-3 col-md-6">
-        <label>Type</label>
-        <%= f.select(:category, Employee.categories.keys, {include_blank: "Please Select"}, class: "custom-select custom-select-sm") %>
-      </div>
-
-      <div class="col-lg-3 col-md-6">
         <label>Bank Name</label>
         <%= f.text_field :bank_name, placeholder: "Bank Name", class: "form-control form-control-sm" %>
       </div>
 
-      <div class="col-lg-3 col-md-6">
+      <div class="col-lg-4 col-md-6">
         <label>Bank Account</label>
         <%= f.text_field :bank_account, placeholder: "Bank Account", class: "form-control form-control-sm" %>
       </div>
 
-      <div class="col-lg-3 col-md-6">
-        <label>Annual Leave</label>
+      <div class="col-lg-2 col-md-3">
+        <label>Annual Leave Entitled</label>
         <%= f.text_field :annual_leave_entitled, placeholder: 0, class: "form-control form-control-sm" %>
       </div>
-
-      <div class="col-lg-3 col-md-6">
-        <label>Medical Leave</label>
+      <div class="col-lg-2 col-md-3">
+        <label>Annual Leave Taken</label>
+        <%= f.text_field :annual_leave_taken, placeholder: 0, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-lg-2 col-md-3">
+        <label>Medical Leave Entitled</label>
         <%= f.text_field :medical_leave_entitled, placeholder: 0, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-lg-2 col-md-3">
+        <label>Medical Leave Taken</label>
+        <%= f.text_field :medical_leave_taken, placeholder: 0, class: "form-control form-control-sm" %>
       </div>
 
     </div>
 
     <h5 class="text-special text-success">Employee Role</h5>
     <div class="row text-special text-dark mt-2 mb-3">
-      <div class="col-lg-3 col-md-3 mb-2">
+      <div class="col-lg-2 col-md-2 mb-2">
         <label class="d-block">Position</label>
         <%= f.select(:employee_position_id, EmployeePosition.all.collect {|e| [e.position, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
       </div>
-      <div class="col-lg-3 col-md-3 mb-2">
+      <div class="col-lg-2 col-md-2 mb-2">
         <label class="d-block">Department (If Any)</label>
         <%= f.select(:department_id, Department.all.collect {|e| [e.name, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
       </div>
-      <div class="col-lg-3 col-md-3 mb-2">
+      <div class="col-lg-2 col-md-2 mb-2">
         <label class="d-block">Project (If Any)</label>
         <%= f.select(:project_id, Project.all.collect {|e| [e.name, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
       </div>
+      <div class="col-lg-2 col-md-2 mb-2">
+        <label>Base Salary (RM)</label>
+        <%= f.text_field :base_salary, placeholder: 0, class: "form-control form-control-sm" %>
+      </div>
+      <div class="col-lg-2 col-md-2 mb-2">
+        <label>Type</label>
+        <%= f.select(:category, Employee.categories.keys, {include_blank: "Please Select"}, class: "custom-select custom-select-sm") %>
+      </div>
     </div>
+    
 
     <h5 class="text-special text-success">Contract Employee Only</h5>
     <div class="row text-special text-dark mt-2 mb-3">

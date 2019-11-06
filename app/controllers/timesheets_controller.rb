@@ -20,10 +20,10 @@ class TimesheetsController < ApplicationController
       @timesheet = Timesheet.new(timesheet_params)
       unless Timesheet.exists?(employee_id: @timesheet.employee_id, year: @timesheet.year, month: @timesheet.month)
         if @timesheet.save
-          flash.now[:success] = "Your Timesheet for #{@timesheet.year}-#{@timesheet.month} has successfully created."
+          flash.now[:success] = "Your Timesheet for #{@timesheet.session} has successfully created."
         end
       else
-        flash.now[:warning] = "Your Timesheet for #{@timesheet.year}-#{@timesheet.month} is already exist."
+        flash.now[:warning] = "Your Timesheet for #{@timesheet.session} is already exist."
       end
     end
 
@@ -44,10 +44,10 @@ class TimesheetsController < ApplicationController
       unless Timesheet.exists?(employee_id: @timesheet.employee_id, project_id: @timesheet.project_id, timesheet_category_id: @timesheet.timesheet_category_id, year: @timesheet.year, month: @timesheet.month)
         @timesheet = Timesheet.find(params[:id])
         if @timesheet.update(timesheet_params)
-          flash.now[:success] = "Your Timesheet for #{@timesheet.project.name} (#{@timesheet.timesheet_category.name}) #{@timesheet.year}-#{@timesheet.month} has successfully updated."
+          flash.now[:success] = "Your Timesheet for #{@timesheet.session} has successfully updated."
         end
       else
-        flash.now[:warning] = "Your Timesheet for #{@timesheet.project.name} (#{@timesheet.timesheet_category.name}) #{@timesheet.year}-#{@timesheet.month} is already exist."
+        flash.now[:warning] = "Your Timesheet for #{@timesheet.session} is already exist."
       end
     end
   
@@ -90,17 +90,21 @@ class TimesheetsController < ApplicationController
           @manager = Project.find(p).manager
           unless TimesheetApproval.exists?(timesheet_id: @timesheet.id, employee_id: @timesheet.employee_id, manager_id: @manager.id)
             @timesheet_approval = TimesheetApproval.new(timesheet_id: @timesheet.id, employee_id: @timesheet.employee_id, manager_id: @manager.id)
-            @timesheet_approval.save
+          else # If Approval is already Exist then it is resubmit, then reset reject status
+            @timesheet_approval = TimesheetApproval.find_by(timesheet_id: @timesheet.id, employee_id: @timesheet.employee_id, manager_id: @manager.id)
+            @timesheet_approval.reject = false
+          end
+          # Send Email Notification to Manager once saved
+          if @timesheet_approval.save
+            UserMailer.submit_timesheet(@timesheet_approval.id).deliver
           end
         end
         if @timesheet.update(submitted: true)
           flash.now[:success] = "Your Timesheet have been succesfully submitted."
         end
       end
-
       @timesheet_approval = current_user.employee.emp_timesheet_approvals
       @timesheets = current_user.employee.timesheets
-      
     end
   
     private
@@ -127,28 +131,3 @@ class TimesheetsController < ApplicationController
     end
       
   end
-
-
-  # def create2
-    #   respond_to :html, :js
-    #   date_now = Date.parse(params["timesheet"][:multi_date_from])
-    #   date_end = Date.parse(params["timesheet"][:multi_date_to])
-    #   params["timesheet"].delete("multi_date_from")
-    #   params["timesheet"].delete("multi_date_to")
-      
-    #   while date_end >= date_now
-    #     unless date_now.saturday? or date_now.sunday?
-    #       @timesheet = Timesheet.new(timesheet_params)
-    #       unless Timesheet.exists?(employee_id: @timesheet.employee.id, date: date_now)
-    #         @timesheet.date = date_now
-    #         @timesheet.save
-    #       else
-    #         @timesheet = Timesheet.find_by(employee_id: @timesheet.employee.id, date: date_now)
-    #         @timesheet.update(timesheet_params)
-    #       end
-    #     end
-    #     date_now += 1.day
-    #   end
-    #   flash.now[:success] = "Your Timesheet have been created."
-    #   @timesheets = current_user.employee.timesheets.order("date desc").year_month(Date.today.year,Date.today.month)
-  # end

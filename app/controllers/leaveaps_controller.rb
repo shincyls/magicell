@@ -24,11 +24,11 @@ class LeaveapsController < ApplicationController
       respond_to :html, :js
       @leaveap = Leaveap.new(leaveap_params)
       if @leaveap.save
-        @leaveaps = Leaveap.where(id: @leaveap.id)
         flash.now[:success] = "Your Leave Application have been submitted."
       else
-        flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
+        flash.now[:warning] = @leaveap.errors.full_messages
       end
+      @leaveaps = Leaveap.where(employee_id: current_user.employee.id)
     end
   
     # PATCH/PUT /leaveaps/1
@@ -49,9 +49,12 @@ class LeaveapsController < ApplicationController
       @la.submitted = true
       if @la.save
         flash.now[:success] = "Your Leave Application Have Been Submitted."
+        UserMailer.submit_leave(@la.id, 1).deliver if @la.apv_mgr_1_id
+        UserMailer.submit_leave(@la.id, 2).deliver if @la.apv_mgr_2_id
       end
       @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
       @leaveap = Leaveap.new
+      
     end
   
     # DELETE /leaveaps/1
@@ -71,7 +74,9 @@ class LeaveapsController < ApplicationController
       respond_to :html, :js
       @la = Leaveap.find(params[:id])
       @la.apv_1 = !@la.apv_1
-      @la.save
+      if @la.save
+        UserMailer.approve_leave(@la.id, 1).deliver
+      end
     end
 
     def leave_approval2
@@ -79,6 +84,9 @@ class LeaveapsController < ApplicationController
       @la = Leaveap.find(params[:id])
       @la.apv_2 = !@la.apv_2
       @la.save
+      if @la.save
+        UserMailer.approve_leave(@la.id, 2).deliver
+      end
     end
   
     private

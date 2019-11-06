@@ -1,0 +1,4 @@
+$("#modal-header").html("Edit Form");
+$("#modal-body").html("<%= j (render 'form') %>");
+$("#modal-footer").html("<button type='submit' form='edit_expense_list_<%=@list.id%>' class='btn btn-primary'>Update</button>");
+$("#modal-form").modal();

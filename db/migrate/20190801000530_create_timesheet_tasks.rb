@@ -6,9 +6,9 @@ class CreateTimesheetTasks < ActiveRecord::Migration[5.2]
           t.references :project
           t.string :activity
           t.string :site_name
-          t.string :location
           t.string :vehicle_number
           t.references :vehicle_owner
+          t.references :project_region
           t.date :date
           t.integer :time_in, default: 9
           t.integer :time_out, default: 18

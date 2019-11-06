@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-12">
+      <div class="form-group">
+          <%= button_to "New Holiday", new_holiday_path, remote: true, method: 'get', class: "btn btn-outline-info" %>
+      </div>
+  </div>
+</div>
+
+<div id="holiday-table">
+  <%= render partial: "holidays/table" %>
+</div>

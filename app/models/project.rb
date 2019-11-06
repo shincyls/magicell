@@ -6,4 +6,10 @@ class Project < ApplicationRecord
     has_many :employees
     has_many :timesheets
 
+    def total_claims
+    end
+
+    def total_timesheets
+    end
+
 end
