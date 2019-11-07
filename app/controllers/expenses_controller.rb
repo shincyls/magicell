@@ -82,7 +82,7 @@ class ExpensesController < ApplicationController
         flash.now[:success] = "Your Expenses Claim is already submitted."
       else
         # Get All Unique Projects and Create Task Approval for each unique Manager
-        @projects = ExpenseList.where(expense_id: @expense.id).pluck(:project_id).uniq!
+        @projects = ExpenseList.where(expense_id: @expense.id).distinct.pluck(:project_id)
         @projects.each do |p|
           @manager = Project.find(p).manager
           unless ExpenseApproval.exists?(expense_id: @expense.id, employee_id: @expense.employee_id, manager_id: @manager.id)

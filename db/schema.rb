@@ -196,9 +196,9 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.boolean "apv_1", default: false
     t.boolean "apv_2", default: false
     t.boolean "apv_3", default: false
-    t.string "apv_reject_1"
-    t.string "apv_reject_2"
-    t.string "apv_reject_3"
+    t.boolean "rjt_1", default: false
+    t.boolean "rjt_2", default: false
+    t.boolean "rjt_3", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["apv_mgr_1_id"], name: "index_leaveaps_on_apv_mgr_1_id"

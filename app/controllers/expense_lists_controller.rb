@@ -16,7 +16,7 @@ class ExpenseListsController < ApplicationController
       while date_end >= date_now
         unless date_now.saturday? or date_now.sunday?
           @expense_list = ExpenseList.new(expense_list_params)
-          if (@expense_list.expense.session) == (date_now.year.to_s + "-" + date_now.month.to_s)
+          if (@expense_list.expense.year == date_now.year) & (@expense_list.expense.month == date_now.month)
             unless ExpenseList.exists?(employee_id: @expense_list.employee_id, project_id: @expense_list.project_id, date: date_now)
               @expense_list.date = date_now
               @expense_list.save
@@ -55,7 +55,7 @@ class ExpenseListsController < ApplicationController
         respond_to :html, :js
         @expense_list = ExpenseList.find(params[:id])
         if @expense_list.destroy
-            flash.now[:success] = "Lisy have been succesfully removed."
+            flash.now[:success] = "List have been succesfully removed."
         else
             flash.now[:warning] = "This action couldn't performed due to error, please check with admin."
         end

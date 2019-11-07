@@ -15,7 +15,7 @@ class TimesheetTasksController < ApplicationController
       while date_end >= date_now
         unless date_now.saturday? or date_now.sunday?
           @timesheet_task = TimesheetTask.new(timesheet_task_params)
-          if (@timesheet_task.timesheet.session) == (date_now.year.to_s + "-" + date_now.month.to_s)
+          if (@timesheet_task.timesheet.year == date_now.year) & (@timesheet_task.timesheet.month == date_now.month)
             unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, date: date_now)
               @timesheet_task.date = date_now
               @timesheet_task.save

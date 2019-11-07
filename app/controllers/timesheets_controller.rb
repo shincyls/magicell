@@ -85,7 +85,7 @@ class TimesheetsController < ApplicationController
         flash.now[:alert] = "Your Timesheet is already submitted."
       else
         # Get All Unique Projects and Create Task Approval for each unique Manager
-        @projects = TimesheetTask.where(timesheet_id: @timesheet.id).pluck(:project_id).uniq!
+        @projects = TimesheetTask.where(timesheet_id: @timesheet.id).distinct.pluck(:project_id)
         @projects.each do |p|
           @manager = Project.find(p).manager
           unless TimesheetApproval.exists?(timesheet_id: @timesheet.id, employee_id: @timesheet.employee_id, manager_id: @manager.id)
