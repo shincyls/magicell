@@ -3,7 +3,11 @@ class ProjectsController < ApplicationController
   
     def index
       respond_to :html, :js
-      @projects = Project.all.order("created_at desc")
+      if params[:value].present?
+        @projects = Project.where(project_status: params[:value].to_i).order("created_at desc")
+      else
+        @projects = Project.all.order("created_at desc")
+      end
     end
 
     def new
@@ -61,7 +65,7 @@ class ProjectsController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-        params.require(:project).permit(:name, :description, :vendor, :operator, :department_id, :manager_id)
+        params.require(:project).permit(:name, :description, :vendor, :operator, :department_id, :manager_id, :project_status)
     end
       
   end

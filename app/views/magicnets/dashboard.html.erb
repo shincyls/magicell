@@ -3,7 +3,7 @@
 </div>
 
 <div class="row text-special pl-4 pr-4 pt-2 pb-2 bg-chrome rounded">
-    <div class="col-12 text-white">Welcome Back! <span class="text-primary"><%=current_user.username%></span>  </div>
+    <div class="col-12 text-white">Welcome Back! <span class="text-primary"><%=current_user.employee.full_name%></span>  </div>
     <div class="col-12 text-white">Your webrole is: <span class="text-danger"><%=current_user.webrole.role%></span></div>
 </div>
 
@@ -34,21 +34,9 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <%= link_to "Dashboard", dashfinance_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Timesheet Overview", finance_timesheet_path, class: "dropdown-item", remote: true %>
-            </div>
-        </div>
-        <% end %>
-
-        <% if current_user.webrole.vw_pro_mgr %>
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Manager
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Dashboard", dashpm_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Leave Approval", leave_pm_approval_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Timsheet Approval", timesheet_pm_approval_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Expense Approval", expense_pm_approval_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Leave Approval", project_leaveaps_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Timesheet Approval", finance_timesheet_tasks_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Expense Approval", finance_expense_lists_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
         <% end %>
@@ -66,6 +54,20 @@
         </div>
         <% end %>
 
+        <% if current_user.webrole.vw_pro_mgr %>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Manager
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to "Dashboard", dashpm_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Leave Approval", project_leaveaps_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Timesheet Approval", project_timesheet_tasks_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Expense Approval", project_expense_lists_path, class: "dropdown-item", remote: true %>
+            </div>
+        </div>
+        <% end %>
+
         <% if current_user.webrole.vw_emp %>
         <div class="dropdown">
             <button class="btn btn-warning dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -73,11 +75,9 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <%= link_to "Dashboard", dashemployee_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Leaves", leaveaps_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Timesheets", timesheetemployee_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Expenses", expenseemployee_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Equipment", "", class: "dropdown-item disabled", remote: true %>
-                <%= link_to "Payroll", "", class: "dropdown-item disabled", remote: true %>
+                <%= link_to "Leave Application", leaveaps_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Timesheet Application", timesheet_tasks_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Expense Application", expense_lists_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
         <% end %>
@@ -106,7 +106,19 @@ function loadjs(table, sortColumn, pageLength, dom) {
       },
       "pageLength": pageLength,
       "dom": dom,
-      buttons: ['csv']
+      buttons: [
+            {
+                extend: 'collection',
+                text: 'Export',
+                buttons: [
+                    'copy',
+                    'excel',
+                    'csv',
+                    'pdf',
+                    'print'
+                ]
+            }
+        ]
     });
 };
 

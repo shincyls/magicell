@@ -6,6 +6,14 @@
   </div>
 </div>
 
+<br>
+<div class="row">
+  <%= button_to "All", employees_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
+  <%= button_to "Active" , employees_path, params: {value: 0}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>
+  <%= button_to "Archieved" , employees_path, params: {value: 1}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
+</div>
+<br>
+
 <div id="employee-table">
   <%= render partial: "employees/table" %>
 </div>

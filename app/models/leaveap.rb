@@ -6,15 +6,24 @@ class Leaveap < ApplicationRecord
     validates :reason, presence: {message: " must exist."}
     validates :contact_person, presence: {message: " must exist."}
     validates :contact_number, presence: {message: " must exist."}
+    validates :attachment_link, presence: {message: " must exist."}
+    validate :duplicate_manager
 
     belongs_to :employee
     belongs_to :leavetype
-    has_many :leaveap_approvals
-
+    belongs_to :status_leave
+   
     belongs_to :apv_mgr_1, class_name: 'Employee', foreign_key: 'apv_mgr_1_id'
     belongs_to :apv_mgr_2, class_name: 'Employee', foreign_key: 'apv_mgr_2_id', optional: true
 
     # Calculate Total Days taken for this leave
+
+    def duplicate_manager
+        if (self.apv_mgr_1_id == self.apv_mgr_2_id)
+          errors.add(:apv_mgr_1_id, "Approval Manager cannot be same.")
+        end
+    end
+
     def total_days
         unless (self.to_date.nil?) or (self.from_date.nil?)
             @total_days = 0
@@ -31,12 +40,15 @@ class Leaveap < ApplicationRecord
         return @total_days
     end
 
-    def approved
-        if self.apv_mgr_2
-            return (self.apv_1 & self.apv_2)
-        else
-            return (self.apv_1)
-        end
+    def approve_sum
+        final = self.apv_1
+        (final = final & self.apv_2) if self.apv_mgr_2_id
+        (final = final & self.apv_3) if self.apv_mgr_3_id
+        return final
+    end
+
+    def url
+        self.attachment_link.gsub("https://","").gsub("http://","")
     end
 
 end

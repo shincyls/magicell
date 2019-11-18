@@ -1,80 +1,74 @@
-<% @leap1 = Leaveap.where(apv_mgr_1_id: current_user.employee.id) %>
-<% @leap2 = Leaveap.where(apv_mgr_2_id: current_user.employee.id) %> 
-
 <h4 class="text-left text-success">Leaves Approval</h4>
-<table id="la-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+
+<div id="leave-approval-section">
+<table id="leave-approval-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
   
   <thead class="text-dark">
     <tr>
       <th>Name</th>
       <th>Leave</th>
+      <th>After</th>
       <th>Reason</th>
       <th>Contact</th>
       <th>Date</th>
-      <th>Days</th>
-      <th>Annual</th>
-      <th>Medical</th>
-      <th>Approve?</th>
+      <th>Working Days</th>
+      <th>Attachment</th>
+      <th>Submitted</th>
+      <th>Approval</th>
     </tr>
   </thead>
 
   <tbody class="text-dark">
-  <% unless @leap1.nil? %>
-  <% @leap1.each do |l| %>
-    <tr>
+  <% unless @leap.nil? %>
+  <% @leap.each do |l| %>
+    <tr id="lva-<%=l.id %>">
       <td><%=l.employee.full_name%></td>
       <td><%=l.leavetype.name%></td>
+      <td>
+        <% if l.leavetype_id == 1%>
+        <span class="text-success">(<%=l.employee.annual_leave_taken + l.total_days%>)</span> / <%=l.employee.annual_leave_entitled%>
+        <% elsif l.leavetype_id == 2%>
+        <span class="text-success">(<%=l.employee.medical_leave_taken + l.total_days%>)</span> / <%=l.employee.medical_leave_entitled%>
+        <% end %>
+      </td>
       <td><%=l.reason%></td>
       <td><%=l.contact_person%> <%=l.contact_number%></td>
-      <td><%=l.from_date%> <%=l.from_ampm%> to <%=l.to_date%> <%=l.to_ampm%></td>
-      <td><%=l.total_days%></td>
-      <td><%=l.employee.annual_leave_taken%>/<%=l.employee.annual_leave_entitled%></td>
-      <td><%=l.employee.medical_leave_taken%>/<%=l.employee.medical_leave_entitled%></td>
       <td>
-        <label class="custom-toggle">
-                <%= check_box_tag(
-                "Leave_Approval_1", l.id, l.apv_1,
-                name: "leave-approval1-#{l.id}",
-                data: {
-                remote: true,
-                url: url_for(controller: 'leaveaps', action: 'leave_approval1', id: l.id),
-                method: 'POST' }) %>
-                <span class="custom-toggle-slider rounded-circle"></span>
-          </label>
+      <ul class="list-unstyled">
+        <li><%=l.from_date%> <%=l.from_ampm%> ></li>
+        <li><%=l.to_date%> <%=l.to_ampm%></li>
+      <ul>
       </td>
-  <% end %>
-  <% end %>
-  <% unless @leap2.nil? %>
-  <% @leap2.each do |l| %>
+      <td><%=l.total_days%></td>
+      <td><%= (link_to "Click", "http://#{l.url}", target: "_blank") if l.attachment_link.present? %></td>
+      <td><%=(time_ago_in_words(l.submitted_at) + " ago") if l.submitted_at%></td>
+      <td>
+        <% if l.apv_mgr_1_id === current_user.employee.id %>
+          <% unless l.apv_1 %>
+            <%= link_to 'Approve', approve_leaveap_path(l, value: 1), method: :post, class: "bg-success rounded p-1 m-1 small text-white m-1", remote: true %>
+            <%= link_to 'Reject', reject_leaveap_path(l, value: 1), method: :post, class: "bg-danger rounded p-1 m-1 small text-white m-1", remote: true %>
+          <% else %>
+            <span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span>
+          <% end %>
+        <% elsif l.apv_mgr_2_id == current_user.employee.id %>
+          <% unless l.apv_2 %>
+            <%= link_to 'Approve', approve_leaveap_path(l, value: 2), method: :post, class: "bg-success rounded p-1 m-1 small text-white m-1", remote: true %>
+            <%= link_to 'Reject', reject_leaveap_path(l, value: 2), method: :post, class: "bg-danger rounded p-1 m-1 small text-white m-1", remote: true %>
+          <% else %>
+            <span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span>
+          <% end %>
+        <% else %>
+            <span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span>
+        <% end %>
+      </td>
     <tr>
-      <td><%=l.employee.full_name%></td>
-      <td><%=l.leavetype.name%></td>
-      <td><%=l.reason%></td>
-      <td><%=l.contact_person%> <%=l.contact_number%></td>
-      <td><%=l.from_date%> <%=l.from_ampm%> to <%=l.to_date%> <%=l.to_ampm%></td>
-      <td><%=l.total_days%></td>
-      <td><%=l.employee.annual_leave_taken%>/<%=l.employee.annual_leave_entitled%></td>
-      <td><%=l.employee.medical_leave_taken%>/<%=l.employee.medical_leave_entitled%></td>
-      <td>
-        <label class="custom-toggle">
-                <%= check_box_tag(
-                "Leave_Approval_2", l.id, l.apv_2,
-                name: "leave-approval1-#{l.id}",
-                data: {
-                remote: true,
-                url: url_for(controller: 'leaveaps', action: 'leave_approval2', id: l.id),
-                method: 'POST' }) %>
-                <span class="custom-toggle-slider rounded-circle"></span>
-          </label>
-      </td>
   <% end %>
   <% end %>
   </tbody>
-
   
 </table>
-
+</div>
 
 <script>
-loadjs('#la-table', 4, 50, 'Blfrtip');
+loadjs('#leave-approval-table', 5, 50, 'Blfrtip');
 </script>

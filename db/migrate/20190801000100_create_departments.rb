@@ -1,11 +1,11 @@
 class CreateDepartments < ActiveRecord::Migration[5.2]
     def change
       create_table :departments do |t|
+        t.references :company
         t.string :name
         t.string :description
-        t.string :info_1
-        t.string :info_2
-        t.references :company
+        t.string :address
+        t.string :phone
         t.timestamps
       end
     end

@@ -2,11 +2,18 @@ class LeaveapsController < ApplicationController
     include ApplicationHelper
     
     before_action :logged_in?
+    before_action :user_applicant?, only: [:edit, :update, :destroy]
+    before_action :user_approval?, only: [:approve, :reject]
   
     def index
       respond_to :html, :js
       @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
       @leaveap = Leaveap.new
+    end
+
+    def project
+        respond_to :js
+        @leap = (Leaveap.where(apv_mgr_1_id: current_user.employee.id, status_leave_id: [2,3,4]) + Leaveap.where(apv_mgr_2_id: current_user.employee.id, status_leave_id: [2,3,4])).uniq
     end
 
     def new
@@ -45,16 +52,14 @@ class LeaveapsController < ApplicationController
 
     def submit
       respond_to :html, :js
-      @la = Leaveap.find(params[:id])
-      @la.submitted = true
-      if @la.save
+      @leaveap = Leaveap.find(params[:id])
+      @leaveap.status_leave_id = 2
+      @leaveap.submitted_at = Time.now
+      if @leaveap.save
         flash.now[:success] = "Your Leave Application Have Been Submitted."
-        UserMailer.submit_leave(@la.id, 1).deliver if @la.apv_mgr_1_id
-        UserMailer.submit_leave(@la.id, 2).deliver if @la.apv_mgr_2_id
+        # UserMailer.submit_leave(@la.id, 1).deliver if @la.apv_mgr_1_id
+        # UserMailer.submit_leave(@la.id, 2).deliver if @la.apv_mgr_2_id
       end
-      @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
-      @leaveap = Leaveap.new
-      
     end
   
     # DELETE /leaveaps/1
@@ -70,30 +75,68 @@ class LeaveapsController < ApplicationController
       end
     end
 
-    def leave_approval1
+    def approve
       respond_to :html, :js
-      @la = Leaveap.find(params[:id])
-      @la.apv_1 = !@la.apv_1
-      if @la.save
-        UserMailer.approve_leave(@la.id, 1).deliver
+      @leaveap = Leaveap.find(params[:id])
+      @employee = @leaveap.employee
+      if params[:value].to_i == 1
+        @leaveap.apv_1 = true
+      elsif params[:value].to_i == 2
+        @leaveap.apv_2 = true
+      end
+      flash.now[:warning] = "1"
+      if @leaveap.approve_sum # If all manager approved
+        @leaveap.status_leave_id = 4
+        if @leaveap.leavetype_id == 1 # Annual Leave
+          @employee.annual_leave_taken += @leaveap.total_days
+        elsif @leaveap.leavetype_id == 2 # Medical Leave
+          @employee.medical_leave_taken += @leaveap.total_days
+        end
+        @employee.save
+      else
+        @leaveap.status_leave_id = 2
+      end
+      if @leaveap.save
+        flash.now[:warning] = "#{@leaveap.apv_1} #{@leaveap.apv_2}"
+        # UserMailer.approve_leave(@leaveap.id, params[:value]).deliver
       end
     end
 
-    def leave_approval2
+    def reject
       respond_to :html, :js
-      @la = Leaveap.find(params[:id])
-      @la.apv_2 = !@la.apv_2
-      @la.save
-      if @la.save
-        UserMailer.approve_leave(@la.id, 2).deliver
+      @leaveap = Leaveap.find(params[:id])
+      if params[:value] == 1
+        @leaveap.apv_1.to_i = false
+      elsif params[:value] == 2
+        @leaveap.apv_2.to_i = false
+      end
+      @leaveap.status_leave_id = 3
+      if @leaveap.save
+        flash.now[:warning] = "Done"
+        # UserMailer.reject_leave(@leaveap.id, params[:value]).deliver
       end
     end
   
     private
   
     # Never trust parameters from the scary internet, only allow the white list through.
+    
+    def user_applicant?
+      Leaveap.find(params[:id]).employee_id == current_user.employee.id
+    end
+
+    def user_approval?
+      if Leaveap.find(params[:id]).apv_mgr_1_id == current_user.employee.id
+        return true
+      elsif Leaveap.find(params[:id]).apv_mgr_2_id == current_user.employee.id
+        return true
+      else
+        return false
+      end
+    end
+    
     def leaveap_params
-        params.require(:leaveap).permit(:reason, :employee_id, :apv_mgr_1_id, :apv_mgr_2_id, :leavetype_id, :contact_person, :contact_number, :from_date, :to_date, :from_ampm, :to_ampm, :confirm)
+        params.require(:leaveap).permit(:reason, :employee_id, :apv_mgr_1_id, :apv_mgr_2_id, :leavetype_id, :contact_person, :contact_number, :from_date, :to_date, :from_ampm, :to_ampm, :confirm, :attachment_link)
     end
       
   end

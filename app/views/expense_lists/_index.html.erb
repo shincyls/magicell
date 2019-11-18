@@ -1,0 +1,78 @@
+<h4 class="text-success">New Expenses Claim</h4>
+<div id="expense-lists-new">
+  <%= render partial: "new" %>
+</div>
+
+<hr>
+
+<h4 class="text-success">Expenses Claim Table</h4>
+
+<br>
+<div class="row">
+  <%= button_to "All", expense_lists_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
+  <%= button_to "#{@backup_lists.where(status_expense_id: 1).count} Not Submit" , expense_lists_path, params: {value: 1}, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
+  <%= button_to "#{@backup_lists.where(status_expense_id: 2).count} Pending (PM)" , expense_lists_path, params: {value: 2}, method: "get", remote: true, class: "col btn btn-sm badge-primary m-2" %>
+  <%= button_to "#{@backup_lists.where(status_expense_id: 3).count} Rejected (PM)" , expense_lists_path, params: {value: 3}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
+  <%= button_to "#{@backup_lists.where(status_expense_id: 4).count} Pending (FM)" , expense_lists_path, params: {value: 4}, method: "get", remote: true, class: "col btn btn-sm badge-info m-2" %>
+  <%= button_to "#{@backup_lists.where(status_expense_id: 5).count} Rejected (FM)" , expense_lists_path, params: {value: 5}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
+  <%= button_to "#{@backup_lists.where(status_expense_id: 6).count} Approved" , expense_lists_path, params: {value: 6}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>
+</div>
+<br>
+
+<div id="expense-lists-section">
+  <table id="expense-lists-table" class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem">
+    
+    <thead class="text-dark">
+      <tr>
+        <th>Date</th>
+        <th>Project</th>
+        <th>PM</th>
+        <th style="width:5rem;">Claims (MYR)</th>
+        <th>Odometer (KM)</th>
+        <th>Attach</th>
+        <th>Submitted</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody class="text-dark" id="timesheet-row">
+        <% unless @expense_lists.nil? %>
+        <% @expense_lists.each do |t| %>
+        <tr id="el-<%=t.id%>">
+            <td><%=t.date%></td>
+            <td><%=t.project.name%></td>
+            <td><%=t.project.manager.full_name%></td>
+            <td>
+            <ul class="list-unstyled">
+              <li><%= ("Fuel: " + t.fuel_claim.to_s) if t.fuel_claim > 0 %></li>
+              <li><%= ("Toll: " + t.toll_claim.to_s) if t.toll_claim > 0 %></li>
+              <li><%= ("Parking: " + t.parking_claim.to_s) if t.parking_claim > 0 %></li>
+              <li><%= ("Allowance: " + t.allowance_claim.to_s) if t.allowance_claim > 0 %></li>
+              <li><%= ("Medical: " + t.medical_claim.to_s) if t.medical_claim > 0 %></li>
+              <li><%= ("Others: " + t.others_claim.to_s) if t.others_claim > 0 %></li>
+            </ul>
+            </td>
+            <td><%=t.odometer_reading%></td>
+            <td><%= (link_to "Click", "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
+            <td><%=(time_ago_in_words(t.submitted_at) + " ago") if t.submitted_at%></td>
+            <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
+            <td>
+              <% if t.employee_id == current_user.employee.id %>
+                <% if [1,3,5].include?(t.status_expense_id) %>
+                  <%= link_to 'Submit', submit_expense_list_path(t), method: :post, class: "bg-info rounded p-1 m-1 small text-white m-1", remote: true %>
+                  <%= link_to 'Edit', edit_expense_list_path(t), class: "bg-success rounded p-1 m-1 small text-white m-1", remote: true %>
+                  <%= link_to 'Delete', t, method: :delete, class: "bg-danger rounded p-1 m-1 small text-white m-1", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %>
+                <% end %>
+              <% end %>
+            </td>
+        </tr>
+        <% end %>
+        <% end %>
+    </tbody>
+  </table>
+
+  <script>
+  loadjs('#expense-lists-table', 0, 25, 'Blfrtip');
+  </script>
+</div>

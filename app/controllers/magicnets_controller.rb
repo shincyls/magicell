@@ -16,24 +16,25 @@ class MagicnetsController < ApplicationController
 
     # Employee Pages
     def dashemployee
-      respond_to :html, :js
+      respond_to :js
+      @employee = current_user.employee
       render template: "magicnets/view_emp/dashemployee"
     end
 
     # Load The Page
     def timesheetemployee
-      respond_to :html, :js
+      respond_to :js
       render template: "magicnets/view_emp/timesheetemployee"
     end
 
     def expenseemployee
-      respond_to :html, :js
+      respond_to :js
       render template: "magicnets/view_emp/expenseemployee"
     end
 
     # Finance Pages
     def dashfinance
-      respond_to :html, :js
+      respond_to :js
       render template: "magicnets/view_fin/dashfinance"
     end
 
@@ -45,18 +46,19 @@ class MagicnetsController < ApplicationController
 
     # HR Pages
     def dashhr
-      respond_to :html, :js
+      respond_to :js
       render template: "magicnets/view_hr/dashhr"
     end
 
     # PM Pages
     def dashpm
-      respond_to :html, :js
+      respond_to :js
       render template: "magicnets/view_pm/dashpm"
     end
 
     def leave_approval
-      respond_to :html, :js
+      respond_to :js
+      @leap = (Leaveap.where(apv_mgr_1_id: current_user.employee.id, status_leave_id: [2,3,4]) + Leaveap.where(apv_mgr_2_id: current_user.employee.id, status_leave_id: [2,3,4])).uniq
       render template: "magicnets/view_pm/leave_approval"
     end
 
@@ -74,17 +76,17 @@ class MagicnetsController < ApplicationController
 
     # IT Pages
     def dashit
-      respond_to :html, :js
+      respond_to :js
       render template: "magicnets/view_it/dashit"
     end
 
     def webrole
-      respond_to :html, :js
+      respond_to :js
       render template: "magicnets/view_it/webrole"
     end
 
     def account
-      respond_to :html, :js
+      respond_to :js
       render template: "magicnets/view_it/account"
     end
 

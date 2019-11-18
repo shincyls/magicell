@@ -3,7 +3,11 @@ class EmployeesController < ApplicationController
   
     def index
       respond_to :html, :js
-      @employees = Employee.all.order("created_at desc")
+      if params[:value].present?
+        @employees = Employee.where(employment_status: params[:value].to_i).order("created_at desc")
+      else
+        @employees = Employee.all.order("created_at desc")
+      end
     end
 
     def new
@@ -68,7 +72,13 @@ class EmployeesController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def employee_params
-        params.require(:employee).permit(:full_name, :first_name, :last_name, :personal_email, :company_email, :marital_status, :spouse_name, :category, :department_id, :project_id, :employee_position_id, :employee_id, :position, :phone_number, :phone_number_2, :address, :address_2, :nationality, :race, :identity_passport_no, :birthday, :joined_since, :joined_last, :base_salary, :annual_leave_entitled, :annual_leave_taken, :medical_leave_entitled, :medical_leave_taken, :contract_start, :contract_end, :bank_name, :bank_account)
+        params.require(:employee).permit(
+          :department_id, :project_id, :company_id, :employee_position_id, :full_name, :personal_email, :company_email, 
+          :employee_code, :job_title, :phone_number, :phone_emergency, :address, :address_2, :nationality, :race, :identity_no, :bank_name, 
+          :bank_account, :epf_account, :lhdn_account, :medical_account, :insurance_account, :marital_status, :spouse_name, :children_count, 
+          :birthday, :joined_since, :joined_last, :base_salary, :fix_allowance, 
+          :annual_leave_entitled, :annual_leave_taken, :medical_leave_entitled, :medical_leave_taken, :contract_start, :contract_end, :category, :employment_status
+        )
     end
       
   end

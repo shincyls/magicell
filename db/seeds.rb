@@ -24,7 +24,8 @@ require 'open-uri'
 # end
 
 WebappContent.create!([
-  {name: "Default Password", param: "Magicell!23"}
+  {name: "Default Password", param: "Magicell!23"},
+  {name: "Send Email", param: "No"},
 ])
 
 Webrole.create!([
@@ -54,21 +55,23 @@ Department.create!([
 
 EmployeePosition.create!([
   {position: "Employee", description: "Normal Employee"},
-  {position: "Manager", description: "Department or Project Manager"}
+  {position: "Project Manager", description: "Department or Project Manager"},
+  {position: "Department Manager", description: "Department or Project Manager"},
+  {position: "Managing Director", description: "Managing Director of Company"}
 ])
 
 Employee.create!([
-  {full_name: "Manager Account", first_name: "Test", last_name: "Manager Account", employee_id: "M001", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "owner@gmail.com", company_email: "owner@magicell.com.my", identity_passport_no: "810101-01-1234", phone_number: "012-3456789"},
-  {full_name: "Lee Xiao Long", first_name: "Lee", last_name: "Xiao Long", employee_id: "M002",company_id: 1, department_id: 1, employee_position_id: 1, project_id: 1, personal_email: "user1@gmail.com", company_email: "user1@magicell.com.my", identity_passport_no: "810101-02-1234", phone_number: "012-3456788"},
-  {full_name: "Ahmad Johari", first_name: "Ahmad", last_name: "Johari", employee_id: "M003",company_id: 1, department_id: 2, employee_position_id: 1, project_id: 1, personal_email: "user2@gmail.com", company_email: "user2@magicell.com.my", identity_passport_no: "810101-03-1234", phone_number: "012-3456787"},
-  {full_name: "Simon Kong", first_name: "Simon", last_name: "Kong", employee_id: "M004",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 2, personal_email: "user3@gmail.com", company_email: "user3@magicell.com.my", identity_passport_no: "810101-04-1234", phone_number: "012-3456786"},
-  {full_name: "Syaiful Bukhari", first_name: "Syaiful", last_name: "Bukhari", employee_id: "M005",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 3, personal_email: "user4@gmail.com", company_email: "user4@magicell.com.my", identity_passport_no: "810101-05-1234", phone_number: "012-3456785"},
-  {full_name: "Daniel Nelson", first_name: "Daniel", last_name: "Nelson", employee_id: "M006",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 4, personal_email: "user5@gmail.com", company_email: "user5@magicell.com.my", identity_passport_no: "810101-06-1234", phone_number: "012-3456784"},
-  {full_name: "Tan Manager", first_name: "Tan", last_name: "Manager", employee_id: "M007",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 2, personal_email: "user6@gmail.com", company_email: "user6@magicell.com.my", identity_passport_no: "810101-07-1234", phone_number: "012-3456783"},
-  {full_name: "Wong Manager", first_name: "Wong", last_name: "Manager", employee_id: "M008",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 3, personal_email: "user7@gmail.com", company_email: "user7@magicell.com.my", identity_passport_no: "810101-08-1234", phone_number: "012-3456782"},
-  {full_name: "Kong Manager", first_name: "Kong", last_name: "Manager", employee_id: "M009",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user8@gmail.com", company_email: "user8@magicell.com.my", identity_passport_no: "810101-09-1234", phone_number: "012-3456781"},
-  {full_name: "Lee Manager", first_name: "Lee", last_name: "Manager", employee_id: "M010",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user9@gmail.com", company_email: "user9@magicell.com.my", identity_passport_no: "810101-10-1234", phone_number: "012-3456780"},
-  {full_name: "Shin CY", first_name: "Shin", last_name: "CY", employee_id: "M001", company_id: 1, department_id: 4, employee_position_id: 1, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_passport_no: "861125-03-1234", phone_number: "012-5353080"}
+  {full_name: "Manager Account", employee_code: "M001", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "owner@gmail.com", company_email: "owner@magicell.com.my", identity_no: "810101-01-1234", phone_number: "012-3456789"},
+  {full_name: "Lee Xiao Long", employee_code: "M002",company_id: 1, department_id: 1, employee_position_id: 1, project_id: 1, personal_email: "user1@gmail.com", company_email: "user1@magicell.com.my", identity_no: "810101-02-1234", phone_number: "012-3456788"},
+  {full_name: "Ahmad Johari", employee_code: "M003",company_id: 1, department_id: 2, employee_position_id: 1, project_id: 1, personal_email: "user2@gmail.com", company_email: "user2@magicell.com.my", identity_no: "810101-03-1234", phone_number: "012-3456787"},
+  {full_name: "Simon Kong", employee_code: "M004",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 2, personal_email: "user3@gmail.com", company_email: "user3@magicell.com.my", identity_no: "810101-04-1234", phone_number: "012-3456786"},
+  {full_name: "Syaiful Bukhari", employee_code: "M005",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 3, personal_email: "user4@gmail.com", company_email: "user4@magicell.com.my", identity_no: "810101-05-1234", phone_number: "012-3456785"},
+  {full_name: "Daniel Nelson", employee_code: "M006",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 4, personal_email: "user5@gmail.com", company_email: "user5@magicell.com.my", identity_no: "810101-06-1234", phone_number: "012-3456784"},
+  {full_name: "Tan Manager", employee_code: "M007",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 2, personal_email: "user6@gmail.com", company_email: "user6@magicell.com.my", identity_no: "810101-07-1234", phone_number: "012-3456783"},
+  {full_name: "Wong Manager", employee_code: "M008",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 3, personal_email: "user7@gmail.com", company_email: "user7@magicell.com.my", identity_no: "810101-08-1234", phone_number: "012-3456782"},
+  {full_name: "Kong Manager", employee_code: "M009",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user8@gmail.com", company_email: "user8@magicell.com.my", identity_no: "810101-09-1234", phone_number: "012-3456781"},
+  {full_name: "Lee Manager", employee_code: "M010",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user9@gmail.com", company_email: "user9@magicell.com.my", identity_no: "810101-10-1234", phone_number: "012-3456780"},
+  {full_name: "Shin CY", employee_code: "M001", company_id: 1, department_id: 4, employee_position_id: 1, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_no: "861125-03-1234", phone_number: "012-5353080"}
 ])
 
 User.create!([
@@ -121,7 +124,7 @@ Project.create!([
 
 Leavetype.create!([
   {name: "Annual Leave"},
-  {name: "Sick Leave"},
+  {name: "Medical Leave"},
   {name: "Marriage Leave"},
   {name: "Maternity Leave"},
   {name: "Compassionate Leave"},
@@ -148,6 +151,31 @@ ProjectRegion.create!([
   {name: "Southern"},
   {name: "Sabah"},
   {name: "Sarawak"}
+])
+
+StatusTimesheet.create!([
+  {name: "", description: "Created but not yet submit", css: "primary"},
+  {name: "Pending (PM)", description: "Pending Project Manager Approval", css: "primary"},
+  {name: "Rejected (PM)", description: "Rejected by Project Manager", css: "danger"},
+  {name: "Pending (FM)", description: "Approved by Project Manager", css: "info"},
+  {name: "Rejected (FM)", description: "Rejected by Finance Manager", css: "danger"},
+  {name: "Approved", description: "Approved by Finance Manager", css: "success"}
+])
+
+StatusExpense.create!([
+  {name: "", description: "Created but not yet submit", css: "primary"},
+  {name: "Pending (PM)", description: "Pending Project Manager Approval", css: "primary"},
+  {name: "Rejected (PM)", description: "Rejected by Project Manager", css: "danger"},
+  {name: "Pending (FM)", description: "Approved by Project Manager", css: "info"},
+  {name: "Rejected (FM)", description: "Rejected by Finance Manager", css: "danger"},
+  {name: "Approved", description: "Approved by Finance Manager", css: "success"}
+])
+
+StatusLeave.create!([
+  {name: "", description: "Created but not yet submit", css: "primary"},
+  {name: "Pending", description: "Employee Submitted and Pending Manager Approval", css: "info"},
+  {name: "Rejected", description: "Rejected by Project Manager", css: "danger"},
+  {name: "Approved", description: "Approved by Project Manager", css: "success"}
 ])
 
 Holiday.create!([

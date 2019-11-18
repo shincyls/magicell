@@ -55,6 +55,11 @@
         <div><%= f.select(:apv_mgr_2_id, Employee.where(employee_position_id: 2).collect {|e| [e.full_name, e.id]}, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label>MC Attachment*</label>
+        <div><%= f.text_field :attachment_link, placeholder: "eg: google drive link", class: "form-control form-control-sm" %></div>
+      </div>
+
     </div>
 
     <div class="mx-auto">

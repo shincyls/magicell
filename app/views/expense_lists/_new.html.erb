@@ -1,0 +1,64 @@
+<%= form_for @expense_list, remote: true do |f| %>
+
+    <%= f.hidden_field :employee_id, value: current_user.employee.id %>
+    <div class="text-danger small"><i>* Mandatory Input</i></div>
+    
+    <div class="row text-dark text-special mt-2 mb-3">
+    
+      <div class="col-lg-3 col-md-6 mb-2">
+        <label class="d-block">Date*</label>
+        <%= f.date_select :date, {start_year: Date.today.year - 1, end_year: Date.today.year, include_blank: "Select"}, class: "d-inline-block form-control form-control-sm", style: "width:31%;"%>
+      </div>
+      
+      <div class="col-lg-3 mb-2">
+        <label>Project*</label>
+        <div><%= f.select(:project_id, Project.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Fuel</label>
+        <div><%= f.text_field :fuel_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Toll</label>
+        <div><%= f.text_field :toll_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Parking</label>
+        <div><%= f.text_field :parking_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Allowance</label>
+        <div><%= f.text_field :allowance_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Medical</label>
+        <div><%= f.text_field :medical_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Others</label>
+        <div><%= f.text_field :others_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Odometer</label>
+        <div><%= f.text_field :odometer_reading, placeholder: 0.0, class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
+        <label>Receipt Attachment*</label>
+        <div><%= f.text_field :attachment_link, placeholder: "eg: google drive url", class: "form-control form-control-sm" %></div>
+      </div>
+      
+    </div>
+
+    <div class="mx-auto">
+      <%= f.submit "Confirm", class: "btn btn-primary", data: { confirm: 'Please Confirm' } %>
+    </div>
+    
+<% end %>

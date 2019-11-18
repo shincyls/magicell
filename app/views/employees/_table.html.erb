@@ -21,7 +21,7 @@
     <% @employees.each do |e| %>
     <tr>
         <td><%=e.full_name%></td>
-        <td><%=e.employee_id%></td>
+        <td><%=e.employee_code%></td>
         <td><%=e.employee_position.position if e.employee_position.position%></td>
         <td><%=e.department.name if e.department.name%></td>
         <td><%=e.project.name if e.project.name%></td>
@@ -30,7 +30,6 @@
         <% if current_user.webrole.wr_hr %>
         <td>
           <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_employee_path(e), class: "small text-white m-1", remote: true %></span>
-          <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', e, method: :delete, class: "small text-white m-1", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span>
         </td>
         <% end %>
     </tr>

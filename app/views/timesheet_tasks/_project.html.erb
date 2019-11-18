@@ -1,0 +1,66 @@
+<h4 class="text-success">Project Timesheet Approval</h4>
+
+<br>
+<div class="row">
+  <%= button_to "All", project_timesheet_tasks_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
+  <%= button_to "#{@backup_lists.where(status_timesheet_id: 2).count} Pending (PM)" , project_timesheet_tasks_path, params: {value: 2}, method: "get", remote: true, class: "col btn btn-sm badge-primary m-2" %>
+  <%= button_to "#{@backup_lists.where(status_timesheet_id: 3).count} Rejected (PM)" , project_timesheet_tasks_path, params: {value: 3}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
+  <%= button_to "#{@backup_lists.where(status_timesheet_id: 4).count} Pending (FM)" , project_timesheet_tasks_path, params: {value: 4}, method: "get", remote: true, class: "col btn btn-sm badge-info m-2" %>
+  <%= button_to "#{@backup_lists.where(status_timesheet_id: 5).count} Rejected (FM)" , project_timesheet_tasks_path, params: {value: 5}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
+  <%= button_to "#{@backup_lists.where(status_timesheet_id: 6).count} Approved" , project_timesheet_tasks_path, params: {value: 6}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>
+</div>
+<br>
+
+<div id="timesheet-tasks-section">
+  <table id="timesheet-tasks-table" class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem">
+    
+    <thead class="text-dark">
+      <tr>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Project</th>
+        <th>Activity</th>
+        <th>Working Hours</th>
+        <th>Site Name</th>
+        <th>Region</th>
+        <th>Vehicle</th>
+        <th>Submitted</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody class="text-dark" id="timesheet-row">
+        <% unless @timesheet_tasks.nil? %>
+        <% @timesheet_tasks.each do |t| %>
+        <tr id="ts-<%=t.id%>">
+            <td><%=t.date%></td>
+            <td><%=t.employee.full_name%></td>
+            <td><%=t.project.name%></td>
+            <td><%=t.activity%></td>
+            <td><%=t.working_hours%></td>
+            <td><%=t.site_name%> <%=t.project.manager.id%> </td>
+            <td><%=t.project_region%> <%=t.project_region.name if t.project_region %></td>
+            <td><%=t.vehicle_number%> <%=t.vehicle_owner.name if t.vehicle_owner %></td>
+            <td><%=(time_ago_in_words(t.submitted_at) + " ago") if t.submitted_at%></td>
+            <td><span class="badge badge-<%=t.status_timesheet.css%>"><%=t.status_timesheet.name%></span></td>
+            <% if t.project.manager.id == current_user.employee.id %>
+              <% if [2].include?(t.status_timesheet_id) %>
+                <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Approve', approvepm_timesheet_task_path(t), method: :post, class: "small text-white m-1", remote: true %></span></td>
+                <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Reject', rejectpm_timesheet_task_path(t), method: :post, class: "small text-white m-1", remote: true %></span></td>
+              <% else %>
+                <td></td>
+                <td></td>
+              <% end %>
+            <% end %>
+        </tr>
+        <% end %>
+        <% end %>
+    </tbody>
+  </table>
+
+  <script>
+  loadjs('#timesheet-tasks-table', 0, 25, 'Blfrtip');
+  </script>
+</div>

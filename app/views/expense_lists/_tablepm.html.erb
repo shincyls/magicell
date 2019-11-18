@@ -1,0 +1,27 @@
+<% t = @expense_list %>
+            <td><%=t.date%></td>
+            <td><%=t.employee.full_name%></td>
+            <td><%=t.project.name%></td>
+            <td><%=t.project.manager.full_name%></td>
+            <td>
+            <ul class="list-unstyled">
+              <li><%= ("Fuel: " + t.fuel_claim.to_s) if t.fuel_claim > 0 %></li>
+              <li><%= ("Toll: " + t.toll_claim.to_s) if t.toll_claim > 0 %></li>
+              <li><%= ("Parking: " + t.parking_claim.to_s) if t.parking_claim > 0 %></li>
+              <li><%= ("Allowance: " + t.allowance_claim.to_s) if t.allowance_claim > 0 %></li>
+              <li><%= ("Medical: " + t.medical_claim.to_s) if t.medical_claim > 0 %></li>
+              <li><%= ("Others: " + t.others_claim.to_s) if t.others_claim > 0 %></li>
+            </ul>
+            </td>
+            <td><%=t.odometer_reading%></td>
+            <td><%= (link_to "Click", "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
+            <td><%=(time_ago_in_words(t.submitted_at) + " ago") if t.submitted_at%></td>
+            <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
+            <td>
+              <% if t.project.manager.id == current_user.employee.id %>
+                <% if [2].include?(t.status_expense_id) %>
+                <span class="bg-success rounded p-1 m-1"><%= link_to 'Approve', approvepm_expense_list_path(t), method: :post, class: "small text-white m-1", remote: true %></span>
+                <span class="bg-danger rounded p-1 m-1"><%= link_to 'Reject', rejectpm_expense_list_path(t), method: :post, class: "small text-white m-1", remote: true %></span>
+                <% end %>
+              <% end %>
+            </td>

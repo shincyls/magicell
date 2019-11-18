@@ -9,9 +9,11 @@ class CreateProjects < ActiveRecord::Migration[5.2]
         t.date :end_date
         t.references :company
         t.references :department
-        t.references :manager 
+        t.references :manager
+        t.references :manager_alt
         t.boolean :site?, default: false
         t.boolean :vehicle?, default: false
+        t.integer :project_status, default: 0
         t.timestamps
       end
     end

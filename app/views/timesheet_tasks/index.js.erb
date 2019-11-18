@@ -1,0 +1,7 @@
+$('#flash-message').html("<%= j (render 'statics/message') %>");
+
+<% if @timesheet_task.errors.empty? %>
+$("#main-dashboard").html("<%= j (render 'index') %>");
+<% end %>
+
+

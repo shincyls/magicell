@@ -1,79 +1,156 @@
 class ExpenseListsController < ApplicationController
-    include ApplicationHelper
-    before_action :require_login
+  before_action :logged_in?
+  after_action :return_employee, only: [:create]
 
-    def new
+  def index
+    respond_to :html, :js
+    @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
+    @backup_lists = @expense_lists
+    if params[:value].to_i > 1
+      @expense_lists = ExpenseList.where(employee_id: current_user.employee.id, status_expense_id: params[:value]).order("date desc")
     end
+    @expense_list= ExpenseList.new
+  end
 
-    def create
-      respond_to :html, :js
-      message = ""
-      date_now = Date.parse(params["expense_list"][:multi_date_from])
-      date_end = Date.parse(params["expense_list"][:multi_date_to])
-      params["expense_list"].delete("multi_date_from")
-      params["expense_list"].delete("multi_date_to")
-      
-      while date_end >= date_now
-        unless date_now.saturday? or date_now.sunday?
-          @expense_list = ExpenseList.new(expense_list_params)
-          if (@expense_list.expense.year == date_now.year) & (@expense_list.expense.month == date_now.month)
-            unless ExpenseList.exists?(employee_id: @expense_list.employee_id, project_id: @expense_list.project_id, date: date_now)
-              @expense_list.date = date_now
-              @expense_list.save
-            else # Update/Overwrite
-              @expense_list = ExpenseList.find_by(employee_id: @expense_list.employee_id, project_id: @expense_list.project_id, date: date_now)
-              @expense_list.update(expense_list_params)
-            end
-          else
-            message = ", but lists not from #{@expense_list.expense.session} are ignored"
-          end
-        end
-        date_now += 1.day
-      end
-      flash.now[:success] = "Your Expense have been created/updated#{message}."
-      @expense = @expense_list.expense
+  def project
+    respond_to :html, :js
+    @projects = Project.where(manager_id: current_user.employee.id).pluck(:id)
+    @expense_lists = ExpenseList.where(project_id: @projects, status_expense_id: [2,3,4,5,6]).order("date desc")
+    @backup_lists = @expense_lists
+    if params[:value].to_i > 1
+      @expense_lists = ExpenseList.where(project_id: @projects, status_expense_id: params[:value]).order("date desc")
     end
+  end
 
-    def edit
-      respond_to :html, :js
-      @list = ExpenseList.find(params[:id])
+  def finance
+    respond_to :html, :js
+    @expense_lists = ExpenseList.where(status_expense_id: [4,5,6]).order("date desc")
+    @backup_lists = @expense_lists
+    if params[:value].to_i > 1
+      @expense_lists = ExpenseList.where(status_expense_id: params[:value]).order("date desc")
     end
+  end
 
-    def update
-      respond_to :html, :js
-      @expense_list = ExpenseList.find(params[:id])
-      if @expense_list.update(expense_list_params)
-        flash.now[:success] = "Your Form have been updated."
-        @expense_lists = current_user.employee.expense_lists.order("created_at desc") if current_user.employee
-      else
-        flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
-      end
-      expense = @expense_list.expense
-    end
+  def new
+    respond_to :html, :js
+    @expense_list= ExpenseList.new
+  end
 
-    def destroy
-        respond_to :html, :js
-        @expense_list = ExpenseList.find(params[:id])
-        if @expense_list.destroy
-            flash.now[:success] = "List have been succesfully removed."
-        else
-            flash.now[:warning] = "This action couldn't performed due to error, please check with admin."
-        end
-        @expense = @expense_list.expense
+  def show
+    respond_to :html, :js
+  end
+
+  # GET /expense_lists/1/edit
+  def edit
+    respond_to :html, :js
+    @expense_list= ExpenseList.find(params[:id])
+  end
+
+  # POST /expense_lists
+  def create
+    respond_to :html, :js
+    @expense_list = ExpenseList.new(expense_list_params)
+    if @expense_list.save
+      flash.now[:success] = "New Expense have been successfully created."
+    else
+      flash.now[:warning] = @expense_list.errors.full_messages
     end
+    @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
+    @backup_lists = @expense_lists
+  end
+
+  # PATCH/PUT /expense_lists/1
+  def update
+    respond_to :html, :js
+    @expense_list= ExpenseList.find(params[:id])
+    if @expense_list.update(expense_list_params)
+      flash.now[:success] = "Expense information have been successfully updated."
+    else
+      flash.now[:warning] = @expense_list.errors.full_messages
+    end
+  end
+
+  # DELETE /expense_lists/1
+  def destroy
+    respond_to :html, :js
+    @expense_list= ExpenseList.find(params[:id])
+    if @ExpenseList.destroy
+      flash.now[:success] = "Expense have been successfully removed."
+      @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
+    else
+      flash.now[:warning] = "This action couldn't be performed due to error, please check with admin."
+    end
+  end
+
+  def submit
+    respond_to :html, :js
+    @expense_list= ExpenseList.find(params[:id])
+    if @expense_list.status_expense_id == 1
+      @expense_list.update(status_expense_id: 2, submitted_at: Time.now)
+      flash.now[:success] = "Expense have successfully submitted."
+    elsif @expense_list.status_expense_id == 3
+      @expense_list.update(status_expense_id: 2)
+      flash.now[:success] = "Expense have successfully resubmitted."
+    elsif @expense_list.status_expense_id == 5
+      @expense_list.update(status_expense_id: 4)
+      flash.now[:success] = "Expense have successfully resubmitted."
+    end
+  end
+
+  def approvepm
+    respond_to :html, :js
+    @expense_list= ExpenseList.find(params[:id])
+    if @expense_list.status_expense_id == 2 # Approve by PM
+      @expense_list.update(status_expense_id: 4)
+      flash.now[:success] = "Expense have successfully approved."
+    end
+  end
+
+  def rejectpm
+    respond_to :html, :js
+    @expense_list= ExpenseList.find(params[:id])
+    if @expense_list.status_expense_id == 2 # Reject by PM
+      @expense_list.update(status_expense_id: 3)
+      flash.now[:success] = "Expense have successfully rejected."
+    end
+  end
+
+  def approvefm
+    respond_to :html, :js
+    @expense_list= ExpenseList.find(params[:id])
+    if @expense_list.status_expense_id == 4 # Approve by PM
+      @expense_list.update(status_expense_id: 6)
+      flash.now[:success] = "Expense have successfully approved."
+    end
+  end
+
+  def rejectfm
+    respond_to :html, :js
+    @expense_list= ExpenseList.find(params[:id])
+    if @expense_list.status_expense_id == 4 # Reject by PM
+      @expense_list.update(status_expense_id: 5)
+      flash.now[:success] = "Expense have successfully rejected."
+    end
+  end
+
+  private
+
+  def require_login
+    unless logged_in?
+      flash[:alert] = "You must be logged in to access this section"
+      redirect_to root_url
+    end
+  end
+
+  def return_employee
+    @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
+    @backup_lists = @expense_lists
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def expense_list_params
+    params.require(:expense_list).permit(:date, :employee_id, :project_id, :expense_id, :fuel_claim, :toll_claim, :parking_claim, :allowance_claim, :medical_claim ,:others_claim, :odometer_reading, :attachment_link)
+  end
     
-    private
-  
-    def require_login
-        unless logged_in?
-          flash[:alert] = "You must be logged in to access this section"
-          redirect_to root_url
-        end
-    end
-  
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def expense_list_params
-        params.require(:expense_list).permit(:employee_id, :project_id, :expense_id, :fuel_claim, :toll_claim, :parking_claim, :allowance_claim, :others_claim, :medical_claim, :remarks)
-    end
-
+    
 end

@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   enable_extension "plpgsql"
 
   create_table "announcements", force: :cascade do |t|
+    t.bigint "users_id", default: 0
     t.string "announcement"
     t.string "remarks"
     t.date "start_date"
@@ -23,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.boolean "show", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["users_id"], name: "index_announcements_on_users_id"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -38,26 +40,14 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   end
 
   create_table "departments", force: :cascade do |t|
+    t.bigint "company_id"
     t.string "name"
     t.string "description"
-    t.string "info_1"
-    t.string "info_2"
-    t.bigint "company_id"
+    t.string "address"
+    t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_departments_on_company_id"
-  end
-
-  create_table "employee_contracts", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.bigint "project_id"
-    t.date "start_from"
-    t.date "end_at"
-    t.float "base_salary"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_employee_contracts_on_employee_id"
-    t.index ["project_id"], name: "index_employee_contracts_on_project_id"
   end
 
   create_table "employee_positions", force: :cascade do |t|
@@ -72,29 +62,33 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.bigint "project_id", default: 1
     t.bigint "company_id", default: 1
     t.bigint "employee_position_id", default: 1
-    t.string "first_name"
-    t.string "last_name"
     t.string "full_name"
+    t.string "gender"
     t.string "personal_email"
     t.string "company_email"
-    t.string "employee_id"
-    t.string "title"
+    t.string "employee_code"
+    t.string "job_title"
     t.string "phone_number"
-    t.string "phone_number_2"
+    t.string "phone_number_emergency"
     t.string "address"
     t.string "address_2"
     t.string "nationality"
     t.string "race"
-    t.string "identity_passport_no"
-    t.string "marital_status"
-    t.string "spouse_name"
+    t.string "identity_no"
     t.string "bank_name"
     t.string "bank_account"
+    t.string "epf_account"
+    t.string "lhdn_account"
+    t.string "medical_account"
+    t.string "insurance_account"
+    t.string "marital_status"
+    t.string "spouse_name"
     t.integer "children_count"
     t.date "birthday"
     t.date "joined_since"
     t.date "joined_last"
     t.float "base_salary", default: 0.0
+    t.float "fix_allowance", default: 0.0
     t.float "annual_leave_entitled", default: 12.0
     t.float "annual_leave_taken", default: 0.0
     t.float "medical_leave_entitled", default: 12.0
@@ -102,7 +96,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.date "contract_start"
     t.date "contract_end"
     t.integer "category", default: 0
-    t.integer "employement_status", default: 0
+    t.integer "employment_status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_employees_on_company_id"
@@ -111,25 +105,10 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["project_id"], name: "index_employees_on_project_id"
   end
 
-  create_table "expense_approvals", force: :cascade do |t|
-    t.bigint "expense_id"
-    t.bigint "employee_id"
-    t.bigint "manager_id"
-    t.boolean "approval", default: false
-    t.boolean "reject", default: false
-    t.string "reject_reason"
-    t.string "manager_remark"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_expense_approvals_on_employee_id"
-    t.index ["expense_id"], name: "index_expense_approvals_on_expense_id"
-    t.index ["manager_id"], name: "index_expense_approvals_on_manager_id"
-  end
-
   create_table "expense_lists", force: :cascade do |t|
-    t.bigint "expense_id"
     t.bigint "employee_id"
     t.bigint "project_id"
+    t.bigint "status_expense_id", default: 1
     t.date "date"
     t.float "fuel_claim", default: 0.0
     t.float "toll_claim", default: 0.0
@@ -137,23 +116,14 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.float "allowance_claim", default: 0.0
     t.float "medical_claim", default: 0.0
     t.float "others_claim", default: 0.0
-    t.string "remarks"
+    t.integer "odometer_reading", default: 0
+    t.string "attachment_link"
+    t.datetime "submitted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_expense_lists_on_employee_id"
-    t.index ["expense_id"], name: "index_expense_lists_on_expense_id"
     t.index ["project_id"], name: "index_expense_lists_on_project_id"
-  end
-
-  create_table "expenses", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.string "session"
-    t.integer "year"
-    t.integer "month"
-    t.boolean "submitted", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_expenses_on_employee_id"
+    t.index ["status_expense_id"], name: "index_expense_lists_on_status_expense_id"
   end
 
   create_table "holidays", force: :cascade do |t|
@@ -164,24 +134,10 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "leaveap_approvals", force: :cascade do |t|
-    t.bigint "leaveap_id"
-    t.bigint "employee_id"
-    t.bigint "manager_id"
-    t.boolean "approval", default: false
-    t.boolean "reject", default: false
-    t.string "reject_reason"
-    t.string "manager_remark"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_leaveap_approvals_on_employee_id"
-    t.index ["leaveap_id"], name: "index_leaveap_approvals_on_leaveap_id"
-    t.index ["manager_id"], name: "index_leaveap_approvals_on_manager_id"
-  end
-
   create_table "leaveaps", force: :cascade do |t|
     t.bigint "employee_id"
     t.bigint "leavetype_id", default: 1
+    t.bigint "status_leave_id", default: 1
     t.string "reason"
     t.string "contact_person"
     t.string "contact_number"
@@ -196,9 +152,8 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.boolean "apv_1", default: false
     t.boolean "apv_2", default: false
     t.boolean "apv_3", default: false
-    t.boolean "rjt_1", default: false
-    t.boolean "rjt_2", default: false
-    t.boolean "rjt_3", default: false
+    t.string "attachment_link"
+    t.datetime "submitted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["apv_mgr_1_id"], name: "index_leaveaps_on_apv_mgr_1_id"
@@ -206,6 +161,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["apv_mgr_3_id"], name: "index_leaveaps_on_apv_mgr_3_id"
     t.index ["employee_id"], name: "index_leaveaps_on_employee_id"
     t.index ["leavetype_id"], name: "index_leaveaps_on_leavetype_id"
+    t.index ["status_leave_id"], name: "index_leaveaps_on_status_leave_id"
   end
 
   create_table "leavetypes", force: :cascade do |t|
@@ -214,22 +170,6 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.integer "days", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "payrolls", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.integer "month"
-    t.float "month_salary"
-    t.float "expenses_claim", default: 0.0
-    t.float "others_claim", default: 0.0
-    t.float "leave_deduction", default: 0.0
-    t.float "socso", default: 0.0
-    t.float "epf_employer", default: 0.0
-    t.float "epf_employee", default: 0.0
-    t.float "payslip_file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_payrolls_on_employee_id"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|
@@ -258,28 +198,40 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.bigint "company_id"
     t.bigint "department_id"
     t.bigint "manager_id"
+    t.bigint "manager_alt_id"
     t.boolean "site?", default: false
     t.boolean "vehicle?", default: false
+    t.integer "project_status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_projects_on_company_id"
     t.index ["department_id"], name: "index_projects_on_department_id"
+    t.index ["manager_alt_id"], name: "index_projects_on_manager_alt_id"
     t.index ["manager_id"], name: "index_projects_on_manager_id"
   end
 
-  create_table "timesheet_approvals", force: :cascade do |t|
-    t.bigint "timesheet_id"
-    t.bigint "employee_id"
-    t.bigint "manager_id"
-    t.boolean "approval", default: false
-    t.boolean "reject", default: false
-    t.string "reject_reason"
-    t.string "manager_remark"
+  create_table "status_expenses", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "css", default: "info"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_timesheet_approvals_on_employee_id"
-    t.index ["manager_id"], name: "index_timesheet_approvals_on_manager_id"
-    t.index ["timesheet_id"], name: "index_timesheet_approvals_on_timesheet_id"
+  end
+
+  create_table "status_leaves", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "css", default: "info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "status_timesheets", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "css", default: "info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "timesheet_categories", force: :cascade do |t|
@@ -290,36 +242,27 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   end
 
   create_table "timesheet_tasks", force: :cascade do |t|
-    t.bigint "timesheet_id"
     t.bigint "employee_id"
     t.bigint "project_id"
-    t.string "activity"
-    t.string "site_name"
-    t.string "vehicle_number"
+    t.bigint "timesheet_category_id", default: 1
+    t.bigint "status_timesheet_id", default: 1
     t.bigint "vehicle_owner_id"
     t.bigint "project_region_id"
     t.date "date"
-    t.integer "time_in", default: 9
-    t.integer "time_out", default: 18
-    t.integer "time_break", default: 1
+    t.string "activity"
+    t.string "site_name"
+    t.string "vehicle_number"
+    t.integer "working_hours", default: 8
+    t.string "attachment_link"
+    t.datetime "submitted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["employee_id"], name: "index_timesheet_tasks_on_employee_id"
     t.index ["project_id"], name: "index_timesheet_tasks_on_project_id"
     t.index ["project_region_id"], name: "index_timesheet_tasks_on_project_region_id"
-    t.index ["timesheet_id"], name: "index_timesheet_tasks_on_timesheet_id"
+    t.index ["status_timesheet_id"], name: "index_timesheet_tasks_on_status_timesheet_id"
+    t.index ["timesheet_category_id"], name: "index_timesheet_tasks_on_timesheet_category_id"
     t.index ["vehicle_owner_id"], name: "index_timesheet_tasks_on_vehicle_owner_id"
-  end
-
-  create_table "timesheets", force: :cascade do |t|
-    t.bigint "employee_id"
-    t.string "session"
-    t.integer "year"
-    t.integer "month"
-    t.boolean "submitted", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_timesheets_on_employee_id"
   end
 
   create_table "users", force: :cascade do |t|
