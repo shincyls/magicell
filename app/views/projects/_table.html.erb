@@ -3,6 +3,7 @@
   <p class="text-info">Total: <%= @projects.count %></p>
   <thead>
     <tr>
+      <th>ID</th>
       <th>Name</th>
       <th>PM</th>
       <th>PM 2</th>
@@ -20,6 +21,7 @@
     <% unless @projects.nil? %>
     <% @projects.each do |e| %>
     <tr>
+        <td><%=e.id%></td>
         <td><%=e.name%></td>
         <td><%=e.manager.full_name if e.manager %></td>
         <td><%=e.manager_alt.full_name if e.manager_alt %></td>

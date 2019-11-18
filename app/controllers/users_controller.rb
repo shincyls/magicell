@@ -60,7 +60,7 @@ class UsersController < ApplicationController
           @user.webrole_id = Webrole.find_by(role: "Manager").id
           @user.save
         end
-        flash.now[:success] = "#{@user.username} login have been successfully created."
+        flash.now[:success] = "#{@user.username} login have been successfully created, default password is #{WebappContent.first.param}."
       else
         flash.now[:warning] = "Oops! Something was wrong, please check with admin"
       end

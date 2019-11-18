@@ -4,8 +4,10 @@
   <thead class="text-dark">
     <tr>
       <th>Employee</th>
-      <th>Username</th>
-      <th>Email</th>
+      <th>Department</th>
+      <th>Position</th>
+      <th>Login Username</th>
+      <th>Login Email</th>
       <th>Webrole</th>
       <% if current_user.webrole.wr_it %>
       <th>Action</th>
@@ -18,6 +20,8 @@
   <% @employees.each do |e| %>
     <tr>
       <td><%=e.full_name%></td>
+      <td><%=e.department.name%></td>
+      <td><%=e.employee_position.position%></td>
       <td>
         <%= e.user.username if e.user %>
         <% unless e.user%>
@@ -42,5 +46,5 @@
 
 
 <script>
-loadjs('#webaccount-table', 3, 20, 'Blfrtip');
+loadjs('#webuser-table', 0, 50, 'Blfrtip');
 </script>

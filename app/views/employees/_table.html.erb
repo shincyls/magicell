@@ -19,7 +19,7 @@
   <tbody class="text-dark">
     <% unless @employees.nil? %>
     <% @employees.each do |e| %>
-    <tr>
+    <tr class="<%=e.employment_status.downcase%>">
         <td><%=e.full_name%></td>
         <td><%=e.employee_code%></td>
         <td><%=e.employee_position.position if e.employee_position.position%></td>

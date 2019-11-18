@@ -18,8 +18,8 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <%= link_to "Dashboard", dashhr_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Employee", employees_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Project", projects_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Employee", employees_path(value: 0), class: "dropdown-item", remote: true %>
+                <%= link_to "Project", projects_path(value: 0), class: "dropdown-item", remote: true %>
                 <%= link_to "Equipment", "", class: "dropdown-item disabled", remote: true %>
                 <%= link_to "Announcement", announcements_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Holiday", holidays_path, class: "dropdown-item", remote: true %>
@@ -113,9 +113,7 @@ function loadjs(table, sortColumn, pageLength, dom) {
                 buttons: [
                     'copy',
                     'excel',
-                    'csv',
-                    'pdf',
-                    'print'
+                    'csv'
                 ]
             }
         ]

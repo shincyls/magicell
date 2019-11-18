@@ -67,6 +67,12 @@ class EmployeesController < ApplicationController
         flash.now[:warning] = "This action couldn't be performed due to error, please check with admin."
       end
     end
+
+    def import
+      respond_to :html, :js
+      Employee.import(params[:file])
+      flash.now[:success] = "Import Done."
+    end
   
     private
   

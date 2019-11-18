@@ -1,5 +1,14 @@
 <h4 class="text-left text-success">Leaves Approval</h4>
 
+<br>
+<div class="row">
+  <%= button_to "All", project_leaveaps_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
+  <%= button_to "#{@backup_lists.where(status_leave_id: 2).count} Pending" , project_leaveaps_path, params: {value: 2}, method: "get", remote: true, class: "col btn btn-sm badge-primary m-2" %>
+  <%= button_to "#{@backup_lists.where(status_leave_id: 3).count} Rejected" , project_leaveaps_path, params: {value: 3}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
+  <%= button_to "#{@backup_lists.where(status_leave_id: 4).count} Approved" , project_leaveaps_path, params: {value: 4}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>
+</div>
+<br>
+
 <div id="leave-approval-section">
   <table id="leave-approval-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
     
@@ -43,24 +52,26 @@
         <td><%= (link_to "Click", "http://#{l.url}", target: "_blank") if l.attachment_link.present? %></td>
         <td><%=(time_ago_in_words(l.submitted_at) + " ago") if l.submitted_at%></td>
         <td>
+          <ul class="list-unstyled">
           <% if l.apv_mgr_1_id === current_user.employee.id %>
             <% unless l.apv_1 %>
-              <%= link_to 'Approve', approve_leaveap_path(l, value: 1), method: :post, class: "bg-success rounded p-1 m-1 small text-white m-1", remote: true %>
-              <%= link_to 'Reject', reject_leaveap_path(l, value: 1), method: :post, class: "bg-danger rounded p-1 m-1 small text-white m-1", remote: true %>
+              <li class="mt-2"><%= link_to 'Approve', approve_leaveap_path(l, value: 1), method: :post, class: "bg-success rounded p-1 small text-white mt-2", remote: true %></li>
+              <li class="mt-2"><%= link_to 'Reject', reject_leaveap_path(l, value: 1), method: :post, class: "bg-danger rounded p-1 small text-white mt-2", remote: true %></li>
             <% else %>
-              <span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span>
+              <li class="mt-2"><span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span></li>
             <% end %>
           <% elsif l.apv_mgr_2_id == current_user.employee.id %>
             <% unless l.apv_2 %>
-              <%= link_to 'Approve', approve_leaveap_path(l, value: 2), method: :post, class: "bg-success rounded p-1 m-1 small text-white m-1", remote: true %>
-              <%= link_to 'Reject', reject_leaveap_path(l, value: 2), method: :post, class: "bg-danger rounded p-1 m-1 small text-white m-1", remote: true %>
+              <li class="mt-2"><%= link_to 'Approve', approve_leaveap_path(l, value: 2), method: :post, class: "bg-success rounded p-1 small text-white mt-2", remote: true %></li>
+              <li class="mt-2"><%= link_to 'Reject', reject_leaveap_path(l, value: 2), method: :post, class: "bg-danger rounded p-1 small text-white mt-2", remote: true %></li>
             <% else %>
-              <span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span>
+              <li class="mt-2"><span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span></li>
             <% end %>
           <% else %>
-              <span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span>
+              <li class="mt-2"><span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span></li>
           <% end %>
-        </td>
+          </ul>
+      </td>
       <tr>
     <% end %>
     <% end %>

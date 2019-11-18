@@ -55,37 +55,35 @@ Department.create!([
 
 EmployeePosition.create!([
   {position: "Employee", description: "Normal Employee"},
-  {position: "Project Manager", description: "Department or Project Manager"},
-  {position: "Department Manager", description: "Department or Project Manager"},
-  {position: "Managing Director", description: "Managing Director of Company"}
+  {position: "Manager", description: "Department or Project Manager"}
 ])
 
 Employee.create!([
-  {full_name: "Manager Account", employee_code: "M001", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "owner@gmail.com", company_email: "owner@magicell.com.my", identity_no: "810101-01-1234", phone_number: "012-3456789"},
-  {full_name: "Lee Xiao Long", employee_code: "M002",company_id: 1, department_id: 1, employee_position_id: 1, project_id: 1, personal_email: "user1@gmail.com", company_email: "user1@magicell.com.my", identity_no: "810101-02-1234", phone_number: "012-3456788"},
-  {full_name: "Ahmad Johari", employee_code: "M003",company_id: 1, department_id: 2, employee_position_id: 1, project_id: 1, personal_email: "user2@gmail.com", company_email: "user2@magicell.com.my", identity_no: "810101-03-1234", phone_number: "012-3456787"},
-  {full_name: "Simon Kong", employee_code: "M004",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 2, personal_email: "user3@gmail.com", company_email: "user3@magicell.com.my", identity_no: "810101-04-1234", phone_number: "012-3456786"},
-  {full_name: "Syaiful Bukhari", employee_code: "M005",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 3, personal_email: "user4@gmail.com", company_email: "user4@magicell.com.my", identity_no: "810101-05-1234", phone_number: "012-3456785"},
-  {full_name: "Daniel Nelson", employee_code: "M006",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 4, personal_email: "user5@gmail.com", company_email: "user5@magicell.com.my", identity_no: "810101-06-1234", phone_number: "012-3456784"},
-  {full_name: "Tan Manager", employee_code: "M007",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 2, personal_email: "user6@gmail.com", company_email: "user6@magicell.com.my", identity_no: "810101-07-1234", phone_number: "012-3456783"},
-  {full_name: "Wong Manager", employee_code: "M008",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 3, personal_email: "user7@gmail.com", company_email: "user7@magicell.com.my", identity_no: "810101-08-1234", phone_number: "012-3456782"},
-  {full_name: "Kong Manager", employee_code: "M009",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user8@gmail.com", company_email: "user8@magicell.com.my", identity_no: "810101-09-1234", phone_number: "012-3456781"},
-  {full_name: "Lee Manager", employee_code: "M010",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user9@gmail.com", company_email: "user9@magicell.com.my", identity_no: "810101-10-1234", phone_number: "012-3456780"},
-  {full_name: "Shin CY", employee_code: "M001", company_id: 1, department_id: 4, employee_position_id: 1, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_no: "861125-03-1234", phone_number: "012-5353080"}
+  {full_name: "Super User", employee_code: "S001", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "noreply@magicell.com.my", company_email: "noreply@magicell.com.my", identity_no: "123456-12-1234", phone_number: "012-3456789"}
+  # {full_name: "Lee Xiao Long", employee_code: "M002",company_id: 1, department_id: 1, employee_position_id: 1, project_id: 1, personal_email: "user1@gmail.com", company_email: "user1@magicell.com.my", identity_no: "810101-02-1234", phone_number: "012-3456788"},
+  # {full_name: "Ahmad Johari", employee_code: "M003",company_id: 1, department_id: 2, employee_position_id: 1, project_id: 1, personal_email: "user2@gmail.com", company_email: "user2@magicell.com.my", identity_no: "810101-03-1234", phone_number: "012-3456787"},
+  # {full_name: "Simon Kong", employee_code: "M004",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 2, personal_email: "user3@gmail.com", company_email: "user3@magicell.com.my", identity_no: "810101-04-1234", phone_number: "012-3456786"},
+  # {full_name: "Syaiful Bukhari", employee_code: "M005",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 3, personal_email: "user4@gmail.com", company_email: "user4@magicell.com.my", identity_no: "810101-05-1234", phone_number: "012-3456785"},
+  # {full_name: "Daniel Nelson", employee_code: "M006",company_id: 1, department_id: 5, employee_position_id: 1, project_id: 4, personal_email: "user5@gmail.com", company_email: "user5@magicell.com.my", identity_no: "810101-06-1234", phone_number: "012-3456784"},
+  # {full_name: "Tan Manager", employee_code: "M007",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 2, personal_email: "user6@gmail.com", company_email: "user6@magicell.com.my", identity_no: "810101-07-1234", phone_number: "012-3456783"},
+  # {full_name: "Wong Manager", employee_code: "M008",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 3, personal_email: "user7@gmail.com", company_email: "user7@magicell.com.my", identity_no: "810101-08-1234", phone_number: "012-3456782"},
+  # {full_name: "Kong Manager", employee_code: "M009",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user8@gmail.com", company_email: "user8@magicell.com.my", identity_no: "810101-09-1234", phone_number: "012-3456781"},
+  # {full_name: "Lee Manager", employee_code: "M010",company_id: 1, department_id: 5, employee_position_id: 2, project_id: 4, personal_email: "user9@gmail.com", company_email: "user9@magicell.com.my", identity_no: "810101-10-1234", phone_number: "012-3456780"},
+  # {full_name: "Shin CY", employee_code: "M001", company_id: 1, department_id: 4, employee_position_id: 1, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_no: "861125-03-1234", phone_number: "012-5353080"}
 ])
 
 User.create!([
-  {username: "owner", password: "M@g!c3lL", webrole_id: 3, employee_id: 1},
-  {username: "admin1", password: "@dmin!23", webrole_id: 3, employee_id: 2},
-  {username: "xiaolong", password: "qwerasdf", webrole_id: 1, employee_id: 3},
-  {username: "johari", password: "qwerasdf", webrole_id: 6, employee_id: 4},
-  {username: "simon", password: "qwerasdf", webrole_id: 7, employee_id: 5},
-  {username: "ahmad", password: "qwerasdf", webrole_id: 8, employee_id: 6},
-  {username: "nelson", password: "qwerasdf", webrole_id: 8, employee_id: 7},
-  {username: "manager1", password: "qwerasdf", webrole_id: 5, employee_id: 8},
-  {username: "manager2", password: "qwerasdf", webrole_id: 5, employee_id: 9},
-  {username: "manager3", password: "qwerasdf", webrole_id: 5, employee_id: 10},
-  {username: "shincy", password: "qwerasdf", webrole_id: 5, employee_id: 11}
+  {username: "owner", password: "M@g!c3lL", webrole_id: 3, employee_id: 1}
+  # {username: "admin1", password: "@dmin!23", webrole_id: 3, employee_id: 2},
+  # {username: "xiaolong", password: "qwerasdf", webrole_id: 1, employee_id: 3},
+  # {username: "johari", password: "qwerasdf", webrole_id: 6, employee_id: 4},
+  # {username: "simon", password: "qwerasdf", webrole_id: 7, employee_id: 5},
+  # {username: "ahmad", password: "qwerasdf", webrole_id: 8, employee_id: 6},
+  # {username: "nelson", password: "qwerasdf", webrole_id: 8, employee_id: 7},
+  # {username: "manager1", password: "qwerasdf", webrole_id: 5, employee_id: 8},
+  # {username: "manager2", password: "qwerasdf", webrole_id: 5, employee_id: 9},
+  # {username: "manager3", password: "qwerasdf", webrole_id: 5, employee_id: 10},
+  # {username: "shincy", password: "qwerasdf", webrole_id: 5, employee_id: 11}
 ])
 
 Project.create!([

@@ -7,13 +7,22 @@ class LeaveapsController < ApplicationController
   
     def index
       respond_to :html, :js
-      @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
+      @leaveaps = Leaveap.where(employee_id: current_user.employee.id)
+      @backup_lists = @leaveaps
+      if params[:value].to_i > 1
+        @leaveaps = Leaveap.where(employee_id: current_user.employee.id, status_leave_id: params[:value])
+      end
       @leaveap = Leaveap.new
     end
 
     def project
-        respond_to :js
-        @leap = (Leaveap.where(apv_mgr_1_id: current_user.employee.id, status_leave_id: [2,3,4]) + Leaveap.where(apv_mgr_2_id: current_user.employee.id, status_leave_id: [2,3,4])).uniq
+      respond_to :js
+      @leap = Leaveap.where(apv_mgr_1_id: current_user.employee.id).or(Leaveap.where(apv_mgr_2_id: current_user.employee.id))
+      # @leap = (Leaveap.where(apv_mgr_1_id: current_user.employee.id, status_leave_id: [2,3,4]) + Leaveap.where(apv_mgr_2_id: current_user.employee.id, status_leave_id: [2,3,4])).uniq
+      @backup_lists = @leap
+      if params[:value].to_i > 1
+        @leap = Leaveap.where(apv_mgr_1_id: current_user.employee.id).or(Leaveap.where(apv_mgr_2_id: current_user.employee.id))
+      end
     end
 
     def new
@@ -57,8 +66,8 @@ class LeaveapsController < ApplicationController
       @leaveap.submitted_at = Time.now
       if @leaveap.save
         flash.now[:success] = "Your Leave Application Have Been Submitted."
-        # UserMailer.submit_leave(@la.id, 1).deliver if @la.apv_mgr_1_id
-        # UserMailer.submit_leave(@la.id, 2).deliver if @la.apv_mgr_2_id
+        UserMailer.submit_leave(@la.id, 1).deliver if @la.apv_mgr_1_id
+        UserMailer.submit_leave(@la.id, 2).deliver if @la.apv_mgr_2_id
       end
     end
   
@@ -84,7 +93,6 @@ class LeaveapsController < ApplicationController
       elsif params[:value].to_i == 2
         @leaveap.apv_2 = true
       end
-      flash.now[:warning] = "1"
       if @leaveap.approve_sum # If all manager approved
         @leaveap.status_leave_id = 4
         if @leaveap.leavetype_id == 1 # Annual Leave
@@ -97,8 +105,8 @@ class LeaveapsController < ApplicationController
         @leaveap.status_leave_id = 2
       end
       if @leaveap.save
-        flash.now[:warning] = "#{@leaveap.apv_1} #{@leaveap.apv_2}"
-        # UserMailer.approve_leave(@leaveap.id, params[:value]).deliver
+        flash.now[:success] = "You have approved leave application, notification has sent to applicant."
+        UserMailer.approve_leave(@leaveap.id, params[:value]).deliver
       end
     end
 
@@ -112,8 +120,8 @@ class LeaveapsController < ApplicationController
       end
       @leaveap.status_leave_id = 3
       if @leaveap.save
-        flash.now[:warning] = "Done"
-        # UserMailer.reject_leave(@leaveap.id, params[:value]).deliver
+        flash.now[:success] = "You have rejected application, notification has sent to applicant."
+        UserMailer.reject_leave(@leaveap.id, params[:value]).deliver
       end
     end
   
