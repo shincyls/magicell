@@ -36,6 +36,11 @@ class EmployeesController < ApplicationController
       respond_to :html, :js
       @employee = Employee.find(params[:id])
     end
+
+    def editself
+      respond_to :html, :js
+      @employee = current_user.employee
+    end
   
     # PATCH/PUT /employees/1
     def update
@@ -92,6 +97,14 @@ class EmployeesController < ApplicationController
           :annual_leave_entitled, :annual_leave_taken, :medical_leave_entitled, :medical_leave_taken, :contract_start, :contract_end, :category, :employment_status,
           :phone_number_emergency, :gender, :socso_account, :include_socso, :include_epf
         )
+    end
+
+    def employee_self_params
+      params.require(:employee).permit(
+        :department_id, :project_id, :personal_email, :company_email, 
+        :phone_number, :phone_emergency, :address, :nationality, :race, :marital_status, :spouse_name, :children_count, 
+        :birthday, :phone_number_emergency, :gender
+      )
     end
       
   end

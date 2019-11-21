@@ -1,0 +1,4 @@
+$("#modal-header").html("Edit Employee for <%=@employee.full_name%>");
+$("#modal-body").html("<%= j (render 'editself') %>");
+$("#modal-footer").html("<button type='submit' form='edit_employee_<%=@employee.id%>' class='btn btn-primary'>Update</button>");
+$("#modal-form").modal();

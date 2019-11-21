@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       post :import
     end
     member do
+      post :editself
     end
   end
 
