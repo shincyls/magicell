@@ -1,37 +1,28 @@
       <% l = @leaveap %>
-      <td><%=l.employee.full_name%></td>
-      <td><%=l.leavetype.name%></td>
-      <td>
-        <% if l.leavetype_id == 1%>
-        <span class="text-success">(<%=l.employee.annual_leave_taken + l.total_days%>)</span> / <%=l.employee.annual_leave_entitled%>
-        <% elsif l.leavetype_id == 2%>
-        <span class="text-success">(<%=l.employee.medical_leave_taken + l.total_days%>)</span> / <%=l.employee.medical_leave_entitled%>
-        <% end %>
-      </td>
-      <td><%=l.reason%></td>
-      <td><%=l.contact_person%> <%=l.contact_number%></td>
-      <td><%=l.from_date%> <%=l.from_ampm%> to <%=l.to_date%> <%=l.to_ampm%></td>
-      <td><%=l.total_days%></td>
-      <td><%= (link_to "Click", "http://#{l.url}", target: "_blank") if l.attachment_link.present? %></td>
-      <td><%=(time_ago_in_words(l.submitted_at) + " ago") if l.submitted_at%></td>
-      <td>
-          <ul class="list-unstyled">
-          <% if l.apv_mgr_1_id === current_user.employee.id %>
-            <% unless l.apv_1 %>
-              <li class="mt-2"><%= link_to 'Approve', approve_leaveap_path(l, value: 1), method: :post, class: "bg-success rounded p-1 small text-white mt-2", remote: true %></li>
-              <li class="mt-2"><%= link_to 'Reject', reject_leaveap_path(l, value: 1), method: :post, class: "bg-danger rounded p-1 small text-white mt-2", remote: true %></li>
-            <% else %>
-              <li class="mt-2"><span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span></li>
-            <% end %>
-          <% elsif l.apv_mgr_2_id == current_user.employee.id %>
-            <% unless l.apv_2 %>
-              <li class="mt-2"><%= link_to 'Approve', approve_leaveap_path(l, value: 2), method: :post, class: "bg-success rounded p-1 small text-white mt-2", remote: true %></li>
-              <li class="mt-2"><%= link_to 'Reject', reject_leaveap_path(l, value: 2), method: :post, class: "bg-danger rounded p-1 small text-white mt-2", remote: true %></li>
-            <% else %>
-              <li class="mt-2"><span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span></li>
-            <% end %>
-          <% else %>
-              <li class="mt-2"><span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span></li>
-          <% end %>
-          </ul>
-      </td>
+            <td><%=l.leavetype.name%></td>
+            <td><%=l.reason%></td>
+            <td><%=l.contact_person%></td>
+            <td><%=l.contact_number%></td>
+            <td><%=l.from_date%> <%=l.from_ampm%></td>
+            <td><%=l.to_date%> <%=l.to_ampm%></td>
+            <td><%=l.total_days%></td>
+            <td><%= (link_to "Click", "http://#{l.url}", target: "_blank") if l.attachment_link.present? %></td>
+            <td><%=(time_ago_in_words(l.submitted_at).chomp("about") + " ago") if l.submitted_at%></td>
+            <td><span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span></td>
+            <td>
+              <% if [1].include?(l.status_leave_id) %>
+                <ul class="list-unstyled">
+                <% if l.apv_mgr_1_id == current_user.employee.id %>
+                  <% unless l.apv_1 %>
+                  <li class="mt-2"><%= link_to 'Approve', approve_leaveap_path(l, value: 1), method: :post, class: "btn-sm btn-success", remote: true %></li>
+                  <li class="mt-2"><%= link_to 'Reject', reject_leaveap_path(l, value: 1), method: :post, class: "btn-sm btn-danger", remote: true %></li>
+                  <% end %>
+                <% elsif l.apv_mgr_2_id == current_user.employee.id %>
+                  <% unless l.apv_2 %>
+                  <li class="mt-2"><%= link_to 'Approve', approve_leaveap_path(l, value: 2), method: :post, class: "btn-sm btn-success", remote: true %></li>
+                  <li class="mt-2"><%= link_to 'Reject', reject_leaveap_path(l, value: 2), method: :post, class: "btn-sm btn-danger", remote: true %></li>
+                  <% end %>
+                <% end %>
+                </ul>
+              <% end %>
+            </td>

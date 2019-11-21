@@ -102,11 +102,11 @@
       </div>
       <div class="col-lg-2 col-md-2 mb-2">
         <label class="d-block">Department (If Any)</label>
-        <%= f.select(:department_id, Department.all.collect {|e| [e.name, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
+        <%= f.select(:department_id, Department.order("name asc").collect {|e| [e.name, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
       </div>
       <div class="col-lg-2 col-md-2 mb-2">
         <label class="d-block">Project (If Any)</label>
-        <%= f.select(:project_id, Project.all.collect {|e| [e.name, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
+        <%= f.select(:project_id, Project.order("name asc").collect {|e| [e.name, e.id]}, {include_blank: "Select One"}, class: "custom-select custom-select-sm") %>
       </div>
       <div class="col-lg-2 col-md-2 mb-2">
         <label>Base Salary (RM)</label>
@@ -137,8 +137,14 @@
         <%= f.text_field :bank_account, placeholder: "Bank Account", class: "form-control form-control-sm" %>
       </div>
       <div class="col-lg-2 col-md-3">
+        <label>SOCSO Account</label>
+        <%= f.text_field :socso_account, placeholder: "EPF Account", class: "form-control form-control-sm" %>
+        <label class="my-auto small">Payroll? <%= f.check_box :include_socso %></label>
+      </div>
+      <div class="col-lg-2 col-md-3">
         <label>EPF Account</label>
         <%= f.text_field :epf_account, placeholder: "EPF Account", class: "form-control form-control-sm" %>
+        <label class="my-auto small">Payroll? <%= f.check_box :include_epf %></label>
       </div>
       <div class="col-lg-2 col-md-3">
         <label>LHDN Account</label>
@@ -156,7 +162,7 @@
     </div>
     
 
-    <h5 class="text-special text-success">Contract Employee Only</h5>
+    <h5 class="text-special text-success">Contract/Foreign Employee Only</h5>
     <div class="row text-special text-dark mt-2 mb-3">
       <div class="col-lg-3 col-md-3 mb-2">
         <label class="d-block">Start</label>
@@ -165,6 +171,10 @@
       <div class="col-lg-3 col-md-3 mb-2">
         <label class="d-block">End</label>
         <%= f.date_select :contract_end, {start_year: Date.today.year - 1, end_year: Date.today.year + 2, include_blank: "Select"}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
+      </div>
+      <div class="col-lg-3 col-md-3 mb-2">
+        <label class="d-block">Permit Expire Date</label>
+        <%= f.date_select :ep_expire, {start_year: Date.today.year - 1, end_year: Date.today.year + 2, include_blank: "Select"}, class: "d-inline-block form-control form-control-sm", style: "width:30%;"%>
       </div>
     </div>
 

@@ -22,7 +22,7 @@
 
       <div class="col-lg-3">
         <label>Project*</label>
-        <div><%= f.select(:project_id, Project.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+        <div><%= f.select(:project_id, Project.order("name asc").collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
       <div class="col-lg-3">
@@ -41,12 +41,12 @@
 
     <div class="row text-dark text-special mt-2 mb-3">
       <div class="col-lg-3 mb-2">
-        <label>Site Name</label>
-        <div><%= f.text_field :site_name, placeholder: "Site Name", class: "form-control form-control-sm" %></div>
+        <label>SiteID / LocID</label>
+        <div><%= f.text_field :site_name, placeholder: "eg: 1234D / C12345", class: "form-control form-control-sm" %></div>
       </div>
 
       <div class="col-lg-3 mb-2">
-        <label>Car Owner</label>
+        <label>Region</label>
         <div><%= f.select(:project_region_id, ProjectRegion.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Region"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
@@ -63,7 +63,7 @@
     </div>
 
     <div class="mx-auto">
-      <%= f.submit "Confirm", class: "btn btn-primary", data: { confirm: 'Please Confirm' } %>
+      <%= f.submit "Create", class: "btn btn-primary", data: { confirm: 'Please Confirm' } %>
     </div>
     
     

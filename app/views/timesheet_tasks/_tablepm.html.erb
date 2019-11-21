@@ -1,20 +1,21 @@
 <% t = @timesheet_task %>
             <td><%=t.date%></td>
-            <td><%=t.employee.full_name%></td>
+            <td><a href="https://api.whatsapp.com/send?phone=+6<%=t.employee.whatsapp%>"><%=t.employee.full_name%></a></td>
             <td><%=t.project.name%></td>
             <td><%=t.activity%></td>
             <td><%=t.working_hours%></td>
             <td><%=t.site_name%> <%=t.project.manager.id%> </td>
             <td><%=t.project_region%> <%=t.project_region.name if t.project_region %></td>
             <td><%=t.vehicle_number%> <%=t.vehicle_owner.name if t.vehicle_owner %></td>
-            <td><%=(time_ago_in_words(t.submitted_at) + " ago") if t.submitted_at%></td>
+            <td><%=(time_ago_in_words(t.submitted_at).chomp("about") + " ago") if t.submitted_at%></td>
             <td><span class="badge badge-<%=t.status_timesheet.css%>"><%=t.status_timesheet.name%></span></td>
+            <td>
             <% if t.project.manager.id == current_user.employee.id %>
               <% if [2].include?(t.status_timesheet_id) %>
-                <td><span class="bg-success rounded p-1 m-1"><%= link_to 'Approve', approvepm_timesheet_task_path(t), method: :post, class: "small text-white m-1", remote: true %></span></td>
-                <td><span class="bg-danger rounded p-1 m-1"><%= link_to 'Reject', rejectpm_timesheet_task_path(t), method: :post, class: "small text-white m-1", remote: true %></span></td>
-              <% else %>
-                <td></td>
-                <td></td>
+                <ul class="list-unstyled">
+                <li class="mt-2"><%= link_to 'Approve', approvepm_timesheet_task_path(t), method: :post, class: "btn-sm btn-success", remote: true %></li>
+                <li class="mt-2"><%= link_to 'Reject', rejectpm_timesheet_task_path(t), method: :post, class: "btn-sm btn-danger", remote: true %></li>
+                </ul>
               <% end %>
             <% end %>
+            </td>

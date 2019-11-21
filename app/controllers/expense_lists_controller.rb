@@ -6,8 +6,8 @@ class ExpenseListsController < ApplicationController
     respond_to :html, :js
     @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
     @backup_lists = @expense_lists
-    if params[:value].to_i > 1
-      @expense_lists = ExpenseList.where(employee_id: current_user.employee.id, status_expense_id: params[:value]).order("date desc")
+    if params[:value].present?
+      @expense_lists = ExpenseList.where(employee_id: current_user.employee.id, status_expense_id: params[:value].to_i).order("date desc")
     end
     @expense_list= ExpenseList.new
   end

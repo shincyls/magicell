@@ -6,8 +6,8 @@ class TimesheetTasksController < ApplicationController
       respond_to :html, :js
       @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id).order("date desc")
       @backup_lists = @timesheet_tasks
-      if params[:value].to_i > 0
-        @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id, status_timesheet_id: params[:value]).order("date desc")
+      if params[:value].present?
+        @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id, status_timesheet_id: params[:value].to_i).order("date desc")
       end
       @timesheet_task = TimesheetTask.new
     end

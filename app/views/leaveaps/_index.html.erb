@@ -8,11 +8,11 @@
   <h4 class="text-left text-success">Leave History</h4>
   <br>
   <div class="row">
-    <%= button_to "All", project_leaveaps_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
-    <%= button_to "#{@backup_lists.where(status_leave_id: 1).count} Pending" , project_leaveaps_path, params: {value: 1}, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
-    <%= button_to "#{@backup_lists.where(status_leave_id: 2).count} Pending" , project_leaveaps_path, params: {value: 2}, method: "get", remote: true, class: "col btn btn-sm badge-primary m-2" %>
-    <%= button_to "#{@backup_lists.where(status_leave_id: 3).count} Rejected" , project_leaveaps_path, params: {value: 3}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
-    <%= button_to "#{@backup_lists.where(status_leave_id: 4).count} Approved" , project_leaveaps_path, params: {value: 4}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>
+    <%= button_to "All", leaveaps_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
+    <%= button_to "#{@backup_lists.where(status_leave_id: 1).count} Pending" , leaveaps_path, params: {value: 1}, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
+    <%= button_to "#{@backup_lists.where(status_leave_id: 2).count} Pending" , leaveaps_path, params: {value: 2}, method: "get", remote: true, class: "col btn btn-sm badge-primary m-2" %>
+    <%= button_to "#{@backup_lists.where(status_leave_id: 3).count} Rejected" , leaveaps_path, params: {value: 3}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
+    <%= button_to "#{@backup_lists.where(status_leave_id: 4).count} Approved" , leaveaps_path, params: {value: 4}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>
   </div>
   <br>
   <%= render partial: "leaveaps/table", local: @leaveaps %>

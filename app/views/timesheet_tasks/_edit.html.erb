@@ -11,7 +11,7 @@
 
       <div class="col-lg-4 mb-2">
         <label>Project*</label>
-        <div><%= f.select(:project_id, Project.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+        <div><%= f.select(:project_id, Project.order("name asc").collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
       <div class="col-lg-4 mb-2">

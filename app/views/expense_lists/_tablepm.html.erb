@@ -1,6 +1,6 @@
 <% t = @expense_list %>
             <td><%=t.date%></td>
-            <td><%=t.employee.full_name%></td>
+            <td><a href="https://api.whatsapp.com/send?phone=+6<%=t.employee.whatsapp%>"><%=t.employee.full_name%></a></td>
             <td><%=t.project.name%></td>
             <td><%=t.project.manager.full_name%></td>
             <td>
@@ -15,13 +15,15 @@
             </td>
             <td><%=t.odometer_reading%></td>
             <td><%= (link_to "Click", "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
-            <td><%=(time_ago_in_words(t.submitted_at) + " ago") if t.submitted_at%></td>
+            <td><%=(time_ago_in_words(t.submitted_at).chomp("about") + " ago") if t.submitted_at%></td>
             <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
             <td>
               <% if t.project.manager.id == current_user.employee.id %>
                 <% if [2].include?(t.status_expense_id) %>
-                <span class="bg-success rounded p-1 m-1"><%= link_to 'Approve', approvepm_expense_list_path(t), method: :post, class: "small text-white m-1", remote: true %></span>
-                <span class="bg-danger rounded p-1 m-1"><%= link_to 'Reject', rejectpm_expense_list_path(t), method: :post, class: "small text-white m-1", remote: true %></span>
+                <ul class="row list-unstyled">
+                  <li class="mt-2"><%= link_to 'Approve', approvepm_expense_list_path(t), method: :post, class: "btn-sm btn-success2", remote: true %></li>
+                  <li class="mt-2"><%= link_to 'Reject', rejectpm_expense_list_path(t), method: :post, class: "btn-sm btn-danger", remote: true %></li>
+                </ul>
                 <% end %>
               <% end %>
             </td>

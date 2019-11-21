@@ -20,7 +20,10 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
         t.string :identity_no
         t.string :bank_name
         t.string :bank_account
+        t.string :socso_account
+        t.boolean :include_socso, default: false
         t.string :epf_account
+        t.boolean :include_epf, default: false
         t.string :lhdn_account
         t.string :medical_account
         t.string :insurance_account
@@ -28,6 +31,7 @@ class CreateEmployees < ActiveRecord::Migration[5.2]
         t.string :spouse_name
         t.integer :children_count
         t.date :birthday
+        t.date :ep_expire
         t.date :joined_since
         t.date :joined_last
         t.float :base_salary, default: 0

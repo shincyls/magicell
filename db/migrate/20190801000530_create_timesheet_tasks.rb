@@ -9,8 +9,8 @@ class CreateTimesheetTasks < ActiveRecord::Migration[5.2]
           t.references :project_region
           t.date :date
           t.string :activity
-          t.string :site_name
-          t.string :vehicle_number
+          t.string :site_name, limit: 6
+          t.string :vehicle_number, limit: 8
           t.integer :working_hours, default: 8
           t.string :attachment_link
           t.datetime :submitted_at

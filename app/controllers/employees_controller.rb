@@ -46,7 +46,9 @@ class EmployeesController < ApplicationController
         # Automatic Update Webrole as Manager
         if (@employee.employee_position.position == "Manager") & (@employee.user)
           @user = @employee.user
-          @user.webrole_id = Webrole.find_by(role: "Manager").id
+          if @user.webrole_id == 2
+            @user.webrole_id = Webrole.find_by(role: "Manager").id
+          end
           @user.save
         end
         @employees = Employee.all.order("created_at desc")
@@ -72,6 +74,7 @@ class EmployeesController < ApplicationController
       respond_to :html, :js
       Employee.import(params[:file])
       flash.now[:success] = "Import Done."
+      redirect_to root_url
     end
   
     private
@@ -83,7 +86,8 @@ class EmployeesController < ApplicationController
           :employee_code, :job_title, :phone_number, :phone_emergency, :address, :address_2, :nationality, :race, :identity_no, :bank_name, 
           :bank_account, :epf_account, :lhdn_account, :medical_account, :insurance_account, :marital_status, :spouse_name, :children_count, 
           :birthday, :joined_since, :joined_last, :base_salary, :fix_allowance, 
-          :annual_leave_entitled, :annual_leave_taken, :medical_leave_entitled, :medical_leave_taken, :contract_start, :contract_end, :category, :employment_status
+          :annual_leave_entitled, :annual_leave_taken, :medical_leave_entitled, :medical_leave_taken, :contract_start, :contract_end, :category, :employment_status,
+          :phone_number_emergency, :gender, :socso_account, :include_socso, :include_epf
         )
     end
       

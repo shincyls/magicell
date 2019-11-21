@@ -77,7 +77,10 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "identity_no"
     t.string "bank_name"
     t.string "bank_account"
+    t.string "socso_account"
+    t.boolean "include_socso", default: false
     t.string "epf_account"
+    t.boolean "include_epf", default: false
     t.string "lhdn_account"
     t.string "medical_account"
     t.string "insurance_account"
@@ -85,6 +88,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "spouse_name"
     t.integer "children_count"
     t.date "birthday"
+    t.date "ep_expire"
     t.date "joined_since"
     t.date "joined_last"
     t.float "base_salary", default: 0.0
@@ -181,6 +185,13 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end
 
+  create_table "project_clients", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "project_regions", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -199,6 +210,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.bigint "department_id"
     t.bigint "manager_id"
     t.bigint "manager_alt_id"
+    t.bigint "project_client_id", default: 1
     t.boolean "site?", default: false
     t.boolean "vehicle?", default: false
     t.integer "project_status", default: 0
@@ -208,6 +220,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.index ["department_id"], name: "index_projects_on_department_id"
     t.index ["manager_alt_id"], name: "index_projects_on_manager_alt_id"
     t.index ["manager_id"], name: "index_projects_on_manager_id"
+    t.index ["project_client_id"], name: "index_projects_on_project_client_id"
   end
 
   create_table "status_expenses", force: :cascade do |t|
@@ -250,8 +263,8 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.bigint "project_region_id"
     t.date "date"
     t.string "activity"
-    t.string "site_name"
-    t.string "vehicle_number"
+    t.string "site_name", limit: 6
+    t.string "vehicle_number", limit: 8
     t.integer "working_hours", default: 8
     t.string "attachment_link"
     t.datetime "submitted_at"

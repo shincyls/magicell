@@ -2,7 +2,7 @@ class User < ApplicationRecord
     #Validate The Format and Presence of Required Information
     # validates :email, uniqueness: {message: "Account already exists!"}, format: {with: /.+@.+\..+/, message: ": Please enter a valid email address."}, presence: {message: ": Please enter your email address."}
 	validates :username, uniqueness: {message: "already exists!"}, presence: {message: "must presense."}
-
+    
     belongs_to :employee, optional: true
     belongs_to :webrole, optional: true
 

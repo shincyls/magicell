@@ -65,7 +65,7 @@
     <div class="mx-auto">
       <div class="text-dark">Total: <span id="calc-days">0</span> Days</div>
       <% unless action_name == "edit"%>
-      <%= f.submit "Submit Application", class: "btn btn-primary", data: { confirm: "Are you confirm with your #{@leaveap.total_days} days leave application?" } %>
+      <%= f.submit "Create", class: "btn btn-primary", data: { confirm: "Are you confirm with your #{@leaveap.total_days} days leave application?" } %>
       <% end %>
     </div>
     

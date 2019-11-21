@@ -4,7 +4,21 @@ class MagicnetsController < ApplicationController
     
     def dashboard
       respond_to :html, :js
-      redirect_to login_path unless logged_in?
+      unless logged_in?
+        redirect_to login_path
+      else
+        if params[:page].to_i == 1
+          redirect_to
+        elsif params[:page].to_i == 2
+          redirect_to
+        elsif params[:page].to_i == 3
+          redirect_to
+        elsif params[:page].to_i == 4
+          redirect_to
+        elsif params[:page].to_i == 5
+          redirect_to
+        end
+      end
     end
 
     def login
@@ -58,7 +72,7 @@ class MagicnetsController < ApplicationController
 
     def leave_approval
       respond_to :js
-      @leap = (Leaveap.where(apv_mgr_1_id: current_user.employee.id, status_leave_id: [2,3,4]) + Leaveap.where(apv_mgr_2_id: current_user.employee.id, status_leave_id: [2,3,4])).uniq
+      @leaveaps = (Leaveap.where(apv_mgr_1_id: current_user.employee.id, status_leave_id: [2,3,4]) + Leaveap.where(apv_mgr_2_id: current_user.employee.id, status_leave_id: [2,3,4])).uniq
       render template: "magicnets/view_pm/leave_approval"
     end
 

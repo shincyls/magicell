@@ -7,24 +7,18 @@ class Employee < ApplicationRecord
     belongs_to :project, optional: true
     belongs_to :department, optional: true
     has_many :leaveaps
-    has_many :timesheets
     has_many :timesheet_tasks
-    has_many :emp_timesheet_approvals, class_name: 'TimesheetApproval', foreign_key: 'employee_id'
-    has_many :mgr_timesheet_approvals, class_name: 'TimesheetApproval', foreign_key: 'manager_id'
-    has_many :expenses
     has_many :expense_lists
-    has_many :emp_expense_approvals, class_name: 'TimesheetApproval', foreign_key: 'employee_id'
-    has_many :mgr_expense_approvals, class_name: 'TimesheetApproval', foreign_key: 'manager_id'
     has_one :user, dependent: :destroy
 
     validates :full_name, presence: {message: "must present."}
-    # validates :identity_no, presence: {message: "must present."}, uniqueness: {message: "already exists!"}
+    validates :identity_no, presence: {message: "must present."}, uniqueness: {message: "already exists!"}
     # validates :company_email, uniqueness: {case_sensitive: false, message: "already exists!"}, allow_blank: true, format: {with: /\b[A-Z0-9._%a-z\-]+@magicell.com.my/, message: "must valid format and magicell.com.my account." }
     validates :company_email, presence: {message: "must present."}, uniqueness: {message: "already exists!"}, format: {with: /\b[A-Z0-9._%a-z\-]+@.+\..+/,
         message: "must valid email format." }
     validates :personal_email, presence: {message: "must present."}, uniqueness: {message: "already exists!"}, format: {with: /\b[A-Z0-9._%a-z\-]+@.+\..+/,
         message: "must valid email format." }
-    # validates :phone_number, presence: {message: "must present."}
+    validates :phone_number, presence: {message: "must present."}
     
 
     enum category: ["Permanent","Contract","Intern"]
@@ -50,6 +44,10 @@ class Employee < ApplicationRecord
                 @employee.update(params)
             end
         end
+    end
+
+    def whatsapp
+        self.phone_number.gsub('-','').gsub('+','').gsub(' ','')
     end
     
     def annual_days(approve)

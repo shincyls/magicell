@@ -50,12 +50,14 @@ Department.create!([
   {name: "Humans Resources", description: "Humans Resource Management", company_id: 1},
   {name: "Finance", description: "Finance Management", company_id: 1},
   {name: "IT", description: "IT Management", company_id: 1},
-  {name: "Project", description: "Project Team", company_id: 1}
+  {name: "Project (RF)", description: "Project RF Team", company_id: 1}, 
+  {name: "Project (TI)", description: "Project TI Team", company_id: 1}
 ])
 
 EmployeePosition.create!([
   {position: "Employee", description: "Normal Employee"},
-  {position: "Manager", description: "Department or Project Manager"}
+  {position: "Manager", description: "Department or Project Manager"},
+  {position: "Platform", description: "Platform Manager"}
 ])
 
 Employee.create!([
@@ -86,9 +88,18 @@ User.create!([
   # {username: "shincy", password: "qwerasdf", webrole_id: 5, employee_id: 11}
 ])
 
+ProjectClient.create!([
+  {name: "N/A"},
+  {name: "Digi"},
+  {name: "Ericsson"},
+  {name: "Celcom"},
+  {name: "Nokia"},
+  {name: "UMobile"}
+])
+
 Project.create!([
+  {name: "Others", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom Refarming", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Celcom KPM", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom Opti+", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom OSS (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Celcom DTA (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
@@ -115,18 +126,20 @@ Project.create!([
   {name: "Nokia DTC", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Nokia DTA", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Nokia DTE", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
-  {name: "Nokia PLM Test", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
   {name: "Nokia Others", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Others", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1}
+  {name: "OSS DTA", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Pro Data DTC", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Pro Data DTE", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Pro Data DTA", department_id: 5, company_id: 1, manager_id: 1}
 ])
 
 Leavetype.create!([
   {name: "Annual Leave"},
   {name: "Medical Leave"},
+  {name: "Unpaid Leave"},
+  {name: "Compassionate Leave"},
   {name: "Marriage Leave"},
   {name: "Maternity Leave"},
-  {name: "Compassionate Leave"},
-  {name: "Unpaid Leave"},
   {name: "Others"}
 ])
 
