@@ -72,9 +72,12 @@ class EmployeesController < ApplicationController
 
     def import
       respond_to :html, :js
-      Employee.import(params[:file])
-      flash.now[:success] = "Import Done."
-      redirect_to root_url
+      if params[:file].present?
+        Employee.import(params[:file])
+        flash.now[:success] = "Import Done."
+      else
+        flash.now[:danger] = "Import File is not found."
+      end
     end
   
     private

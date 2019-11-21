@@ -1,2 +1,4 @@
 $('#flash-message').html("<%= j (render 'statics/message') %>");
+<% if flash['success'].present? %>
 $("#main-dashboard").html("<%= j (render 'index') %>");
+<% end %>
