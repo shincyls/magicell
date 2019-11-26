@@ -3,19 +3,24 @@
             <td><%=t.project.name%></td>
             <td><%=t.activity%></td>
             <td><%=t.working_hours%></td>
-            <td><%=t.site_name%> <%=t.project.manager.id%> </td>
-            <td><%=t.project_region%> <%=t.project_region.name if t.project_region %></td>
-            <td><%=t.vehicle_number%> <%=t.vehicle_owner.name if t.vehicle_owner %></td>
-            <td><%=(time_ago_in_words(t.submitted_at).chomp("about") + " ago") if t.submitted_at%></td>
+            <td>
+              <ul class="list-unstyled">
+                <li><%=t.site_name%></li>
+                <li><%=t.project_region.name if t.project_region %></li>
+                <li><%=t.vehicle_number%></li>
+                <li><%=t.vehicle_owner.name if t.vehicle_owner %></li>
+              <ul>
+            </td>
+            <td><%=(time_ago_in_words(t.submitted_at).chomp("about")) if t.submitted_at%></td>
             <td><span class="badge badge-<%=t.status_timesheet.css%>"><%=t.status_timesheet.name%></span></td>
             <td>
               <% if t.employee_id == current_user.employee.id %>
                 <% if [1,3,5].include?(t.status_timesheet_id) %>
-                <ul class="list-unstyled">
-                <li class="mt-2"><%= link_to 'Submit', submit_timesheet_task_path(t), method: :post, class: "btn-sm btn-info", remote: true %></li>
-                <li class="mt-2"><%= link_to 'Edit', edit_timesheet_task_path(t), class: "btn-sm btn-success", remote: true %></li>
-                <li class="mt-2"><%= link_to 'Delete', t, method: :delete, class: "btn-sm btn-danger", remote: true, data: { confirm: 'Press ok to confirm you submission.' } %></li>
-                </ul>
+                <div class="row">
+                  <%= button_to 'S', submit_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                  <%= button_to 'E', edit_timesheet_task_path(t), class: "btn-sm btn-new col", method: 'get', remote: true %>
+                  <%= button_to 'D', t, class: "btn-sm btn-danger col", method: 'delete', remote: true, data: { confirm: 'Are you sure to delete this task?' } %>
+                </div>
                 <% end %>
               <% end %>
             </td>

@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
   create_table "holidays", force: :cascade do |t|
     t.date "date"
     t.string "remarks"
-    t.boolean "show", default: true
+    t.boolean "activate", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "from_ampm", default: "AM"
     t.date "to_date"
     t.string "to_ampm", default: "PM"
+    t.float "days", default: 0.0
     t.boolean "submitted", default: false
     t.bigint "apv_mgr_1_id"
     t.bigint "apv_mgr_2_id"

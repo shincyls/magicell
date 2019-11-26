@@ -1,6 +1,7 @@
 class ExpenseListsController < ApplicationController
   before_action :logged_in?
   after_action :return_employee, only: [:create]
+  skip_before_action :verify_authenticity_token, only: [:submitall, :approvepmall, :approvefmall]
 
   def index
     respond_to :html, :js
@@ -55,6 +56,7 @@ class ExpenseListsController < ApplicationController
     else
       flash.now[:warning] = @expense_list.errors.full_messages
     end
+    @expense_list = ExpenseList.new(expense_list_params)
     @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
     @backup_lists = @expense_lists
   end
@@ -97,9 +99,48 @@ class ExpenseListsController < ApplicationController
     end
   end
 
+  def submitall
+    respond_to :js
+    @receive = JSON.parse params[:ids]
+    @expense_lists = ExpenseList.where(id: @receive, status_expense_id: [1,3,5])
+    count = @expense_lists.count
+    @expense_lists.each do |exp|
+      if exp.status_expense_id == 1
+        exp.update(status_expense_id: 2, submitted_at: Time.now)
+      elsif exp.status_expense_id == 3
+        exp.update(status_expense_id: 2)
+      elsif exp.status_expense_id == 5
+        exp.update(status_expense_id: 4)
+      end
+    end
+    flash.now[:success] = "#{count} Pending Item(s) have been successfully submitted."
+  end
+
+  def approvepmall
+    respond_to :js
+    @receive = JSON.parse params[:ids]
+    @expense_lists = ExpenseList.where(id: @receive, status_expense_id: 2)
+    count = @expense_lists.count
+    @expense_lists.each do |exp|
+      exp.update(status_expense_id: 4)
+    end
+    flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
+  end
+
+  def approvefmall
+    respond_to :js
+    @receive = JSON.parse params[:ids]
+    @expense_lists = ExpenseList.where(id: @receive, status_expense_id: 4)
+    count = @expense_lists.count
+    @expense_lists.each do |exp|
+      exp.update(status_expense_id: 6)
+    end
+    flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
+  end
+
   def approvepm
     respond_to :html, :js
-    @expense_list= ExpenseList.find(params[:id])
+    @expense_list= ExpenseList.where(params[:id])
     if @expense_list.status_expense_id == 2 # Approve by PM
       @expense_list.update(status_expense_id: 4)
       flash.now[:success] = "Expense have successfully approved."

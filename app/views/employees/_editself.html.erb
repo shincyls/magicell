@@ -1,4 +1,4 @@
-<%= form_for @employee, id: 'new-employee-form', remote: true  do |f| %>
+<%= form_for @employee, url: updateself_employee_path(@employee), method: :post, id: 'new-employee-form', remote: true  do |f| %>
 
     <h5 class="text-special text-success">Employee Detail</h5>
     <div class="row text-special text-dark mt-2 mb-3">

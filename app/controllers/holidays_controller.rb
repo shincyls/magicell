@@ -56,12 +56,19 @@ class HolidaysController < ApplicationController
         flash.now[:warning] = "This action couldn't be performed due to error, please check with admin."
       end
     end
+
+    def activate
+      respond_to :html, :js
+      @holiday = Holiday.find(params[:id])
+      @holiday.activate = !@holiday.activate
+      @holiday.save
+    end
   
     private
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def holiday_params
-        params.require(:holiday).permit(:date, :remarks, :holiday)
+        params.require(:holiday).permit(:date, :remarks, :holiday, :activate)
     end
       
   end

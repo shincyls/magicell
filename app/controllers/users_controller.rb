@@ -61,11 +61,12 @@ class UsersController < ApplicationController
           @user.save
         end
         flash.now[:success] = "#{@user.username} login have been successfully created, default password is #{WebappContent.first.param}."
+        UserMailer.make_account(@user.id).deliver
       else
         flash.now[:warning] = "Oops! Something was wrong, please check with admin"
       end
     else
-      flash.now[:warning] = "Employee's Company Email with @magicell.com.my must be presense."
+      flash.now[:warning] = "Employee's Company Email must be presense."
     end
   end
 

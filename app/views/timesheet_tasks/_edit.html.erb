@@ -4,50 +4,65 @@
 
     <div class="row text-dark text-special mt-2 mb-3">
 
-      <div class="col-lg-4 mb-2">
+      <div class="col-lg-3 mb-2">
         <label>Date*</label>
         <div><%= f.text_field :date, class: "form-control form-control-sm", disabled: true %></div>
       </div>
 
-      <div class="col-lg-4 mb-2">
+      <div class="col-lg-3 mb-2">
         <label>Project*</label>
-        <div><%= f.select(:project_id, Project.order("name asc").collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+        <div><%= f.select(:project_id, Project.order("name asc").collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, id: "edit-project-selected", class: "custom-select custom-select-sm") %></div>
       </div>
 
-      <div class="col-lg-4 mb-2">
+      <div class="col-lg-3 mb-2">
         <label>Activity*</label>
         <div><%= f.text_field :activity, placeholder: "Activity", class: "form-control form-control-sm" %></div>
       </div>
 
-      <div class="col-lg-2 mb-2">
+      <div class="col-lg-3 mb-2">
         <label>Working Hours*</label>
         <%= f.select(:working_hours, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {include_blank: "Working Hours"}, class: "custom-select custom-select-sm") %>
       </div>
       
     </div>
 
-    <p>For Drive Test Only</p>
+    <div id="edit-drivetest-only" class="text-dark text-special mt-2 mb-3" style="display: none;">
+      <h6 class="text-success small"><i>For Drive Test Only*</i></h6>
+      <div class="row">
+        <div class="col-lg-3 mb-2">
+          <label>SiteID / LocID</label>
+          <div><%= f.text_field :site_name, placeholder: "eg: 1234D / C12345", class: "form-control form-control-sm" %></div>
+        </div>
 
-    <div class="row text-dark text-special mt-2 mb-3">
-      <div class="col-lg-2 mb-2">
-        <label>Site Name</label>
-        <div><%= f.text_field :site_name, placeholder: "Site Name", class: "form-control form-control-sm" %></div>
-      </div>
+        <div class="col-lg-3 mb-2">
+          <label>Region</label>
+          <div><%= f.select(:project_region_id, ProjectRegion.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Region"}, class: "custom-select custom-select-sm") %></div>
+        </div>
 
-      <div class="col-lg-2 mb-2">
-        <label>Project Region</label>
-        <div><%= f.select(:project_region_id, ProjectRegion.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Region"}, class: "custom-select custom-select-sm") %></div>
-      </div>
+        <div class="col-lg-3 mb-2">
+          <label>Car Number</label>
+          <div><%= f.text_field :vehicle_number, placeholder: "Car Number", class: "form-control form-control-sm" %></div>
+        </div>
 
-      <div class="col-lg-2 mb-2">
-        <label>Car Number</label>
-        <div><%= f.text_field :vehicle_number, placeholder: "Car Number", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-2 mb-2">
-        <label>Car Owner</label>
-        <div><%= f.select(:vehicle_owner_id, VehicleOwner.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Owner"}, class: "custom-select custom-select-sm") %></div>
+        <div class="col-lg-3 mb-2">
+          <label>Car Owner</label>
+          <div><%= f.select(:vehicle_owner_id, VehicleOwner.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Owner"}, class: "custom-select custom-select-sm") %></div>
+        </div>
       </div>
     </div>
     
 <% end %>
+
+
+<script>
+
+const edit = document.querySelector('#edit-project-selected');
+edit.addEventListener('input', change);
+
+function change() {
+  var x = edit.options[edit.selectedIndex].innerHTML; 
+  if (x.includes("DT")){$("#edit-drivetest-only").show();}
+  else {$("#edit-drivetest-only").hide();}
+}
+
+</script>

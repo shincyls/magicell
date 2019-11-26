@@ -1,6 +1,8 @@
 <%= form_for @timesheet_task, remote: true do |f| %>
 
     <%= f.hidden_field :employee_id, value: current_user.employee.id %>
+    <div class="text-dark small">1. Weekends are exclusive automatically.</div>
+    <div class="text-dark small">2. Existed date will not be create again.</div>
     <div class="text-danger small"><i>* Mandatory Input</i></div>
 
     <div class="row text-dark mt-2 mb-3 datepicker input-daterange">
@@ -19,47 +21,40 @@
     </div>
 
     <div class="row text-dark text-special mt-2 mb-3">
-
       <div class="col-lg-3">
         <label>Project*</label>
-        <div><%= f.select(:project_id, Project.order("name asc").collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
+        <div><%= f.select(:project_id, Project.order("name asc").collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, id: "project-selected", class: "custom-select custom-select-sm") %></div>
       </div>
-
       <div class="col-lg-3">
         <label>Activity*</label>
         <div><%= f.text_field :activity, placeholder: "Activity", class: "form-control form-control-sm" %></div>
       </div>
-
       <div class="col-lg-3">
         <label>Working Hours*</label>
         <%= f.select(:working_hours, [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23], {include_blank: "Time In"}, class: "custom-select custom-select-sm") %>
       </div>
-      
     </div>
 
-    <p class="text-success small"><i>For Drive Test Only*</i></p>
-
-    <div class="row text-dark text-special mt-2 mb-3">
-      <div class="col-lg-3 mb-2">
-        <label>SiteID / LocID</label>
-        <div><%= f.text_field :site_name, placeholder: "eg: 1234D / C12345", class: "form-control form-control-sm" %></div>
+    <div id="drivetest-only" class="text-dark text-special mt-2 mb-3" style="display: none;">
+      <h6 class="text-success small"><i>For Drive Test Only*</i></h6>
+      <div class="row">
+        <div class="col-lg-3 mb-2">
+          <label>SiteID / LocID</label>
+          <div><%= f.text_field :site_name, placeholder: "eg: 1234D / C12345", class: "form-control form-control-sm" %></div>
+        </div>
+        <div class="col-lg-3 mb-2">
+          <label>Region</label>
+          <div><%= f.select(:project_region_id, ProjectRegion.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Region"}, class: "custom-select custom-select-sm") %></div>
+        </div>
+        <div class="col-lg-3 mb-2">
+          <label>Car Number</label>
+          <div><%= f.text_field :vehicle_number, placeholder: "Car Number", class: "form-control form-control-sm" %></div>
+        </div>
+        <div class="col-lg-3 mb-2">
+          <label>Car Owner</label>
+          <div><%= f.select(:vehicle_owner_id, VehicleOwner.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Owner"}, class: "custom-select custom-select-sm") %></div>
+        </div>
       </div>
-
-      <div class="col-lg-3 mb-2">
-        <label>Region</label>
-        <div><%= f.select(:project_region_id, ProjectRegion.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Region"}, class: "custom-select custom-select-sm") %></div>
-      </div>
-
-      <div class="col-lg-3 mb-2">
-        <label>Car Number</label>
-        <div><%= f.text_field :vehicle_number, placeholder: "Car Number", class: "form-control form-control-sm" %></div>
-      </div>
-
-      <div class="col-lg-3 mb-2">
-        <label>Car Owner</label>
-        <div><%= f.select(:vehicle_owner_id, VehicleOwner.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Owner"}, class: "custom-select custom-select-sm") %></div>
-      </div>
-
     </div>
 
     <div class="mx-auto">
@@ -80,5 +75,14 @@ $(function(){
   })
 
 });
+
+const project = document.querySelector('#project-selected');
+project.addEventListener('input', change);
+
+function change() {
+  var x = project.options[project.selectedIndex].innerHTML; 
+  if (x.includes("DT")){$("#drivetest-only").show();}
+  else {$("#drivetest-only").hide();}
+}
 
 </script>

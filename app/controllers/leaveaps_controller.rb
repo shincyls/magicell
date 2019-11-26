@@ -2,8 +2,8 @@ class LeaveapsController < ApplicationController
     include ApplicationHelper
     
     before_action :logged_in?
-    before_action :user_applicant?, only: [:edit, :update, :destroy]
-    before_action :user_approval?, only: [:approve, :reject]
+    # before_action :user_applicant?, only: [:edit, :update, :destroy]
+    # before_action :user_approval?, only: [:approve, :reject]
     # before_action :check_leave_remaining?, only: [:create, :update, :submit]
   
     def index
@@ -11,7 +11,7 @@ class LeaveapsController < ApplicationController
       @leaveaps = Leaveap.where(employee_id: current_user.employee.id)
       @backup_lists = @leaveaps
       if params[:value].present?
-        @leaveaps = Leaveap.where(employee_id: current_user.employee.id, status_leave_id: params[:value].to_i)
+        @leaveaps = @leaveaps.where(status_leave_id: params[:value].to_i)
       end
       @leaveap = Leaveap.new
     end
@@ -20,8 +20,8 @@ class LeaveapsController < ApplicationController
       respond_to :js
       @leaveaps = Leaveap.where(apv_mgr_1_id: current_user.employee.id).or(Leaveap.where(apv_mgr_2_id: current_user.employee.id))
       @backup_lists = @leaveaps
-      if params[:value].to_i > 1
-        @leaveaps = Leaveap.where(apv_mgr_1_id: current_user.employee.id).or(Leaveap.where(apv_mgr_2_id: current_user.employee.id))
+      if params[:value].present?
+        @leaveaps = @leaveaps.where(status_leave_id: params[:value].to_i)
       end
     end
 
@@ -39,6 +39,7 @@ class LeaveapsController < ApplicationController
     def create
       respond_to :html, :js
       @leaveap = Leaveap.new(leaveap_params)
+      @leaveap.days = @leaveap.total_days
       if check_leave_remaining?
         if @leaveap.save
           flash.now[:success] = "Your Leave Application have been Created."
@@ -53,13 +54,13 @@ class LeaveapsController < ApplicationController
     def update
       respond_to :html, :js
       @leaveap = Leaveap.find(params[:id])
-      if check_leave_remaining?
-        if @leaveap.update(leaveap_params)
+      if @leaveap.update(leaveap_params)
+        if check_leave_remaining?
           flash.now[:success] = "Your Leave Application have been updated."
           @leaveaps = current_user.employee.leaveaps.order("created_at desc") if current_user.employee
-        else
-          flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
         end
+      else
+        flash.now[:warning] = "Opps! Something Wrong Please Check with Admin"
       end
     end
 
@@ -128,7 +129,7 @@ class LeaveapsController < ApplicationController
       end
       @leaveap.status_leave_id = 3
       if @leaveap.save
-        flash.now[:success] = "You have rejected application, notification has sent to applicant."
+        flash.now[:success] = "You have rejected application, please click on the name to whatsapp the employee."
         # UserMailer.reject_leave(@leaveap.id, params[:value]).deliver
       end
     end
@@ -156,18 +157,17 @@ class LeaveapsController < ApplicationController
     def check_leave_remaining?
       @employee = current_user.employee
       if @leaveap.leavetype_id == 1 # Annual Leave
-        remaining = @employee.annual_leave_entitled - (@employee.annual_leave_taken + @leaveap.total_days)
-        pending = @employee.annual_leave_entitled - (@employee.annual_leave_taken + @leaveap.total_days)
-        if remaining < 0
-          flash.now[:danger] = "Application has exceeded remaining #{remaining} day(s)."
+        remaining = (@employee.annual_leave_taken + @leaveap.days) - @employee.annual_leave_entitled
+        if remaining > 0
+          flash.now[:danger] = "Application has exceeded applicant's entitled Annual Leave for #{remaining} day(s)."
           return false
         else
           return true
         end
       elsif @leaveap.leavetype_id == 2 # Medical Leave
-        remaining = @employee.medical_leave_entitled - (@employee.medical_leave_taken + @leaveap.total_days)
-        if remaining < 0
-          flash.now[:danger] =  "Application has exceeded remaining #{remaining} day(s)."
+        remaining = (@employee.medical_leave_taken + @leaveap.days) - @employee.medical_leave_entitled
+        if remaining > 0
+          flash.now[:danger] =  "Application has exceeded applicant's entitled Medical Leave for #{remaining} day(s)."
           return false
         else
           return true

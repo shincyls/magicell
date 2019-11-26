@@ -1,5 +1,6 @@
 <h4 class="text-success">Finance Expense Approval</h4>
 
+<button class="btn-sm btn-success mt-2" id="one-click-approve">Approve All Pending Items In Current Table</button>
 <br>
 <div class="row">
   <%= button_to "All", finance_expense_lists_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
@@ -47,15 +48,15 @@
             </td>
             <td><%=t.odometer_reading%></td>
             <td><%= (link_to "Click", "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
-            <td><%=(time_ago_in_words(t.submitted_at).chomp("about")) + " ago") if t.submitted_at%></td>
+            <td><%= time_ago_in_words(t.submitted_at) if t.submitted_at %></td>
             <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
             <td>
             <% if current_user.webrole.wr_finance %>
               <% if [4].include?(t.status_expense_id) %>
-                <ul class="list-unstyled">
-                  <li class="mt-2"><%= link_to 'Approve', approvefm_expense_list_path(t), method: :post, class: "btn-sm btn-success", remote: true %></li>
-                  <li class="mt-2"><%= link_to 'Reject', rejectfm_expense_list_path(t), method: :post, class: "btn-sm btn-danger", remote: true %></li>
-                </ul>
+                <div class="row">
+                  <%= button_to 'Approve', approvefm_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                  <%= button_to 'Reject', rejectfm_expense_list_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                </div>
               <% end %>
             <% end %>
             </td>
@@ -66,5 +67,21 @@
 
   <script>
   loadjs('#expense-lists-table', 0, 25, 'Blfrtip');
+
+  $('#one-click-approve').on('click', function () {
+    if (confirm("Press OK to confirm this action") == true){
+      var table = $('#expense-lists-table').DataTable();
+      var arr = table.rows({ search: 'applied' }).ids().toArray();
+      for(var i=0; i < arr.length; i++) {
+        arr[i] = parseInt(arr[i].replace('el-', ''));
+      }
+      $.ajax({
+        type: "POST",
+        url: '/expense_lists/approvefmall',
+        data: { ids: JSON.stringify(arr) }
+      });
+    }
+  });
+
   </script>
 </div>

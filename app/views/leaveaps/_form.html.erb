@@ -1,7 +1,12 @@
 <%= form_for @leaveap, remote: true do |f| %>
 
     <%= f.hidden_field :employee_id, value: current_user.employee.id %>
-    <div class="text-danger small"><i>* Mandatory Input</i></div>
+
+    <div class="bg-white rounded p-2">
+      <div class="text-dark small">Notes:</div>
+      <div class="text-dark small">1. For Medical Leave, screenshot and copy the uploaded link.</div>
+      <div class="text-danger small"><i>* Mandatory Input</i></div>
+    </div>
 
     <div class="row mt-2 mb-3 text-dark text-special datepicker input-daterange">
       <div class="form-group col-lg-6 col-md-12">
@@ -27,7 +32,7 @@
     <div class="row mt-2 mb-3 text-dark text-special">
       <div class="col-lg-3 col-md-6 mb-2">
         <label>Leave Type*</label>
-        <div><%= f.select(:leavetype_id, Leavetype.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Leave Type"}, class: "custom-select custom-select-sm") %></div>
+        <div><%= f.select(:leavetype_id, Leavetype.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Leave Type"}, id: "leave-type", class: "custom-select custom-select-sm") %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
@@ -55,17 +60,17 @@
         <div><%= f.select(:apv_mgr_2_id, Employee.where(employee_position_id: 2).collect {|e| [e.full_name, e.id]}, {include_blank: "Select Manager Approval"}, class: "custom-select custom-select-sm") %></div>
       </div>
 
-      <div class="col-lg-3 col-md-6 mb-2">
-        <label>MC Attachment*</label>
-        <div><%= f.text_field :attachment_link, placeholder: "eg: google drive link", class: "form-control form-control-sm" %></div>
+      <div id="mc-attachment" class="col-lg-6 col-md-6 mb-2" style="display: none;">
+        <label>Attachment (MC)</label>
+        <div><%= f.text_field :attachment_link, placeholder: "eg: Upload to google drive and paste the link here", class: "form-control form-control-sm" %></div>
       </div>
 
     </div>
 
-    <div class="mx-auto">
-      <div class="text-dark">Total: <span id="calc-days">0</span> Days</div>
+    <div class="text-special mx-auto">
+      <div class="text-dark">Total: <span id="calc-days"><%=@leaveap.days.to_i%></span> Working Days</div>
       <% unless action_name == "edit"%>
-      <%= f.submit "Create", class: "btn btn-primary", data: { confirm: "Are you confirm with your #{@leaveap.total_days} days leave application?" } %>
+      <%= f.submit "Create", class: "btn btn-primary", data: { confirm: "Are you confirm with this leave application?" } %>
       <% end %>
     </div>
     
@@ -73,8 +78,7 @@
 
 <script>
 
-var setHolidays = [<%= raw Holiday.list %>];
-var disabledDays = ["9-16-2019", "9-18-2019"];
+var disabledDays = <%=raw Holiday.list%>;
 
 $(function(){
 
@@ -83,20 +87,11 @@ $(function(){
   const ampmFrom = document.querySelector('#leaveap_from_ampm');
   const ampmTo = document.querySelector('#leaveap_to_ampm');
   const result = document.querySelector('#calc-days');
-  
+
   leveapFrom.addEventListener('input', calc);
   leveapTo.addEventListener('input', calc);
   ampmFrom.addEventListener('input', calc);
   ampmTo.addEventListener('input', calc);
-
-  $('.datepicker').datepicker({
-    format: "yyyy-mm-dd",
-    beforeShowDay: disableHoliday,
-    daysOfWeekDisabled: [6,0],
-    todayHighlight: true
-  })
-  .change(calc)
-  .on('changeDate',calc);
 
   function calc() {
     var fromDate = String(leveapFrom.value);
@@ -105,36 +100,36 @@ $(function(){
     var toAmpm = String(ampmTo.value);
     var date1 = new Date(fromDate)
     var date2 = new Date(toDate)
-    var DAY_IN_MILLISECONDS = 1000*60*60*24;
-    var days = Math.abs(Math.ceil(date2-date1)/DAY_IN_MILLISECONDS);
+    for(var days=0; date1<=date2; ) {
+      var holiday = disabledDays.includes(date1.toISOString().substring(0, 10))
+      if(date1.getDay()>0 && date1.getDay()<6)
+        if(holiday == false){days++;}
+      date1.setDate(date1.getDate()+1);
+    }
     if (fromAmpm == "PM") {days -= 0.5;}
     if (toAmpm == "AM") {days -= 0.5;}
-    result.innerHTML = days+1;
+    result.innerHTML = days;
   }
-
-  function disableHoliday(date) {
-    var newDate = date.getFullYear() + "-" + get_month(date) + "-" + get_day(date)
-    check = setHolidays[0].includes(newDate);
-    if (!check == false){
-      return [!check,"disabled disabled-date"];
-    }
-  }
-
-  function disableAllTheseDays(date) {
-      var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
-      if($.inArray((m+1) + '-' + d + '-' + y,disabledDays) != -1) return [false];
-      return [true];
-  }
-
-  function get_day(d){ 
-    return (d.getDate() < 10 ? '0' : '') + d.getDate();
-  }
-
-  function get_month(d){ 
-    return ((d.getMonth()+1) < 10 ? '0' : '') + (d.getMonth()+1);
-  }
+  
+  $('.datepicker').datepicker({
+    format: "yyyy-mm-dd",
+    datesDisabled: disabledDays,
+    daysOfWeekDisabled: [6,0],
+    todayHighlight: true
+  })
+  .change(calc)
+  .on('changeDate',calc);
 
 });
+
+const leavetype = document.querySelector('#leave-type');
+leavetype.addEventListener('input', change);
+
+function change() {
+  var x = leavetype.options[leavetype.selectedIndex].innerHTML; 
+  if (x.includes("Medical Leave")){$("#mc-attachment").show();}
+  else {$("#mc-attachment").hide();}
+}
 
 </script>
 

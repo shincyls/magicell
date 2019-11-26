@@ -1,0 +1,5 @@
+$('#flash-message').html("<%= j (render 'statics/message') %>");
+<% @timesheet_tasks.each do |t| %>
+<% @timesheet_task = t %>
+$("#ts-<%=t.id%>").html("<%= j (render 'tablepm') %>");
+<% end %>

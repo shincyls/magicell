@@ -1,5 +1,6 @@
 <h4 class="text-success">Finance Timesheet Approval</h4>
 
+<button class="btn-sm btn-success mt-2" id="one-click-approve">Approve All Pending Items In Current Table</button>
 <br>
 <div class="row">
   <%= button_to "All", finance_timesheet_tasks_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
@@ -20,9 +21,7 @@
         <th>PM</th>
         <th>Activity</th>
         <th>Working Hours</th>
-        <th>Site Name</th>
-        <th>Region</th>
-        <th>Vehicle</th>
+        <th>DT Info</th>
         <th>Submitted</th>
         <th>Status</th>
         <th>Action</th>
@@ -39,18 +38,23 @@
             <td><%=t.project.manager.full_name%></td>
             <td><%=t.activity%></td>
             <td><%=t.working_hours%></td>
-            <td><%=t.site_name%></td>
-            <td><%=t.project_region%> <%=t.project_region.name if t.project_region %></td>
-            <td><%=t.vehicle_number%> <%=t.vehicle_owner.name if t.vehicle_owner %></td>
-            <td><%=(time_ago_in_words(t.submitted_at).chomp("about") + " ago") if t.submitted_at%></td>
+            <td>
+              <ul class="list-unstyled">
+                <li><%=t.site_name%></li>
+                <li><%=t.project_region.name if t.project_region %></li>
+                <li><%=t.vehicle_number%></li>
+                <li><%=t.vehicle_owner.name if t.vehicle_owner %></li>
+              <ul>
+            </td>
+            <td><%=(time_ago_in_words(t.submitted_at).chomp("about")) if t.submitted_at%></td>
             <td><span class="badge badge-<%=t.status_timesheet.css%>"><%=t.status_timesheet.name%></span></td>
             <td>
             <% if current_user.webrole.wr_finance & [4].include?(t.status_timesheet_id) %>
               <% if [4].include?(t.status_timesheet_id) %>
-                <ul class="list-unstyled">
-                <li class="mt-2"><%= link_to 'Approve', approvefm_timesheet_task_path(t), method: :post, class: "btn-sm btn-success", remote: true %></li>
-                <li class="mt-2"><%= link_to 'Reject', rejectfm_timesheet_task_path(t), method: :post, class: "btn-sm btn-danger", remote: true %></li>
-                </ul>
+                <div class="row">
+                  <%= button_to 'Approve', approvefm_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                  <%= button_to 'Reject', rejectfm_timesheet_task_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                </div>
               <% end %>
             <% end %>
             </td>
@@ -62,5 +66,21 @@
 
   <script>
   loadjs('#timesheet-tasks-table', 0, 25, 'Blfrtip');
+
+  $('#one-click-approve').on('click', function () {
+    if (confirm("Press OK to confirm this action") == true){
+      var table = $('#timesheet-tasks-table').DataTable();
+      var arr = table.rows({ search: 'applied' }).ids().toArray();
+      for(var i=0; i < arr.length; i++) {
+        arr[i] = parseInt(arr[i].replace('ts-', ''));
+      }
+      $.ajax({
+        type: "POST",
+        url: '/timesheet_tasks/approvefmall',
+        data: { ids: JSON.stringify(arr) }
+      });
+    }
+  });
+
   </script>
 </div>

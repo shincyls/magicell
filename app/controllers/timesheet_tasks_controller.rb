@@ -1,7 +1,8 @@
 class TimesheetTasksController < ApplicationController
     before_action :logged_in?
     after_action :return_employee, only: [:create]
-  
+    skip_before_action :verify_authenticity_token, only: [:submitall, :approvepmall, :approvefmall]
+
     def index
       respond_to :html, :js
       @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id).order("date desc")
@@ -70,7 +71,11 @@ class TimesheetTasksController < ApplicationController
         end
         date_now += 1.day
       end
-      flash.now[:success] = "Your Timesheet have been added#{message}."
+      if message.empty?
+        flash.now[:success] = "Your Timesheet have been added."
+      else
+        flash.now[:warning] = "Done, but some tasks with existed date are not added."
+      end
       @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id).order("date desc")
       @backup_lists = @timesheet_tasks
     end
@@ -90,9 +95,8 @@ class TimesheetTasksController < ApplicationController
     def destroy
       respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
-      if @TimesheetTask.destroy
+      if @timesheet_task.destroy
         flash.now[:success] = "Timesheet have been successfully removed."
-        @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id).order("date desc")
       else
         flash.now[:warning] = "This action couldn't be performed due to error, please check with admin."
       end
@@ -111,6 +115,45 @@ class TimesheetTasksController < ApplicationController
         @timesheet_task.update(status_timesheet_id: 4)
         flash.now[:success] = "Timesheet have successfully resubmitted."
       end
+    end
+
+    def submitall
+      respond_to :js
+      @receive = JSON.parse params[:ids]
+      @timesheet_tasks = TimesheetTask.where(id: @receive, status_timesheet_id: [1,3,5])
+      count = @timesheet_tasks.count
+      @timesheet_tasks.each do |task|
+        if task.status_timesheet_id == 1
+          task.update(status_timesheet_id: 2, submitted_at: Time.now)
+        elsif task.status_timesheet_id == 3
+          task.update(status_timesheet_id: 2)
+        elsif task.status_timesheet_id == 5
+          task.update(status_timesheet_id: 4)
+        end
+      end
+      flash.now[:success] = "#{count} Pending Item(s) have been successfully submitted."
+    end
+
+    def approvepmall
+      respond_to :js
+      @receive = JSON.parse params[:ids]
+      @timesheet_tasks = TimesheetTask.where(id: @receive, status_timesheet_id: 2)
+      count = @timesheet_tasks.count
+      @timesheet_tasks.each do |task|
+        task.update(status_timesheet_id: 4)
+      end
+      flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
+    end
+  
+    def approvefmall
+      respond_to :js
+      @receive = JSON.parse params[:ids]
+      @timesheet_tasks = TimesheetTask.where(id: @receive, status_timesheet_id: 4)
+      count = @timesheet_tasks.count
+      @timesheet_tasks.each do |task|
+        task.update(status_timesheet_id: 6)
+      end
+      flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
     end
 
     def approvepm

@@ -1,181 +1,198 @@
-<h4 class="text-success">Employee Info <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', editself_employee_path(current_user), class: "small text-white m-1", method: 'post', remote: true %></span></h4>
-<table class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem;width:30rem;">
-    <thead class="text-white bg-info">
-      <tr>
-        <th style="width;5rem">Info</th>
-        <th style="width;5rem">Detail</th>
-      </tr>
-    </thead>
-    <tbody class="text-dark">
-        <tr>
-            <td>Full Name</td>
-            <td><%= @employee.full_name%></td>
-        <tr>
-        <tr>
-            <td>IC/Passport</td>
-            <td><%= @employee.identity_no%></td>
-        <tr>
-         <tr>
-            <td>Personal Email</td>
-            <td><%= @employee.personal_email%></td>
-        <tr>
-        <tr>
-            <td>Company Email</td>
-            <td><%= @employee.company_email%></td>
-        <tr>
-        <tr>
-            <td>Address</td>
-            <td><%= @employee.address%></td>
-        <tr>
-        <tr>
-            <td>Birthday</td>
-            <td><%= @employee.birthday %></td>
-        <tr>
-        <tr>
-            <td>Nationality</td>
-            <td><%= @employee.nationality%></td>
-        <tr>
-        <tr>
-            <td>Race</td>
-            <td><%= @employee.race%></td>
-        <tr>
-        <tr>
-            <td>Gender</td>
-            <td><%= @employee.gender%></td>
-        <tr>
-        <tr>
-            <td>Marital Status</td>
-            <td><%= @employee.marital_status%></td>
-        <tr>
-        <tr>
-            <td>Spouse Name</td>
-            <td><%= @employee.spouse_name%></td>
-        <tr>
-        <tr>
-            <td>Children Count</td>
-            <td><%= @employee.children_count%></td>
-        <tr>
-       
-        <tr>
-            <td>Phone Number</td>
-            <td><%= @employee.phone_number%></td>
-        <tr>
-        <tr>
-            <td>Phone Emergency</td>
-            <td><%= @employee.phone_number_emergency%></td>
-        <tr>
-        <tr>
-            <td>Contract </td>
-            <td><%= @employee.contract_start %> <%= @employee.contract_end %></td>
-        <tr>
-    </tbody>
-</table>
+<span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', editself_employee_path(current_user), class: "small text-white m-1", method: 'post', remote: true %></span>
 
-<h4 class="text-success">Leave Info</h4>
-<table class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem;width:30rem;">
-    <thead class="text-white bg-info">
-      <tr>
-        <th style="width;5rem">Info</th>
-        <th style="width;5rem">Detail</th>
-      </tr>
-    </thead>
+<div class="row">
 
-    <tbody class="text-dark">
+    <div class="col-sm-6 col-lg-6">
+    <h4 class="text-success">Employee Info</h4>
+    <table class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem;">
+        <thead class="text-white bg-info w-100">
+        <tr>
+            <th style="width;5rem">Info</th>
+            <th style="width;5rem">Detail</th>
+        </tr>
+        </thead>
+        <tbody class="text-dark">
+            <tr>
+                <td>Full Name</td>
+                <td><%= @employee.full_name%></td>
+            <tr>
+            <tr>
+                <td>IC/Passport</td>
+                <td><%= @employee.identity_no%></td>
+            <tr>
+            <tr>
+                <td>Personal Email</td>
+                <td><%= @employee.personal_email%></td>
+            <tr>
+            <tr>
+                <td>Company Email</td>
+                <td><%= @employee.company_email%></td>
+            <tr>
+            <tr>
+                <td>Phone Number</td>
+                <td><%= @employee.phone_number%></td>
+            <tr>
+            <tr>
+                <td>Phone Emergency</td>
+                <td><%= @employee.phone_number_emergency%></td>
+            <tr>
+            <tr>
+                <td>Address</td>
+                <td><%= @employee.address%></td>
+            <tr>
+            <tr>
+                <td>Birthday</td>
+                <td><%= @employee.birthday %></td>
+            <tr>
+            <tr>
+                <td>Nationality</td>
+                <td><%= @employee.nationality%></td>
+            <tr>
+            <tr>
+                <td>Race</td>
+                <td><%= @employee.race%></td>
+            <tr>
+            <tr>
+                <td>Gender</td>
+                <td><%= @employee.gender%></td>
+            <tr>
+            <tr>
+                <td>Marital Status</td>
+                <td><%= @employee.marital_status%></td>
+            <tr>
+            <tr>
+                <td>Spouse Name</td>
+                <td><%= @employee.spouse_name%></td>
+            <tr>
+            <tr>
+                <td>Children Count</td>
+                <td><%= @employee.children_count%></td>
+            <tr>
         
-        <tr>
-            <td>Annual Leave Entitled</td>
-            <td><%= @employee.annual_leave_entitled%></td>
-        <tr>
-        <tr>
-            <td>Annual Leave Taken</td>
-            <td><%= @employee.annual_leave_taken%></td>
-        <tr>
-        <tr>
-            <td>Medical Leave Entitled</td>
-            <td><%= @employee.medical_leave_entitled%></td>
-        <tr>
-        <tr>
-            <td>Medical Leave Taken</td>
-            <td><%= @employee.medical_leave_taken%></td>
-        <tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+    </div>
 
-<h4 class="text-success">Job Info</h4>
-<table class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem;width:30rem;">
-    <thead class="text-white bg-info">
-      <tr>
-        <th style="width;5rem">Info</th>
-        <th style="width;5rem">Detail</th>
-      </tr>
-    </thead>
-    <tbody class="text-dark">
+    <div class="col-sm-6 col-lg-6">
+    <h4 class="text-success">Job Info</h4>
+    <table class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem;">
+        <thead class="text-white bg-info w-100">
         <tr>
-            <td>Employee ID</td>
-            <td><%= @employee.employee_code%></td>
-        <tr>
-        <tr>
-            <td>Job Title</td>
-            <td><%= @employee.job_title%></td>
-        <tr>
-        <tr>
-            <td>Position</td>
-            <td><%= @employee.employee_position.position%></td>
-        <tr>
-        <tr>
-            <td>Department</td>
-            <td><%= @employee.department.name%></td>
-        <tr>
-        <tr>
-            <td>Project</td>
-            <td><%= @employee.project.name%></td>
-        <tr>
-        <tr>
-            <td>Base Salary</td>
-            <td>MYR <%= @employee.base_salary%></td>
-        <tr>
-        <tr>
-            <td>Fix Allowance</td>
-            <td>MYR <%= @employee.fix_allowance%></td>
-        <tr>
-    </tbody>
-</table>
+            <th style="width;5rem">Info</th>
+            <th style="width;5rem">Detail</th>
+        </tr>
+        </thead>
+        <tbody class="text-dark">
+            <tr>
+                <td>Employee ID</td>
+                <td><%= @employee.employee_code%></td>
+            <tr>
+            <tr>
+                <td>Job Title</td>
+                <td><%= @employee.job_title%></td>
+            <tr>
+            <tr>
+                <td>Position</td>
+                <td><%= @employee.employee_position.position%></td>
+            <tr>
+            <tr>
+                <td>Department</td>
+                <td><%= @employee.department.name%></td>
+            <tr>
+            <tr>
+                <td>Project</td>
+                <td><%= @employee.project.name%></td>
+            <tr>
+            <tr>
+                <td>Base Salary</td>
+                <td>MYR <%= @employee.base_salary%></td>
+            <tr>
+            <tr>
+                <td>Fix Allowance</td>
+                <td>MYR <%= @employee.fix_allowance%></td>
+            <tr>
+            <tr>
+                <td>Contract Period</td>
+                <td><%= @employee.contract_start %> <%= @employee.contract_end %></td>
+            <tr>
+        </tbody>
+    </table>
+    </div>
 
-<h4 class="text-success">Account Info</h4>
-<table class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem;width:30rem;">
-    <thead class="text-white bg-info">
-      <tr>
-        <th style="width;5rem">Info</th>
-        <th style="width;5rem">Detail</th>
-      </tr>
-    </thead>
-    <tbody class="text-dark">
+    <div class="col-sm-6 col-lg-6">
+    <h4 class="text-success">Account Info</h4>
+    <table class="table table-sm table-responsive-lg mt-4" style="font-size:0.7rem;">
+        <thead class="text-white bg-info w-100">
         <tr>
-            <td>Bank Name</td>
-            <td><%= @employee.bank_name%></td>
-        <tr>
-        <tr>
-            <td>Bank Account</td>
-            <td><%= @employee.bank_account%></td>
-        <tr>
-        <tr>
-            <td>EPF</td>
-            <td><%= @employee.epf_account%></td>
-        <tr>
-        <tr>
-            <td>LHDN</td>
-            <td><%= @employee.lhdn_account%></td>
-        <tr>
-        <tr>
-            <td>Medical Card</td>
-            <td><%= @employee.medical_account%></td>
-        <tr>
-        <tr>
-            <td>Insurance Card</td>
-            <td><%= @employee.insurance_account%></td>
-        <tr>
-    </tbody>
-</table>
+            <th style="width;5rem">Info</th>
+            <th style="width;5rem">Detail</th>
+        </tr>
+        </thead>
+        <tbody class="text-dark">
+            <tr>
+                <td>Bank Name</td>
+                <td><%= @employee.bank_name%></td>
+            <tr>
+            <tr>
+                <td>Bank Account</td>
+                <td><%= @employee.bank_account%></td>
+            <tr>
+            <tr>
+                <td>EPF</td>
+                <td><%= @employee.epf_account%></td>
+            <tr>
+            <tr>
+                <td>SOCSO</td>
+                <td><%= @employee.socso_account%></td>
+            <tr>
+            <tr>
+                <td>LHDN</td>
+                <td><%= @employee.lhdn_account%></td>
+            <tr>
+            <tr>
+                <td>Medical Card</td>
+                <td><%= @employee.medical_account%></td>
+            <tr>
+            <tr>
+                <td>Insurance Card</td>
+                <td><%= @employee.insurance_account%></td>
+            <tr>
+        </tbody>
+    </table>
+    </div>
 
+    <div class="col-sm-6 col-lg-6">
+    <h4 class="text-success">Leave Info</h4>
+    <table class="table table-sm table-responsive-lg mt-4 w-100" style="font-size:0.7rem;">
+        <thead class="text-white bg-info">
+        <tr>
+            <th style="width;5rem">Info</th>
+            <th style="width;5rem">Detail</th>
+        </tr>
+        </thead>
+
+        <tbody class="text-dark">
+            
+            <tr>
+                <td>Annual Leave Entitled</td>
+                <td><%= @employee.annual_leave_entitled%></td>
+            <tr>
+            <tr>
+                <td>Annual Leave Taken</td>
+                <td><%= @employee.annual_leave_taken%></td>
+            <tr>
+            <tr>
+                <td>Medical Leave Entitled</td>
+                <td><%= @employee.medical_leave_entitled%></td>
+            <tr>
+            <tr>
+                <td>Medical Leave Taken</td>
+                <td><%= @employee.medical_leave_taken%></td>
+            <tr>
+        </tbody>
+    </table>
+    </div>
+
+</div>
 
 

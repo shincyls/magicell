@@ -30,12 +30,12 @@
   </head>
 
   <body>
+    <%= render partial: 'statics/modal' %>
     <div id="flash-message"><%= render partial: 'statics/message' %></div>
     <%= render partial: 'statics/navbar' %>
       <div class="container pt-lg-md">
         <%= yield %>
       </div>
-      <%= render partial: 'statics/modal' %>
     </div>
     <%= render partial: 'statics/footer' %>
   </body>

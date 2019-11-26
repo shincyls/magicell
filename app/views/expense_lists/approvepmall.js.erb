@@ -1,0 +1,5 @@
+$('#flash-message').html("<%= j (render 'statics/message') %>");
+<% @expense_lists.each do |t| %>
+<% @expense_list = t %>
+$("#el-<%=t.id%>").html("<%= j (render 'tablepm') %>");
+<% end %>

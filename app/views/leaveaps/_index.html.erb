@@ -1,15 +1,83 @@
-<h4 class="text-left text-success">New Leave</h4>
+<h4 class="text-left text-success">Your Leave Summary</h4>
+<div id="employee-leave-summary" class="row" style="font-size:0.7rem">
+  <div class="col-8">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>Days</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th>Leave Types</th>
+          <th>Entitled (2019)</th>
+          <th>Taken (2019)</th>
+          <th>Approved</th>
+          <th>Rejected</th>
+          <th>Pending Approval</th>
+          <th>Pending Submit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= Leavetype.find(1).name %></td>
+          <td><%= current_user.employee.annual_leave_entitled %></td>
+          <td><%= current_user.employee.annual_leave_taken %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 1, status_leave_id: 1).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 1, status_leave_id: 2).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 1, status_leave_id: 3).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 1, status_leave_id: 4).sum(:days) %></td>
+        </tr>
+        <tr>
+          <td><%= Leavetype.find(2).name %></td>
+          <td><%= current_user.employee.medical_leave_entitled %></td>
+          <td><%= current_user.employee.medical_leave_taken %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 2, status_leave_id: 1).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 2, status_leave_id: 2).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 2, status_leave_id: 3).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 2, status_leave_id: 4).sum(:days) %></td>
+        </tr>
+        <tr>
+          <td><%= Leavetype.find(3).name %></td>
+          <td></td>
+          <td></td>
+          <td><%= current_user.employee.leaveaps.where(id: 3, status_leave_id: 1).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 3, status_leave_id: 2).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 3, status_leave_id: 3).sum(:days) %></td>
+          <td><%= current_user.employee.leaveaps.where(id: 3, status_leave_id: 4).sum(:days) %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<%= render partial: "leaveaps/form" %>
+<hr>
+
+<div id="employee-leave-form">
+  <h4 class="text-left text-success">New Leave</h4>
+  <%= render partial: "leaveaps/form" %>
+</div>
 
 <hr>
 
 <div id="leveaps-list">
   <h4 class="text-left text-success">Leave History</h4>
-  <br>
+
+  <h6>Action</h6>
+  <div>
+    <span class="btn-sm btn-success mt-2">S = Submit</span>
+    <span class="btn-sm btn-new mt-2">E = Edit</span>
+    <span class="btn-sm btn-danger mt-2">D = Delete</span>
+  </div>
+
+  <h6 class="mt-4">Filter:</h6>
   <div class="row">
     <%= button_to "All", leaveaps_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
-    <%= button_to "#{@backup_lists.where(status_leave_id: 1).count} Pending" , leaveaps_path, params: {value: 1}, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
+    <%= button_to "#{@backup_lists.where(status_leave_id: 1).count} Not Submit" , leaveaps_path, params: {value: 1}, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
     <%= button_to "#{@backup_lists.where(status_leave_id: 2).count} Pending" , leaveaps_path, params: {value: 2}, method: "get", remote: true, class: "col btn btn-sm badge-primary m-2" %>
     <%= button_to "#{@backup_lists.where(status_leave_id: 3).count} Rejected" , leaveaps_path, params: {value: 3}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
     <%= button_to "#{@backup_lists.where(status_leave_id: 4).count} Approved" , leaveaps_path, params: {value: 4}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>

@@ -7,6 +7,12 @@ class UserMailer < ApplicationMailer
         mail(to: @email, :subject => 'Magicell Magicnet Password Reset')
     end
 
+    def make_account(user)
+        @user = User.find(user)
+        @email = @user.employee.company_email
+        mail(to: @email, :subject => 'Magicell Admin has created user login account for you.')
+    end
+
     # When Employee submitted form, this will send notification to Manager.
     def submit_leave(id, mgr)
         @leaveap = Leaveap.find(id)

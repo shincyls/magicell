@@ -6,7 +6,6 @@ class Leaveap < ApplicationRecord
     validates :reason, presence: {message: " must exist."}
     validates :contact_person, presence: {message: " must exist."}
     validates :contact_number, presence: {message: " must exist."}
-    validates :attachment_link, presence: {message: " must exist."}
     validate :duplicate_manager
 
     belongs_to :employee
@@ -29,11 +28,25 @@ class Leaveap < ApplicationRecord
             @total_days = 0
             @date = self.to_date
             while @date >= self.from_date
-                @total_days += 1 unless @date.saturday? or @date.sunday?
+                @total_days += 1 unless @date.saturday? or @date.sunday? or Holiday.list.include?(@date.strftime("%F"))
                 @date = @date - 1.day
             end
             @total_days -= 0.5 if self.from_ampm == "PM"
             @total_days -= 0.5 if self.to_ampm == "AM"
+        else
+            @total_days = 0
+        end
+        return @total_days
+    end
+
+    def total_holidays
+        unless (self.to_date.nil?) or (self.from_date.nil?)
+            @total_days = 0
+            @date = self.to_date
+            while @date >= self.from_date
+                @total_days += 1 if @date.saturday? or @date.sunday? or Holiday.list.include?(@date.strftime("%F"))
+                @date = @date - 1.day
+            end
         else
             @total_days = 0
         end

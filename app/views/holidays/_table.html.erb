@@ -4,8 +4,8 @@
     <tr>
       <th>Date</th>
       <th>Description</th>
-      <th>Active</th>
       <% if current_user.webrole.wr_hr %>
+      <th>Activate</th>
       <th>Action</th>
       <% end %>
     </tr>
@@ -17,8 +17,19 @@
     <tr>
         <td><%=e.date%></td>
         <td><%=e.remarks%></td>
-        <td><%=e.show%></td>
         <% if current_user.webrole.wr_hr %>
+        <td>
+          <label class="custom-toggle">
+            <%= check_box_tag(
+              "Holiday_List", e.id, e.activate,
+              name: "activate-holiday-#{e.id}",
+              data: {
+              remote: true,
+              url: url_for(controller: 'holidays', action: 'activate', id: e.id),
+              method: 'POST' }) %>
+            <span class="custom-toggle-slider rounded-circle"></span>
+          </label>
+        </td>
         <td>
           <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_holiday_path(e), class: "small text-white m-1", remote: true %></span>
           <span class="bg-danger rounded p-1 m-1"><%= link_to 'Delete', e, method: :delete, class: "small text-white m-1", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span>

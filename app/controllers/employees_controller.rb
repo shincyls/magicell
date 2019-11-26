@@ -61,6 +61,25 @@ class EmployeesController < ApplicationController
         flash.now[:warning] = @employee.errors.full_messages
       end
     end
+
+    def updateself
+      respond_to :html, :js
+      @employee = Employee.find(params[:id])
+      if @employee.update(employee_params)
+        flash.now[:success] = "Employee Information have been successfully updated."
+        # Automatic Update Webrole as Manager
+        if (@employee.employee_position.position == "Manager") & (@employee.user)
+          @user = @employee.user
+          if @user.webrole_id == 2
+            @user.webrole_id = Webrole.find_by(role: "Manager").id
+          end
+          @user.save
+        end
+        @employees = Employee.all.order("created_at desc")
+      else
+        flash.now[:warning] = @employee.errors.full_messages
+      end
+    end
   
     # DELETE /employees/1
     # DELETE /employees/1.json
@@ -97,14 +116,6 @@ class EmployeesController < ApplicationController
           :annual_leave_entitled, :annual_leave_taken, :medical_leave_entitled, :medical_leave_taken, :contract_start, :contract_end, :category, :employment_status,
           :phone_number_emergency, :gender, :socso_account, :include_socso, :include_epf
         )
-    end
-
-    def employee_self_params
-      params.require(:employee).permit(
-        :department_id, :project_id, :personal_email, :company_email, 
-        :phone_number, :phone_emergency, :address, :nationality, :race, :marital_status, :spouse_name, :children_count, 
-        :birthday, :phone_number_emergency, :gender
-      )
     end
       
   end

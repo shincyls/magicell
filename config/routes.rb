@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     end
     member do
       post :editself
+      post :updateself
     end
   end
 
@@ -47,6 +48,7 @@ Rails.application.routes.draw do
     collection do
     end
     member do
+      post :activate
     end
   end
 
@@ -62,6 +64,8 @@ Rails.application.routes.draw do
   resources :leaveaps do
     collection do
       get :project
+      post :submitall
+      post :approveall
     end
     member do
       post :submit
@@ -75,6 +79,9 @@ Rails.application.routes.draw do
     collection do
       get :project
       get :finance
+      post :submitall
+      post :approvepmall
+      post :approvefmall
     end
     member do
       post :submit
@@ -90,6 +97,9 @@ Rails.application.routes.draw do
     collection do
       get :project
       get :finance
+      post :submitall
+      post :approvepmall
+      post :approvefmall
     end
     member do
       post :submit

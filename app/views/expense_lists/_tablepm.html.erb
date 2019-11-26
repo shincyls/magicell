@@ -15,15 +15,15 @@
             </td>
             <td><%=t.odometer_reading%></td>
             <td><%= (link_to "Click", "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
-            <td><%=(time_ago_in_words(t.submitted_at).chomp("about") + " ago") if t.submitted_at%></td>
+            <td><%=(time_ago_in_words(t.submitted_at).chomp("about")) if t.submitted_at%></td>
             <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
             <td>
               <% if t.project.manager.id == current_user.employee.id %>
                 <% if [2].include?(t.status_expense_id) %>
-                <ul class="row list-unstyled">
-                  <li class="mt-2"><%= link_to 'Approve', approvepm_expense_list_path(t), method: :post, class: "btn-sm btn-success2", remote: true %></li>
-                  <li class="mt-2"><%= link_to 'Reject', rejectpm_expense_list_path(t), method: :post, class: "btn-sm btn-danger", remote: true %></li>
-                </ul>
+                <div class="row">
+                  <%= button_to 'Approve', approvepm_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                  <%= button_to 'Reject', rejectpm_expense_list_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                </div>
                 <% end %>
               <% end %>
             </td>

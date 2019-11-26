@@ -1,2 +1,5 @@
 $('#flash-message').html("<%= j (render 'statics/message') %>");
+
+<% if flash.now[:danger].nil? %>
 $("#leveaps-list").html("<%= j (render 'table') %>");
+<% end %>

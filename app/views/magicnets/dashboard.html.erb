@@ -27,6 +27,19 @@
         </div>
         <% end %>
 
+        <% if current_user.webrole.vw_it %>
+        <div class="dropdown">
+            <button class="btn btn-danger dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                IT
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to "Dashboard", dashit_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Webrole", webrole_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Account", account_path, class: "dropdown-item", remote: true %>
+            </div>
+        </div>
+        <% end %>
+
         <% if current_user.webrole.vw_finance %>
         <div class="dropdown">
             <button class="btn btn-info dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,19 +50,6 @@
                 <%= link_to "Leave Approval", project_leaveaps_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Timesheet Approval", finance_timesheet_tasks_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Expense Approval", finance_expense_lists_path, class: "dropdown-item", remote: true %>
-            </div>
-        </div>
-        <% end %>
-
-        <% if current_user.webrole.vw_it %>
-        <div class="dropdown">
-            <button class="btn btn-danger dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                IT
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Dashboard", dashit_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Webrole", webrole_path, class: "dropdown-item", remote: true %>
-                <%= link_to "Account", account_path, class: "dropdown-item", remote: true %>
             </div>
         </div>
         <% end %>
@@ -74,7 +74,7 @@
                 Employee
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <%= link_to "Dashboard", dashemployee_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Employee Info", dashemployee_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Leave Application", leaveaps_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Timesheet Application", timesheet_tasks_path, class: "dropdown-item", remote: true %>
                 <%= link_to "Expense Application", expense_lists_path, class: "dropdown-item", remote: true %>
@@ -99,6 +99,7 @@ function myFunction() {
 }
 
 function loadjs(table, sortColumn, pageLength, dom) {
+    
     $(table).DataTable({
       "order": [sortColumn],
       "search": {
@@ -106,18 +107,26 @@ function loadjs(table, sortColumn, pageLength, dom) {
       },
       "pageLength": pageLength,
       "dom": dom,
-      buttons: [
-            {
-                extend: 'collection',
-                text: 'Export',
-                buttons: [
-                    'copy',
-                    'excel',
-                    'csv'
-                ]
-            }
-        ]
+      language: { search: ''},
+      "buttons": [
+                {
+                    extend: 'collection',
+                    title: 'magicell_export',
+                    text: 'Export',
+                    buttons: [
+                        'copy',
+                        'excel',
+                        'csv'
+                    ]
+                }
+            ]
     });
+
+
+    $('.dataTables_filter input[type="search"]').
+    addClass('form-control form-control-sm small').
+    attr('placeholder','Search by multiple keywords (eg: key1 key2)').
+    css({'width':'20rem'});
 };
 
 </script>

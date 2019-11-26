@@ -11,6 +11,7 @@ class CreateLeaveaps< ActiveRecord::Migration[5.2]
         t.string :from_ampm, default: "AM"
         t.date :to_date
         t.string :to_ampm, default: "PM"
+        t.float :days, default: 0
         t.boolean :submitted, default: false
         t.references :apv_mgr_1
         t.references :apv_mgr_2

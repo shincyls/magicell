@@ -41,7 +41,7 @@
       </td>
       <td><%=l.total_days%></td>
       <td><%= (link_to "Click", "http://#{l.url}", target: "_blank") if l.attachment_link.present? %></td>
-      <td><%=(time_ago_in_words(l.submitted_at).chomp("about") + " ago") if l.submitted_at%></td>
+      <td><%=(time_ago_in_words(l.submitted_at).chomp("about")) if l.submitted_at%></td>
       <td>
         <% if l.apv_mgr_1_id === current_user.employee.id %>
           <% unless l.apv_1 %>

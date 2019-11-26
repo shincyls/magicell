@@ -2,3 +2,9 @@ $("#modal-header").html("Edit Entry");
 $("#modal-body").html("<%= j (render 'edit') %>");
 $("#modal-footer").html("<button type='submit' form='edit_timesheet_task_<%=@timesheet_task.id%>' class='btn btn-primary'>Update</button>");
 $("#modal-form").modal();
+
+<% if @timesheet_task.project.name.include? "DT" %>
+$("#edit-drivetest-only").show();
+<% else %>
+$("#edit-drivetest-only").hide();
+<% end %>
