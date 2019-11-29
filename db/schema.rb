@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.float "medical_claim", default: 0.0
     t.float "others_claim", default: 0.0
     t.integer "odometer_reading", default: 0
+    t.integer "holiday", default: 0
     t.string "attachment_link"
     t.datetime "submitted_at"
     t.datetime "created_at", null: false
@@ -268,6 +269,7 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.string "vehicle_number", limit: 8
     t.integer "working_hours", default: 8
     t.string "attachment_link"
+    t.integer "holiday", default: 0
     t.datetime "submitted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

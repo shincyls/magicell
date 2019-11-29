@@ -12,6 +12,7 @@ class CreateExpenseLists < ActiveRecord::Migration[5.2]
         t.float :medical_claim, default: 0
         t.float :others_claim, default: 0
         t.integer :odometer_reading, default: 0
+        t.integer :holiday, default: 0
         t.string :attachment_link
         t.datetime :submitted_at
         t.timestamps

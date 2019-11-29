@@ -13,6 +13,7 @@ class CreateTimesheetTasks < ActiveRecord::Migration[5.2]
           t.string :vehicle_number, limit: 8
           t.integer :working_hours, default: 8
           t.string :attachment_link
+          t.integer :holiday, default: 0
           t.datetime :submitted_at
           t.timestamps
         end

@@ -15,7 +15,7 @@
     
     <thead class="text-dark">
       <tr>
-        <th>Date</th>
+        <td class="<%= "text-success" if t.holiday>0 %>"><%=t.date%></td>
         <th>Employee</th>
         <th>Project</th>
         <th>PM</th>
@@ -32,7 +32,7 @@
         <% unless @expense_lists.nil? %>
         <% @expense_lists.each do |t| %>
         <tr id="el-<%=t.id%>">
-            <td><%=t.date%></td>
+            <td class="<%= "text-success" if t.holiday? %>"><%=t.date%></td>
             <td><a href="https://api.whatsapp.com/send?phone=+6<%=t.employee.whatsapp%>"><%=t.employee.full_name%></a></td>
             <td><%=t.project.name%></td>
             <td><%=t.project.manager.full_name%></td>

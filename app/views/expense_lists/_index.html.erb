@@ -52,7 +52,7 @@
         <% unless @expense_lists.nil? %>
         <% @expense_lists.each do |t| %>
         <tr id="el-<%=t.id%>">
-            <td><%=t.date%></td>
+            <td class="<%= "text-success" if t.holiday? %>"><%=t.date%></td>
             <td><%=t.project.name%></td>
             <td><%=t.project.manager.full_name%></td>
             <td>

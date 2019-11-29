@@ -56,7 +56,6 @@ class TimesheetTasksController < ApplicationController
       params["timesheet_task"].delete("multi_date_from")
       params["timesheet_task"].delete("multi_date_to")
       while date_end >= date_now
-        unless date_now.saturday? or date_now.sunday?
           @timesheet_task = TimesheetTask.new(timesheet_task_params)
           unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, date: date_now)
             @timesheet_task.date = date_now
@@ -68,7 +67,7 @@ class TimesheetTasksController < ApplicationController
           else # Update/Overwrite
             message = ", but tasks with duplicated date are ignored"
           end
-        end
+        # end
         date_now += 1.day
       end
       if message.empty?
@@ -208,7 +207,7 @@ class TimesheetTasksController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def timesheet_task_params
-        params.require(:timesheet_task).permit(:employee_id, :project_id, :activity, :date, :working_hours, :site_name, :project_region_id, :vehicle_number, :vehicle_owner_id, :attachment_link)
+        params.require(:timesheet_task).permit(:employee_id, :project_id, :activity, :date, :working_hours, :site_name, :project_region_id, :vehicle_number, :vehicle_owner_id, :holiday, :attachment_link)
     end
       
       

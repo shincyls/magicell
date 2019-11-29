@@ -1,5 +1,5 @@
 <% t = @timesheet_task %>    
-            <td><%=t.date%></td>
+            <td class="<%= "text-success" if t.holiday? %>"><%=t.date%></td>
             <td><%=t.project.name%></td>
             <td><%=t.activity%></td>
             <td><%=t.working_hours%></td>

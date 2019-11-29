@@ -23,4 +23,8 @@ class TimesheetTask < ApplicationRecord
         self.attachment_link.replace("https://","").replace("http://","")
     end
 
+    def holiday?
+        self.date.saturday? or self.date.sunday? or Holiday.list.include?(self.date.strftime("%F"))
+    end
+
 end

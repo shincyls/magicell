@@ -21,4 +21,8 @@ class ExpenseList < ApplicationRecord
         self.attachment_link.gsub('https://','').gsub('http://','')
     end
 
+    def holiday?
+        self.date.saturday? or self.date.sunday? or Holiday.list.include?(self.date.strftime("%F"))
+    end
+
 end

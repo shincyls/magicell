@@ -47,7 +47,7 @@
         <% unless @timesheet_tasks.nil? %>
         <% @timesheet_tasks.each do |t| %>
         <tr id="ts-<%=t.id%>">
-            <td><%=t.date%></td>
+            <td class="<%= "text-success" if t.holiday? %>"><%=t.date%></td>
             <td><%=t.project.name%></td>
             <td><%=t.activity%></td>
             <td><%=t.working_hours%></td>
