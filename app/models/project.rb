@@ -11,7 +11,7 @@ class Project < ApplicationRecord
 
     enum project_status: ["Active","Archieved","Others"]
 
-    validates :project_name, presence: {message: "must present."}, uniqueness: {message: "already exists!"}
+    validates :project, presence: {message: "must present."}, uniqueness: {message: "already exists!"}
 
     def total_claims
     end
