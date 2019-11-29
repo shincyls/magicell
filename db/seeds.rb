@@ -92,7 +92,6 @@ ProjectClient.create!([
 ])
 
 Project.create!([
-  {name: "Others", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom Refarming", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom Opti+", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom OSS (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
@@ -116,15 +115,17 @@ Project.create!([
   {name: "Digi SPDH Planner", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Digi SPDH Integration", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Digi SPDH TI", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Magicell Platform", vendor: "Magicell", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Nokia Management", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Nokia DTC", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Nokia DTA", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Nokia DTE", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
   {name: "Nokia Others", vendor: "Nokia", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "OSS DTA", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Pro Data DTC", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Pro Data DTE", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Pro Data DTA", department_id: 5, company_id: 1, manager_id: 1}
+  {name: "OSS DTA", vendor: "", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Pro Data DTC", vendor: "Pro Data", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Pro Data DTE", vendor: "Pro Data", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Pro Data DTA", vendor: "Pro Data", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Others", vendor: "Others", department_id: 5, company_id: 1, manager_id: 1}
 ])
 
 Leavetype.create!([
