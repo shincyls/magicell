@@ -46,7 +46,12 @@ class Employee < ApplicationRecord
     end
 
     def whatsapp
-        self.phone_number.gsub('-','').gsub('+','').gsub(' ','')
+        unless self.phone_number.blank?
+            url = "https://api.whatsapp.com/send?phone=" + self.phone_number.gsub('-','').gsub('+','').gsub(' ','')
+            return url
+        else
+            return ""
+        end
     end
     
     def annual_days(approve)

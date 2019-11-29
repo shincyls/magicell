@@ -1,8 +1,7 @@
 <%= form_for @timesheet_task, remote: true do |f| %>
 
     <%= f.hidden_field :employee_id, value: current_user.employee.id %>
-    <div class="text-dark small">1. Weekends are exclusive automatically.</div>
-    <div class="text-dark small">2. Existed date will not be create again.</div>
+    <div class="text-dark small">1. Existed date will not be create again.</div>
     <div class="text-danger small"><i>* Mandatory Input</i></div>
 
     <div class="row text-dark mt-2 mb-3 datepicker input-daterange">

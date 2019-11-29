@@ -35,7 +35,7 @@
       <% unless @leaveaps.nil? %>
       <% @leaveaps.each do |l| %>
         <tr id="lva-<%=l.id%>">
-            <td><a href="api.whatsapp.com/send?phone=+6<%=l.employee.whatsapp%>"><%=l.employee.full_name%></a></td>
+            <td><%=l.employee.full_name%></td>
             <td><%=l.leavetype.name%></td>
             <td><%=l.reason%></td>
             <td><%=l.contact_person%></td>
