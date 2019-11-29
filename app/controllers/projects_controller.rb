@@ -43,7 +43,6 @@ class ProjectsController < ApplicationController
       @project = Project.find(params[:id])
       if @project.update(project_params)
         flash.now[:success] = "Project information have been successfully updated."
-        @projects = Project.all.order("created_at desc")
       else
         flash.now[:warning] = @project.errors.full_messages
       end
@@ -65,7 +64,7 @@ class ProjectsController < ApplicationController
   
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-        params.require(:project).permit(:name, :description, :vendor, :operator, :department_id, :manager_id, :project_status)
+        params.require(:project).permit(:name, :description, :vendor, :operator, :department_id, :manager_id, :manager_alt_id, :project_status)
     end
       
   end

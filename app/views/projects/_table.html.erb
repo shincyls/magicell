@@ -19,7 +19,7 @@
   <tbody class="text-dark">
     <% unless @projects.nil? %>
     <% @projects.each do |e| %>
-    <tr>
+    <tr id="pr-<%=e.id%>">
         <td><%=e.name%></td>
         <td><%=e.manager.full_name if e.manager %></td>
         <td><%=e.manager_alt.full_name if e.manager_alt %></td>
