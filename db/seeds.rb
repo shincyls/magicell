@@ -61,14 +61,14 @@ EmployeePosition.create!([
 ])
 
 Employee.create!([
-  {full_name: "Super User", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "noreply@magicell.com.my", company_email: "noreply@magicell.com.my", identity_no: "123456-12-1234", phone_number: "012-3456789"},
-  {full_name: "Chin Soon Hong", company_id: 1, department_id: 1, employee_position_id: 2, project_id: 1, personal_email: "chinsh@magicell.com.my", company_email: "chinsh@magicell.com.my", phone_number: "012-3456789"},
-  {full_name: "Gilbert", company_id: 1, department_id: 1, employee_position_id: 2, project_id: 1, personal_email: "gilbert@magicell.com.my", company_email: "gilbert@magicell.com.my", phone_number: "012-3456789"},
-  {full_name: "Shin Chee Yap", employee_code: "M088", company_id: 1, department_id: 1, employee_position_id: 1, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_no: "861125-38-6475", phone_number: "012-5252070"},
-  {full_name: "Azlina Binti Abdul Aziz", company_id: 1, department_id: 3, employee_position_id: 1, personal_email: "azliana@magicell.com.my", company_email: "azliana@magicell.com.my", phone_number: "012-3456789"},
-  {full_name: "Fong Onn Lee", company_id: 1, department_id: 3, employee_position_id: 1, personal_email: "onnlee@magicell.com.my", company_email: "onnlee@magicell.com.my", phone_number: "012-3456789"},
-  {full_name: "Nur Farhana Binti Mohd Yusof", company_id: 1, department_id: 3, employee_position_id: 1, personal_email: "farhana@magicell.com.my", company_email: "farhana@magicell.com.my", phone_number: "012-3456789"},
-  {full_name: "Siti Fatimah Binti Tahir", company_id: 1, department_id: 3, employee_position_id: 1, personal_email: "siti_fatimah1102@yahoo.com", company_email: "admin@magicell.com.my", phone_number: "012-3456789"}
+  {full_name: "Super User", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "noreply@magicell.com.my", company_email: "noreply@magicell.com.my", identity_no: "123456-12-1234", phone_number: "012-3456789"}
+  # {full_name: "Chin Soon Hong", company_id: 1, department_id: 1, employee_position_id: 2, project_id: 1, personal_email: "chinsh@magicell.com.my", company_email: "chinsh@magicell.com.my", phone_number: "012-3456789"},
+  # {full_name: "Gilbert", company_id: 1, department_id: 1, employee_position_id: 2, project_id: 1, personal_email: "gilbert@magicell.com.my", company_email: "gilbert@magicell.com.my", phone_number: "012-3456789"},
+  # {full_name: "Shin Chee Yap", employee_code: "M088", company_id: 1, department_id: 1, employee_position_id: 1, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_no: "861125-38-6475", phone_number: "012-5252070"},
+  # {full_name: "Azlina Binti Abdul Aziz", company_id: 1, department_id: 3, employee_position_id: 1, personal_email: "azliana@magicell.com.my", company_email: "azliana@magicell.com.my", phone_number: "012-3456789"},
+  # {full_name: "Fong Onn Lee", company_id: 1, department_id: 3, employee_position_id: 1, personal_email: "onnlee@magicell.com.my", company_email: "onnlee@magicell.com.my", phone_number: "012-3456789"},
+  # {full_name: "Nur Farhana Binti Mohd Yusof", company_id: 1, department_id: 3, employee_position_id: 1, personal_email: "farhana@magicell.com.my", company_email: "farhana@magicell.com.my", phone_number: "012-3456789"},
+  # {full_name: "Siti Fatimah Binti Tahir", company_id: 1, department_id: 3, employee_position_id: 1, personal_email: "siti_fatimah1102@yahoo.com", company_email: "admin@magicell.com.my", phone_number: "012-3456789"}
 ])
 
 User.create!([
@@ -94,13 +94,15 @@ ProjectClient.create!([
 Project.create!([
   {name: "Celcom Refarming", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom Opti+", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
-  {name: "Celcom OSS (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Celcom DTA (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
-  {name: "Celcom DTE (SSO)", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
+  {name: "Celcom OSS", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Celcom DTA", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Celcom DTE", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1, site?: true, vehicle?: true},
   {name: "Celcom/Digi DTC", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom PSP", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom Management", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Celcom Others", vendor: "Celcom", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "Digi DTA (VIP)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
+  {name: "Digi DTE (VIP)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Digi DTA (SSV)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Digi DTA (AFS)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},
   {name: "Digi OSS (AFS)", vendor: "Digi", department_id: 5, company_id: 1, manager_id: 1, site?: true},

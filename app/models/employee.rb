@@ -19,8 +19,7 @@ class Employee < ApplicationRecord
     # validates :personal_email, presence: {message: "must present."}, uniqueness: {message: "already exists!"}, format: {with: /\b[A-Z0-9._%a-z\-]+@.+\..+/, message: "must valid email format." }
     # validates :phone_number, presence: {message: "must present."}
     
-
-    enum category: ["Permanent","Contract","Intern"]
+    enum category: ["Permanent","Contract","Intern","ARP"]
     enum employment_status: ["Active","Archieved","Resigned","Maternity","Hidden","Others"]
     
     def combine_name
