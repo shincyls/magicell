@@ -47,6 +47,17 @@ class ProjectsController < ApplicationController
         flash.now[:warning] = @project.errors.full_messages
       end
     end
+
+    def import
+      respond_to :html, :js
+      if params[:file].present?
+        Project.import(params[:file])
+        flash.now[:success] = "Import Done."
+      else
+        flash.now[:danger] = "Import File is not found."
+      end
+      index
+    end
   
     # DELETE /projects/1
     def destroy

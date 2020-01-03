@@ -1,5 +1,7 @@
 class Project < ApplicationRecord
 
+    require 'csv'
+
     belongs_to :company, optional: true
     belongs_to :department, optional: true
     belongs_to :project_client
@@ -17,6 +19,22 @@ class Project < ApplicationRecord
     end
 
     def total_timesheets
+    end
+
+
+    def self.import(file)
+        CSV.foreach(file.path, headers: true) do |row|
+            params = row.to_hash
+            # Data Adjustment to Fit into Database
+            params['manager_id'] = params['manager_id'].to_i
+            params['manager_alt_id'] = params['manager_alt_id'].to_i
+            # Importing Data Here
+            if Project.exists?(name: params['name'])
+                params.reject{|_, v| v.blank?}
+                @project = Project.find_by(name: params['name'])
+                @project.update(params)
+            end
+        end
     end
 
 end

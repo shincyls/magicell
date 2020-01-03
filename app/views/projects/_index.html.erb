@@ -3,6 +3,10 @@
       <div class="form-group">
           <%= button_to "New Project", new_project_path, remote: true, method: 'get', class: "btn btn-outline-info" %>
       </div>
+      <%= form_tag import_projects_path, remote: true, multipart: true do %>
+        <%= file_field_tag :file, class: "bg-white rounded"  %>
+        <%= submit_tag "Import CSV", class: "btn btn-success btn-sm", method: :post  %>
+      <% end %>
   </div>
 </div>
 

@@ -102,6 +102,7 @@ class EmployeesController < ApplicationController
       else
         flash.now[:danger] = "Import File is not found."
       end
+      index
     end
   
     private
