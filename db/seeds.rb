@@ -72,14 +72,7 @@ Employee.create!([
 ])
 
 User.create!([
-  {username: "owner", password: "M@g!c3lL", webrole_id: 3, employee_id: 1},
-  {username: "chinsh", password: "magicell123", webrole_id: 4, employee_id: 2},
-  {username: "gilbert", password: "magicell123", webrole_id: 4, employee_id: 3},
-  {username: "shincy", password: "M@g!c3lL", webrole_id: 3, employee_id: 4},
-  {username: "azliana", password: "magicell123", webrole_id: 8, employee_id: 5},
-  {username: "onnlee", password: "magicell123", webrole_id: 8, employee_id: 6},
-  {username: "farhana", password: "magicell123", webrole_id: 8, employee_id: 7},
-  {username: "siti", password: "magicell123", webrole_id: 8, employee_id: 8}
+  {username: "owner", password: "M@g!c3lL", webrole_id: 3, employee_id: 1}
 ])
 
 ProjectClient.create!([
@@ -127,6 +120,8 @@ Project.create!([
   {name: "Pro Data DTC", vendor: "Pro Data", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Pro Data DTE", vendor: "Pro Data", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Pro Data DTA", vendor: "Pro Data", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "OnSite DTA", vendor: "Magicell", department_id: 5, company_id: 1, manager_id: 1},
+  {name: "OnSite Management", vendor: "Magicell", department_id: 5, company_id: 1, manager_id: 1},
   {name: "Others", vendor: "Others", department_id: 5, company_id: 1, manager_id: 1}
 ])
 
