@@ -14,8 +14,8 @@ class Employee < ApplicationRecord
     validates :full_name, presence: {message: "must present."}
     # validates :identity_no, presence: {message: "must present."}, uniqueness: {message: "already exists!"}
     # validates :company_email, uniqueness: {case_sensitive: false, message: "already exists!"}, allow_blank: true, format: {with: /\b[A-Z0-9._%a-z\-]+@magicell.com.my/, message: "must valid format and magicell.com.my account." }
-    validates :company_email, presence: {message: "must present."}, uniqueness: {message: "already exists!"}, format: {with: /\b[A-Z0-9._%a-z\-]+@.+\..+/,
-        message: "must valid email format." }
+    # validates :company_email, presence: {message: "must present."}, uniqueness: {message: "already exists!"}, format: {with: /\b[A-Z0-9._%a-z\-]+@.+\..+/,
+    #    message: "must valid email format." }
     # validates :personal_email, presence: {message: "must present."}, uniqueness: {message: "already exists!"}, format: {with: /\b[A-Z0-9._%a-z\-]+@.+\..+/, message: "must valid email format." }
     # validates :phone_number, presence: {message: "must present."}
     
