@@ -4,10 +4,14 @@
             <div class="card-header text-center bg-white">
                 <h4 class="text-dark">Greetings! <%= @whoto %></h4>
                 <h5 class="text-primary"><%= @whofrom %> has submitted Leave Application for your Approval.</h5>
-
                 <h5>
                     <ul>
                         <li>Leave Type: <%=@leaveap.leavetype.name%></li>
+                        <% if @leaveap.leavetype.id = 1 %>
+                        <li>Remaining Annual Leaves Before Apply: <%=@leaveap.employee.annual_leave_entitled - @leaveap.employee.annual_leave_taken%></li>
+                        <% elsif @leaveap.leavetype.id = 2%>
+                        <li>Remaining Medical Leaves Before Apply: <%=@leaveap.employee.medical_leave_entitled - @leaveap.employee.medical_leave_taken%></li>
+                        <% end %>
                         <li>Reason: <%=@leaveap.reason%></li>
                         <li>Contact Person: <%=@leaveap.contact_person%></li>
                         <li>Contact Number: <%=@leaveap.contact_number%></li>
@@ -16,7 +20,7 @@
                         <li>Days: <%=@leaveap.total_days%></li>
                     </ul>
                 </h5>
-                
+                <h4><a href="http://magicell.herokuapp.com/magicnet/approve_leave?id=<%=@leaveap.id%>&amp;approval=<%=@manager%>">Click Here For Quick Approval</a></h4>
             </div>
         </div>
     </div>

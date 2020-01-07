@@ -48,6 +48,11 @@ class ProjectsController < ApplicationController
       end
     end
 
+    def summary
+      respond_to :html, :js
+      @projects = Project.all.order("created_at desc")
+    end
+
     def import
       respond_to :html, :js
       if params[:file].present?

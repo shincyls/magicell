@@ -10,6 +10,11 @@ class EmployeesController < ApplicationController
       end
     end
 
+    def summary
+      respond_to :html, :js
+      @employees = Employee.all.order("created_at desc")
+    end
+
     def new
       respond_to :html, :js
       @employee = Employee.new

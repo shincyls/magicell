@@ -11,6 +11,19 @@
 
     <div class="mt-4 mb-4">
 
+        <% if current_user.webrole.vw_market %>
+        <div class="dropdown">
+            <button class="btn btn-success dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Monthly Summary
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to "Leave Summary", summary_leaveaps_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Timesheet Summary", summary_timesheet_tasks_path, class: "dropdown-item", remote: true %>
+                <%= link_to "Expense Summary", summary_expense_lists_path, class: "dropdown-item", remote: true %>
+            </div>
+        </div>
+        <% end %>
+
         <% if current_user.webrole.vw_hr %>
         <div class="dropdown">
             <button class="btn btn-success dropdown-toggle mt-1 mb-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

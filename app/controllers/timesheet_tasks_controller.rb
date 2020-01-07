@@ -13,6 +13,11 @@ class TimesheetTasksController < ApplicationController
       @timesheet_task = TimesheetTask.new
     end
 
+    def summary
+      respond_to :html, :js
+      @timesheet_tasks = TimesheetTask.where(status_timesheet_id: [2,3,4,5,6]).order("created_at desc")
+    end
+
     def project
       respond_to :html, :js
       @projects = Project.where(manager_id: current_user.employee.id).pluck(:id)

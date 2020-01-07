@@ -25,7 +25,9 @@ require 'open-uri'
 
 WebappContent.create!([
   {name: "Default Password", param: "Magicell!23"},
-  {name: "Send Email", param: "No"},
+  {name: "Send Leave Notification Email", param: "No"},
+  {name: "Send Timesheet Notification Email", param: "No"},
+  {name: "Send Claim Notification Email", param: "No"}
 ])
 
 Webrole.create!([
@@ -61,7 +63,7 @@ EmployeePosition.create!([
 ])
 
 Employee.create!([
-  {full_name: "Super User", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "noreply@magicell.com.my", company_email: "noreply@magicell.com.my", identity_no: "123456-12-1234", phone_number: "012-3456789"}
+  {full_name: "Super User", company_id: 1, department_id: 4, employee_position_id: 2, project_id: 1, personal_email: "noreply@magicell.com.my", company_email: "shincy@magicell.com.my", identity_no: "123456-12-1234", phone_number: "012-3456789"}
   # {full_name: "Chin Soon Hong", company_id: 1, department_id: 1, employee_position_id: 2, project_id: 1, personal_email: "chinsh@magicell.com.my", company_email: "chinsh@magicell.com.my", phone_number: "012-3456789"},
   # {full_name: "Gilbert", company_id: 1, department_id: 1, employee_position_id: 2, project_id: 1, personal_email: "gilbert@magicell.com.my", company_email: "gilbert@magicell.com.my", phone_number: "012-3456789"},
   # {full_name: "Shin Chee Yap", employee_code: "M088", company_id: 1, department_id: 1, employee_position_id: 1, project_id: 1, personal_email: "shincy25@gmail.com", company_email: "shincy@magicell.com.my", identity_no: "861125-38-6475", phone_number: "012-5252070"},

@@ -20,9 +20,11 @@ class UserMailer < ApplicationMailer
         if mgr == 1
             @mailto = @leaveap.apv_mgr_1.company_email
             @whoto = @leaveap.apv_mgr_1.full_name
+            @manager = 1
         elsif mgr == 2
             @mailto = @leaveap.apv_mgr_2.company_email
             @whoto = @leaveap.apv_mgr_2.full_name
+            @manager = 2
         end
         @title = "[Magicell] Leave Application from #{@whofrom}."
         mail(to: @mailto, :subject => @title)
@@ -51,9 +53,9 @@ class UserMailer < ApplicationMailer
         @leaveap = Leaveap.find(id)
         @mailto = @leaveap.employee.company_email
         @whoto = @leaveap.employee.full_name
-        if mgr == 1
+        if mgr == "1"
             @whofrom = @leaveap.apv_mgr_1.full_name
-        elsif mgr == 2
+        elsif mgr == "2"
             @whofrom = @leaveap.apv_mgr_2.full_name
         end
         @title = "[Magicell] Leave Application approved by #{@whofrom}."

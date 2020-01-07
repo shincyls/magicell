@@ -3,16 +3,11 @@
         <div class="card text-special bg-secondary shadow border-0">
             <div class="card-header text-center bg-white">
                 <h4 class="text-dark">Greetings! <%= @whoto %></h4>
-                <h5 class="text-primary">Your Leave Application have been approved by <%= @whofrom %>.</h5>
+                <h5 class="text-primary">Your Leave Application have been rejected by <%= @whofrom %>.</h5>
 
                 <h5>
                     <ul>
                         <li>Leave Type: <%=@leaveap.leavetype.name%></li>
-                        <% if @leaveap.leavetype.id = 1 %>
-                        <li>Remaining Annual Leaves After Apply: <%=@leaveap.employee.annual_leave_entitled - @leaveap.employee.annual_leave_taken - @leaveap.total_days%></li>
-                        <% elsif @leaveap.leavetype.id = 2 %>
-                        <li>Remaining Medical Leaves After Apply: <%=@leaveap.employee.medical_leave_entitled - @leaveap.employee.medical_leave_take - @leaveap.total_daysn%></li>
-                        <% end %>
                         <li>Reason: <%=@leaveap.reason%></li>
                         <li>Contact Person: <%=@leaveap.contact_person%></li>
                         <li>Contact Number: <%=@leaveap.contact_number%></li>

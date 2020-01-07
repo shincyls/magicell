@@ -13,6 +13,11 @@ class ExpenseListsController < ApplicationController
     @expense_list= ExpenseList.new
   end
 
+  def summary
+    respond_to :html, :js
+    @expense_lists = ExpenseList.all.order("created_at desc")
+  end
+
   def project
     respond_to :html, :js
     @projects = Project.where(manager_id: current_user.employee.id).pluck(:id)

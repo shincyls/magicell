@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   
   get 'magicnet', to: 'magicnets#login', as: 'login'
   get 'magicnet/dashboard', to: 'magicnets#dashboard', as: 'dashboard'
+  get 'magicnet/approve_leave', to: 'magicnets#approve_leave', as: 'approve_leave'
   # HR Pages' Route as below:
   get 'magicnet/view_hr/dashhr', to: 'magicnets#dashhr', as: 'dashhr'
   # EMP Pages' Route as below:
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
   
   resources :employees do
     collection do
+      get :summary
       post :import
     end
     member do
@@ -39,6 +41,7 @@ Rails.application.routes.draw do
 
   resources :projects do
     collection do
+      get :summary
       post :import
     end
     member do
@@ -65,6 +68,7 @@ Rails.application.routes.draw do
   resources :leaveaps do
     collection do
       get :project
+      get :summary
       post :submitall
       post :approveall
     end
@@ -80,6 +84,7 @@ Rails.application.routes.draw do
     collection do
       get :project
       get :finance
+      get :summary
       post :submitall
       post :approvepmall
       post :approvefmall
@@ -98,6 +103,7 @@ Rails.application.routes.draw do
     collection do
       get :project
       get :finance
+      get :summary
       post :submitall
       post :approvepmall
       post :approvefmall

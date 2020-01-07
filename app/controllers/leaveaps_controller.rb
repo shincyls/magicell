@@ -16,6 +16,11 @@ class LeaveapsController < ApplicationController
       @leaveap = Leaveap.new
     end
 
+    def summary
+      respond_to :html, :js
+      @leaveaps = Leaveap.where(status_leave_id: [2,3,4]).order("created_at desc")
+    end
+
     def project
       respond_to :js
       @leaveaps = Leaveap.where(apv_mgr_1_id: current_user.employee.id).or(Leaveap.where(apv_mgr_2_id: current_user.employee.id))
@@ -72,8 +77,8 @@ class LeaveapsController < ApplicationController
         @leaveap.submitted_at = Time.now
         if @leaveap.save
           flash.now[:success] = "Your Leave Application Have Been Submitted."
-          # UserMailer.submit_leave(@leaveap.id, 1).deliver if @leaveap.apv_mgr_1_id
-          # UserMailer.submit_leave(@leaveap.id, 2).deliver if @leaveap.apv_mgr_2_id
+          UserMailer.submit_leave(@leaveap.id, 1).deliver if @leaveap.apv_mgr_1_id
+          UserMailer.submit_leave(@leaveap.id, 2).deliver if @leaveap.apv_mgr_2_id
         end
       end
     end
@@ -114,7 +119,7 @@ class LeaveapsController < ApplicationController
         end
         if @leaveap.save
           flash.now[:success] = "You have approved leave application, notification has sent to applicant."
-          # UserMailer.approve_leave(@leaveap.id, params[:value]).deliver
+          UserMailer.approve_leave(@leaveap.id, params[:value]).deliver
         end
       end
     end
@@ -130,7 +135,7 @@ class LeaveapsController < ApplicationController
       @leaveap.status_leave_id = 3
       if @leaveap.save
         flash.now[:success] = "You have rejected application, please click on the name to whatsapp the employee."
-        # UserMailer.reject_leave(@leaveap.id, params[:value]).deliver
+        UserMailer.reject_leave(@leaveap.id, params[:value]).deliver
       end
     end
   
