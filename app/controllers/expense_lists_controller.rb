@@ -81,7 +81,7 @@ class ExpenseListsController < ApplicationController
   def destroy
     respond_to :html, :js
     @expense_list= ExpenseList.find(params[:id])
-    if @ExpenseList.destroy
+    if @expense_list.destroy
       flash.now[:success] = "Expense have been successfully removed."
       @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
     else
