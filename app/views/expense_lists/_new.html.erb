@@ -16,7 +16,9 @@
         <label>Project*</label>
         <div><%= f.select(:project_id, Project.order("name asc").collect {|l| [ l.name, l.id ] }, {include_blank: "Select Project"}, class: "custom-select custom-select-sm") %></div>
       </div>
+    </div>
 
+    <div class="row text-dark text-special mt-2 mb-3">
       <div class="col-lg-3 mb-2">
         <label>Fuel (MYR)</label>
         <div><%= f.text_field :fuel_claim, placeholder: 0.0, class: "form-control form-control-sm" %></div>
@@ -51,12 +53,15 @@
         <label>Odometer (KM)</label>
         <div><%= f.text_field :odometer_reading, placeholder: 0.0, class: "form-control form-control-sm" %></div>
       </div>
-
-      <div class="col-lg-3 mb-2">
-        <label>Receipt Attachment*</label>
-        <div><%= f.text_field :attachment_link, placeholder: "eg: google drive url", class: "form-control form-control-sm" %></div>
-      </div>
       
+    </div>
+
+    <div class="row text-dark text-special mt-2 mb-3">
+      <div class="col-lg-6 mb-2">
+        <label>Attachment*</label>
+        <div><%= f.text_field :attachment_link, placeholder: "eg: google drive url", class: "form-control form-control-sm" %></div>
+        <label class="text-small">(Upload to Google Drive and Paste the Link Here)</label>
+      </div>
     </div>
 
     <div class="mx-auto">
