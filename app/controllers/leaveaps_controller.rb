@@ -16,11 +16,6 @@ class LeaveapsController < ApplicationController
       @leaveap = Leaveap.new
     end
 
-    def summary
-      respond_to :html, :js
-      @leaveaps = Leaveap.where(status_leave_id: [2,3,4]).order("created_at desc")
-    end
-
     def project
       respond_to :js
       @leaveaps = Leaveap.where(apv_mgr_1_id: current_user.employee.id).or(Leaveap.where(apv_mgr_2_id: current_user.employee.id))

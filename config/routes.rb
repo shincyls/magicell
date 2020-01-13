@@ -11,26 +11,24 @@ Rails.application.routes.draw do
   get 'magicnet/view_hr/dashhr', to: 'magicnets#dashhr', as: 'dashhr'
   # EMP Pages' Route as below:
   get 'magicnet/view_emp/dashemployee', to: 'magicnets#dashemployee', as: 'dashemployee'
-  # get 'magicnet/view_emp/timesheetemployee', to: 'magicnets#timesheetemployee', as: 'timesheetemployee'
-  # get 'magicnet/view_emp/expenseemployee', to: 'magicnets#expenseemployee', as: 'expenseemployee'
   # FIN Pages' Route as below:
   get 'magicnet/view_fin/dashfinance', to: 'magicnets#dashfinance', as: 'dashfinance'
-  # get 'magicnet/view_fin/finance_timesheet', to: 'magicnets#finance_timesheet', as: 'finance_timesheet'
   # PM Pages' Route as below:
   get 'magicnet/view_pm/dashpm', to: 'magicnets#dashpm', as: 'dashpm'
-  # get 'magicnet/view_pm/leave_approval', to: 'magicnets#leave_approval', as: 'leave_pm_approval'
-  # get 'magicnet/view_pm/timesheet_approval', to: 'magicnets#timesheet_approval', as: 'timesheet_pm_approval'
-  # get 'magicnet/view_pm/expense_approval', to: 'magicnets#expense_approval', as: 'expense_pm_approval'
   # IT Pages' Route as below:
   get 'magicnet/view_it/dashboard', to: 'magicnets#dashit', as: 'dashit'
   get 'magicnet/view_it/webrole', to: 'magicnets#webrole', as: 'webrole'
   get 'magicnet/view_it/account', to: 'magicnets#account', as: 'account'
 
+  # Reporting Pages
+  get 'magicnet/reports', to: 'reports#index', as: 'reports'
+  get 'magicnet/reports/employee', to: 'reports#employee', as: 'employee_reports'
+  get 'magicnet/reports/project', to: 'reports#project', as: 'project_reports'
+
   resources :password_resets
   
   resources :employees do
     collection do
-      get :summary
       post :import
     end
     member do
@@ -41,7 +39,6 @@ Rails.application.routes.draw do
 
   resources :projects do
     collection do
-      get :summary
       post :import
     end
     member do
@@ -68,7 +65,6 @@ Rails.application.routes.draw do
   resources :leaveaps do
     collection do
       get :project
-      get :summary
       post :submitall
       post :approveall
     end
@@ -84,7 +80,6 @@ Rails.application.routes.draw do
     collection do
       get :project
       get :finance
-      get :summary
       post :submitall
       post :approvepmall
       post :approvefmall
@@ -103,7 +98,6 @@ Rails.application.routes.draw do
     collection do
       get :project
       get :finance
-      get :summary
       post :submitall
       post :approvepmall
       post :approvefmall

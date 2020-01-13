@@ -15,12 +15,13 @@ class Project < ApplicationRecord
 
     validates :name, presence: {message: "must present."}, uniqueness: {message: "already exists!"}
 
-    def total_claims
+    def monthly_timesheet(year, month, status)
+        self.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id >= ?", year, month, status).sum("working_hours")
     end
 
-    def total_timesheets
+    def monthly_claim(year, month, status)
+        self.expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id >= ?", year, month, status).sum("fuel_claim + toll_claim + parking_claim + allowance_claim + medical_claim + others_claim")
     end
-
 
     def self.import(file)
         CSV.foreach(file.path, headers: true) do |row|

@@ -111,35 +111,6 @@ function myFunction() {
   element.classList.add("active");
 }
 
-function loadjs(table, sortColumn, pageLength, dom) {
-    
-    $(table).DataTable({
-      "order": [sortColumn],
-      "search": {
-        "caseInsensitive": true
-      },
-      "pageLength": pageLength,
-      "dom": dom,
-      language: { search: ''},
-      "buttons": [
-                {
-                    extend: 'collection',
-                    title: 'magicell_export',
-                    text: 'Export',
-                    buttons: [
-                        'copy',
-                        'excel',
-                        'csv'
-                    ]
-                }
-            ]
-    });
 
-
-    $('.dataTables_filter input[type="search"]').
-    addClass('form-control form-control-sm small').
-    attr('placeholder','Search by multiple keywords (eg: key1 key2)').
-    css({'width':'20rem'});
-};
 
 </script>

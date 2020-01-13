@@ -22,6 +22,8 @@ class Employee < ApplicationRecord
     enum category: ["Permanent","Contract","Intern","ARP"]
     enum employment_status: ["Active","Archieved","Resigned","Maternity","Hidden","Others"]
     
+    # scope :monthly_leave, ->(year, month) { joins(:leaveaps).where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ? ", year, month)}
+
     def combine_name
         self.last_name + ", " + self.first_name
     end
@@ -77,6 +79,18 @@ class Employee < ApplicationRecord
         elsif self.company_email
             return self.personal_email
         end
+    end
+
+    def monthly_leave(year, month, status)
+        self.leaveaps.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ? and status_leave_id >= ?", year, month, status).sum("days")
+    end
+
+    def monthly_timesheet(year, month, status)
+        self.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id >= ?", year, month, status).sum("working_hours")
+    end
+
+    def monthly_claim(year, month, status)
+        self.expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id >= ?", year, month, status).sum("fuel_claim + toll_claim + parking_claim + allowance_claim + medical_claim + others_claim")
     end
 
 end

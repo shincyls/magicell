@@ -1,0 +1,62 @@
+<div id="announcement-board">
+    <%= render partial: "announcements/board" %>
+</div>
+
+<div class="row text-special pl-4 pr-4 pt-2 pb-2 bg-chrome rounded">
+    <div class="col-12 text-white">Welcome Back! <span class="text-primary"><%=current_user.employee.full_name%></span>  </div>
+    <div class="col-12 text-white">Your webrole is: <span class="text-danger"><%=current_user.webrole.role%></span></div>
+</div>
+
+<div class="row text-dark text-special mt-4 mb-4 p-4 bg-glass rounded">
+
+    <div class="mt-4 mb-4">
+        <%= link_to "Employee Report", employee_reports_path, class: "btn btn-success" %>
+        <%= link_to "Project Report", project_reports_path, class: "btn btn-info" %>
+    </div>
+
+    <div class="justify-content-center w-100" id="main-dashboard" style="min-height:30rem;">
+        <p>Please Select</p>
+    </div>
+
+</div>
+
+
+<script>
+
+function myFunction() {
+  var element = getElementsByClassName("btn-sm")
+  element.classList.add("active");
+}
+
+function loadjs(table, sortColumn, pageLength, dom) {
+    
+    $(table).DataTable({
+      "order": [sortColumn],
+      "search": {
+        "caseInsensitive": true
+      },
+      "pageLength": pageLength,
+      "dom": dom,
+      language: { search: ''},
+      "buttons": [
+                {
+                    extend: 'collection',
+                    title: 'magicell_export',
+                    text: 'Export',
+                    buttons: [
+                        'copy',
+                        'excel',
+                        'csv'
+                    ]
+                }
+            ]
+    });
+
+
+    $('.dataTables_filter input[type="search"]').
+    addClass('form-control form-control-sm small').
+    attr('placeholder','Search by multiple keywords (eg: key1 key2)').
+    css({'width':'20rem'});
+};
+
+</script>

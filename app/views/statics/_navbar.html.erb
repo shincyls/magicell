@@ -17,6 +17,13 @@
             </div>
             <ul class="navbar-nav ml-lg-auto text-shadow">
               <% if logged_in? %>
+
+              <% if current_user.webrole.rails_admin %>
+              <li class="nav-item">
+                <%= link_to "Report", reports_path, class: "nav-link"%>
+              </li>
+              <% end %>
+
               <li class="nav-item">
                 <%= link_to "Dashboard", dashboard_path, class: "nav-link"%>
               </li>

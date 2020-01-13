@@ -56,6 +56,13 @@ class ApplicationController < ActionController::Base
     !current_user.nil?
   end
 
+  def permitted_report?
+    unless current_user.webrole.rails_admin
+      flash[:alert] = "User is not permitted to access this page."
+      redirect_to dashboard_path
+    end
+  end
+
   # a convenient method to set the session to given user's id with the `:user_id` key
   def sign_in(user)
     session[:user_id] = user.id
