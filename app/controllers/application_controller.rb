@@ -63,6 +63,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def send_email_notification_create_account?
+    WebappContent.find(2).logic
+  end
+
+  def send_email_notification_forget_password?
+    WebappContent.find(3).logic
+  end
+
+  def send_email_notification_submit_leave?
+    WebappContent.find(4).logic
+  end
+
+  def send_email_notification_approve_leave?
+    WebappContent.find(5).logic
+  end
+
   # a convenient method to set the session to given user's id with the `:user_id` key
   def sign_in(user)
     session[:user_id] = user.id

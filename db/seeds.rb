@@ -25,9 +25,10 @@ require 'open-uri'
 
 WebappContent.create!([
   {name: "Default Password", param: "Magicell!23"},
-  {name: "Send Leave Notification Email", param: "No"},
-  {name: "Send Timesheet Notification Email", param: "No"},
-  {name: "Send Claim Notification Email", param: "No"}
+  {name: "Send Notification Email Create Account", logic: false},
+  {name: "Send Notification Email Forgot Password", logic: false},
+  {name: "Send Notification Email Submit Leave", logic: false},
+  {name: "Send Notification Email Approve Leave", logic: false}
 ])
 
 Webrole.create!([

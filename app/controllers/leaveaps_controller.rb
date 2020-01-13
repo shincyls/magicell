@@ -72,8 +72,8 @@ class LeaveapsController < ApplicationController
         @leaveap.submitted_at = Time.now
         if @leaveap.save
           flash.now[:success] = "Your Leave Application Have Been Submitted."
-          UserMailer.submit_leave(@leaveap.id, 1).deliver if @leaveap.apv_mgr_1_id
-          UserMailer.submit_leave(@leaveap.id, 2).deliver if @leaveap.apv_mgr_2_id
+          UserMailer.submit_leave(@leaveap.id, 1).deliver if @leaveap.apv_mgr_1_id and send_email_notification_submit_leave?
+          UserMailer.submit_leave(@leaveap.id, 2).deliver if @leaveap.apv_mgr_2_id and send_email_notification_submit_leave?
         end
       end
     end
@@ -114,7 +114,7 @@ class LeaveapsController < ApplicationController
         end
         if @leaveap.save
           flash.now[:success] = "You have approved leave application, notification has sent to applicant."
-          UserMailer.approve_leave(@leaveap.id, params[:value]).deliver
+          UserMailer.approve_leave(@leaveap.id, params[:value]).deliver if send_email_notification_approve_leave?
         end
       end
     end
