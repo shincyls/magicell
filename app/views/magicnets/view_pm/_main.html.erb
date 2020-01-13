@@ -1,8 +1,43 @@
 <p>This is Project Manager Dashboard</p>
 <ul>
-    <li>Manage leaves/timesheets Approval for projects or departments member.</li>
+    <li>Manage leaves/timesheets/expenses Approval for projects or departments member.</li>
     <li>Monitor Employee's Activity</li>
-    <li></li>
-    <li></li>
-    <li></li>
 </ul>
+
+<table id="pm-table" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+  <h4 class="text-left text-primary">Project Lists</h4>
+  <p class="text-info">Total: <%= @projects.count %></p>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>PM</th>
+      <th>PM 2</th>
+      <th>Description</th>
+      <th>Vendor</th>
+      <th>Operator</th>
+      <th>Status</th>
+      <th>Member Count</th>
+    </tr>
+  </thead>
+
+  <tbody class="text-dark">
+    <% unless @projects.nil? %>
+    <% @projects.each do |e| %>
+    <tr id="pr-<%=e.id%>">
+        <td><span class='text-white'><%= "z" if e.name == "Others"%></span><%=e.name%></td>
+        <td><%=e.manager.full_name if e.manager %></td>
+        <td><%=e.manager_alt.full_name if e.manager_alt %></td>
+        <td><%=e.description%></td>
+        <td><%=e.vendor%></td>
+        <td><%=e.operator%></td>
+        <td><%=e.project_status%></td>
+        <td><%=e.employees.count%></td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+loadjs('#pm-table', [0,'asc'], 25, 'Blfrtip');
+</script>

@@ -114,6 +114,7 @@ class MagicnetsController < ApplicationController
     # PM Pages
     def dashpm
       respond_to :js
+      @projects = Project.where(manager_id: current_user.employee.id)
       render template: "magicnets/view_pm/dashpm"
     end
 
