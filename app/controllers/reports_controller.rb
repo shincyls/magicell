@@ -41,6 +41,12 @@ class ReportsController < ApplicationController
         @projects = Project.where(search_project_params)
     end
 
+    def leave
+    end
+
+    def expense
+    end
+
     def vehicle
         respond_to :html, :js
     end

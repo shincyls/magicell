@@ -80,7 +80,7 @@ class ExpenseListsController < ApplicationController
   # DELETE /expense_lists/1
   def destroy
     respond_to :html, :js
-    @expense_list= ExpenseList.find(params[:id])
+    @expense_list = ExpenseList.find(params[:id])
     if @expense_list.destroy
       flash.now[:success] = "Expense have been successfully removed."
       @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
@@ -145,7 +145,7 @@ class ExpenseListsController < ApplicationController
 
   def approvepm
     respond_to :html, :js
-    @expense_list= ExpenseList.where(params[:id])
+    @expense_list= ExpenseList.find(params[:id])
     if @expense_list.status_expense_id == 2 # Approve by PM
       @expense_list.update(status_expense_id: 4)
       flash.now[:success] = "Expense have successfully approved."
