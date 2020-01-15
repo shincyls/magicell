@@ -58,12 +58,18 @@ class TimesheetTasksController < ApplicationController
       message = ""
       date_now = Date.parse(params["timesheet_task"][:multi_date_from])
       date_end = Date.parse(params["timesheet_task"][:multi_date_to])
+      if params["timesheet_task"][:exclude_weekend] == "1"
+        weekend_filter = true
+      else
+        weekend_filter = false
+      end
       params["timesheet_task"].delete("multi_date_from")
       params["timesheet_task"].delete("multi_date_to")
       while date_end >= date_now
-          @timesheet_task = TimesheetTask.new(timesheet_task_params)
+        @timesheet_task = TimesheetTask.new(timesheet_task_params)
+        @timesheet_task.date = date_now
+        unless @timesheet_task.holiday? and weekend_filter
           unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, date: date_now)
-            @timesheet_task.date = date_now
             if @timesheet_task.save
               flash.now[:success] = "Your Timesheet have been added#{message}."
             else
@@ -72,7 +78,7 @@ class TimesheetTasksController < ApplicationController
           else # Update/Overwrite
             message = ", but tasks with duplicated date are ignored"
           end
-        # end
+        end
         date_now += 1.day
       end
       if message.empty?

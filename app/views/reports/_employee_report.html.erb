@@ -1,51 +1,53 @@
-<table id="employee-report" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
-  <h4 class="text-left text-primary">Employee Report <%= @year %>-<%= @month %></h4>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Department</th>
-      <th>Project</th>
-      <th>Approved Leave (Days)</th>
-      <th>Approved Timesheet (Hours)</th>
-      <th>Approved Claim (Total)</th>
-      <th>Applied Leave (Days)</th>
-      <th>Applied Timesheet (Hours)</th>
-      <th>Applied Claim (Total)</th>
-    </tr>
-  </thead>
+<h4 class="text-left text-primary">Employee Summary <%= @year %>-<%= @month %></h4>
+<div class="container">
+  <table id="employee-report" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+    
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Project</th>
+        <th>Approved Leave (Days)</th>
+        <th>Approved Timesheet (Hours)</th>
+        <th>Approved Claim (Total)</th>
+        <th>Applied Leave (Days)</th>
+        <th>Applied Timesheet (Hours)</th>
+        <th>Applied Claim (Total)</th>
+      </tr>
+    </thead>
 
-  <tbody class="text-dark">
-    <% unless @employees.nil? %>
-    <% @employees.each do |e| %>
-    <tr>
-      <td><%=e.full_name%></td>
-      <td><%=e.department.name%></td> 
-      <td><%=e.project.name%></td>
-      <td><%=e.monthly_leave(@year,@month,4)%></td>
-      <td><%=e.monthly_timesheet(@year,@month,6)%></td>
-      <td><%=e.monthly_claim(@year,@month,6)%></td>
-      <td><%=e.monthly_leave(@year,@month,1)%></td>
-      <td><%=e.monthly_timesheet(@year,@month,1)%></td>
-      <td><%=e.monthly_claim(@year,@month,1)%></td>
-    </tr>
-    <% end %>
-    <% end %>
-  </tbody>
+    <tbody class="text-dark">
+      <% unless @employees.nil? %>
+      <% @employees.each do |e| %>
+      <tr>
+        <td><%=e.full_name%></td>
+        <td><%=e.department.name%></td> 
+        <td><%=e.project.name%></td>
+        <td><%=e.monthly_leave(@year,@month,4)%></td>
+        <td><%=e.monthly_timesheet(@year,@month,6)%></td>
+        <td><%=e.monthly_claim(@year,@month,6)%></td>
+        <td><%=e.monthly_leave(@year,@month,1)%></td>
+        <td><%=e.monthly_timesheet(@year,@month,1)%></td>
+        <td><%=e.monthly_claim(@year,@month,1)%></td>
+      </tr>
+      <% end %>
+      <% end %>
+    </tbody>
 
-  <tfoot>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tfoot>
+    <tfoot>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tfoot>
 
-</table>
-
+  </table>
+</div>
 
 <script>
 loaddtsum('#employee-report', [0,'asc'], 25, 'Blfrtip', 2, [3,4,5,6,7,8]);

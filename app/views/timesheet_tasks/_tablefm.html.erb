@@ -19,8 +19,8 @@
             <% if current_user.webrole.wr_finance & [4].include?(t.status_timesheet_id) %>
               <% if [4].include?(t.status_timesheet_id) %>
                 <div class="row">
-                  <%= button_to 'Approve', approvefm_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
-                  <%= button_to 'Reject', rejectfm_timesheet_task_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                  <%= button_to 'A', approvefm_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                  <%= button_to 'R', rejectfm_timesheet_task_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
                 </div>
               <% end %>
             <% end %>

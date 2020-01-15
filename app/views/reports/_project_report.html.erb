@@ -1,49 +1,51 @@
-<table id="project-report" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
-  <h4 class="text-left text-primary">Project Lists</h4>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>PM</th>
-      <th>Status</th>
-      <th>Approved Timesheet (Hours)</th>
-      <th>Approved Claim (Total)</th>
-      <th>Applied Timesheet (Hours)</th>
-      <th>Applied Claim (Total)</th>
-    </tr>
-  </thead>
+<h4 class="text-left text-primary">Project Summary <%= @year %>-<%= @month %></h4>
+<div class="container">
+  <table id="project-report" class="table table-sm table-responsive" style="font-size:0.7rem">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>PM</th>
+        <th>Status</th>
+        <th>Approved Timesheet (Hours)</th>
+        <th>Approved Claim (Total)</th>
+        <th>Applied Timesheet (Hours)</th>
+        <th>Applied Claim (Total)</th>
+      </tr>
+    </thead>
 
-  <tbody class="text-dark">
-    <% unless @projects.nil? %>
-    <% @projects.each do |e| %>
-    <tr>
-        <td><%=e.name%></td>
-        <td>
-          <ul class="list-unstyled">
-            <li><%=e.manager.full_name if e.manager %></li>
-            <li><%=e.manager_alt.full_name if e.manager_alt %></li>
-          </ul>
-        </td>
-        <td><%=e.project_status%></td>
-        <td><%=e.monthly_timesheet(@year,@month,6)%></td>
-        <td><%=e.monthly_claim(@year,@month,6)%></td>
-        <td><%=e.monthly_timesheet(@year,@month,1)%></td>
-        <td><%=e.monthly_claim(@year,@month,1)%></td>
-    </tr>
-    <% end %>
-    <% end %>
-  </tbody>
+    <tbody class="text-dark">
+      <% unless @projects.nil? %>
+      <% @projects.each do |e| %>
+      <tr>
+          <td><%=e.name%></td>
+          <td>
+            <ul class="list-unstyled">
+              <li><%=e.manager.full_name if e.manager %></li>
+              <li><%=e.manager_alt.full_name if e.manager_alt %></li>
+            </ul>
+          </td>
+          <td><%=e.project_status%></td>
+          <td><%=e.monthly_timesheet(@year,@month,6)%></td>
+          <td><%=e.monthly_claim(@year,@month,6)%></td>
+          <td><%=e.monthly_timesheet(@year,@month,1)%></td>
+          <td><%=e.monthly_claim(@year,@month,1)%></td>
+      </tr>
+      <% end %>
+      <% end %>
+    </tbody>
 
-  <tfoot>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tfoot>
+    <tfoot>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tfoot>
 
-</table>
+  </table>
+</div>
 
 
 <script>

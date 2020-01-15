@@ -2,6 +2,7 @@ class TimesheetTask < ApplicationRecord
 
     attr_accessor :multi_date_from
     attr_accessor :multi_date_to
+    attr_accessor :exclude_weekend
 
     belongs_to :employee
     belongs_to :project

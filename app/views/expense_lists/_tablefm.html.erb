@@ -21,8 +21,8 @@
               <% if current_user.webrole.wr_finance %>
                 <% if [4].include?(t.status_expense_id) %>
                 <div class="row">
-                  <%= button_to 'Approve', approvefm_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
-                  <%= button_to 'Reject', rejectfm_expense_list_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                  <%= button_to 'A', approvefm_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                  <%= button_to 'R', rejectfm_expense_list_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
                 </div>
                 <% end %>
               <% end %>

@@ -51,14 +51,14 @@
                 <% if l.apv_mgr_1_id == current_user.employee.id %>
                   <% unless l.apv_1 %>
                   <div class="row">
-                    <%= button_to 'Approve', approve_leaveap_path(l, value: 1), class: "btn-sm btn-success col", method: 'post', remote: true %>
-                    <%= button_to 'Reject', reject_leaveap_path(l, value: 1), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                    <%= button_to 'A', approve_leaveap_path(l, value: 1), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                    <%= button_to 'R', reject_leaveap_path(l, value: 1), class: "btn-sm btn-danger col", method: 'post', remote: true %>
                   </div>
                   <% end %>
                 <% elsif l.apv_mgr_2_id == current_user.employee.id %>
                   <% unless l.apv_2 %>
-                    <%= button_to 'Approve', approve_leaveap_path(l, value: 2), class: "btn-sm btn-success col", method: 'post', remote: true %>
-                    <%= button_to 'Reject', reject_leaveap_path(l, value: 2), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                    <%= button_to 'A', approve_leaveap_path(l, value: 2), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                    <%= button_to 'R', reject_leaveap_path(l, value: 2), class: "btn-sm btn-danger col", method: 'post', remote: true %>
                   <% end %>
                 <% end %>
               <% end %>

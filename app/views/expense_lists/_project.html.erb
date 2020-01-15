@@ -56,8 +56,8 @@
             <% if t.project.manager.id == current_user.employee.id %>
               <% if [2].include?(t.status_expense_id) %>
                 <div class="row">
-                  <%= button_to 'Approve', approvepm_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
-                  <%= button_to 'Reject', rejectpm_expense_list_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                  <%= button_to 'A', approvepm_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                  <%= button_to 'R', rejectpm_expense_list_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
                 </div>
               <% end %>
             <% end %>

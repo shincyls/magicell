@@ -42,6 +42,12 @@ class ReportsController < ApplicationController
     end
 
     def leave
+        respond_to :html, :js
+        params[:year] = Date.today.year if params[:year].nil?
+        params[:month] = Date.today.month if params[:month].nil?
+        @year = params[:year].to_i
+        @month = params[:month].to_i
+        @leaveaps = Leaveap.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ?", @year, @month)
     end
 
     def expense
@@ -64,6 +70,10 @@ class ReportsController < ApplicationController
     end
 
     def search_project_params
+        params.permit(:id, :manager_id, :manager_alt_id).delete_if {|key, value| value.blank? }
+    end
+
+    def search_leave_params
         params.permit(:id, :manager_id, :manager_alt_id).delete_if {|key, value| value.blank? }
     end
 
