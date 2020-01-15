@@ -47,7 +47,7 @@ class ReportsController < ApplicationController
         params[:month] = Date.today.month if params[:month].nil?
         @year = params[:year].to_i
         @month = params[:month].to_i
-        @leaveaps = Leaveap.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ?", @year, @month)
+        @leaveaps = Leaveap.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ? and status_leave_id > ?", @year, @month, 0)
     end
 
     def expense
