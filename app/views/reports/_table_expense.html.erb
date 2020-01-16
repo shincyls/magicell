@@ -1,0 +1,40 @@
+<table id="employee-expense-details" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+    <thead class="text-dark">
+      <tr>
+        <th>Date</th>
+        <th>Employee</th>
+        <th>Project</th>
+        <th>Fuel (MYR)</th>
+        <th>Toll (MYR)</th>
+        <th>Parking (MYR)</th>
+        <th>Allowance (MYR)</th>
+        <th>Medical (MYR)</th>
+        <th>Others (MYR)</th>
+        <th>Odometer (KM)</th>
+        <th>Attachment</th>
+        <th>Status</th>
+        <th>PM</th>
+      </tr>
+    </thead>
+    <tbody class="text-dark" id="timesheet-row">
+        <% unless @expense_lists.nil? %>
+        <% @expense_lists.each do |t| %>
+        <tr id="el-<%=t.id%>">
+            <td class="<%= "text-danger" if t.holiday? %>"><%=t.date%></td>
+            <td><%=t.employee.full_name%></td>
+            <td><%=t.project.name%></td>
+            <td><%= t.fuel_claim %></li>
+            <td><%= t.toll_claim %></li>
+            <td><%= t.parking_claim %></li>
+            <td><%= t.allowance_claim %></li>
+            <td><%= t.medical_claim %></li>
+            <td><%= t.others_claim %></td>
+            <td><%=t.odometer_reading%></td>
+            <td><%= (link_to "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
+            <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
+            <td><%=t.project.manager.full_name%></td>
+        </tr>
+        <% end %>
+        <% end %>
+    </tbody>
+</table>

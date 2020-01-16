@@ -17,7 +17,7 @@
 //= require jquery
 //= require_tree .
 
-function loadjs(table, sortColumn, pageLength, dom) {
+function loadjs(table, sortColumn, pageLength, dom, fname) {
     
     $(table).DataTable({
       "order": [sortColumn],
@@ -34,8 +34,14 @@ function loadjs(table, sortColumn, pageLength, dom) {
                     text: 'Export',
                     buttons: [
                         'copy',
-                        'excel',
-                        'csv'
+                        {
+                            extend: 'csv',
+                            title: fname
+                        },
+                        {
+                            extend: 'excel',
+                            title: fname
+                        }
                     ]
                 }
             ],
@@ -48,7 +54,7 @@ function loadjs(table, sortColumn, pageLength, dom) {
 };
 
 
-function loaddtsum(table, sortColumn, pageLength, dom, tcol, scol ) {
+function loaddtsum(table, sortColumn, pageLength, dom, tcol, scol, fname) {
     
     $(table).DataTable({
       "order": [sortColumn],
@@ -65,8 +71,14 @@ function loaddtsum(table, sortColumn, pageLength, dom, tcol, scol ) {
                     text: 'Export',
                     buttons: [
                         'copy',
-                        'excel',
-                        'csv'
+                        {
+                            extend: 'csv',
+                            title: fname
+                        },
+                        {
+                            extend: 'excel',
+                            title: fname
+                        }
                     ]
                 }
             ],

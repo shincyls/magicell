@@ -1,0 +1,4 @@
+$("#modal-header").html("Employee Summary Details <%= @employee.full_name %> (<%= @year%>-<%=@month%>)");
+$("#modal-body").html("<%= j (render 'employee_details') %>");
+$("#modal-footer").html("");
+$("#modal-form").modal();

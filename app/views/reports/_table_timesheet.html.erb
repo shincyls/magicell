@@ -1,0 +1,54 @@
+<table id="employee-timesheet-details" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Day</th>
+            <th>Name</th>
+            <th>Project</th>
+            <th>Details</th>
+            <th>Activity</th>
+            <th>Hours</th>
+            <th>Overtime</th>
+            <th>Status</th>
+            <th>PM</th>
+        </tr>
+    </thead>
+
+    <tbody class="text-dark">
+        <% unless @timesheet_tasks.nil? %>
+        <% @timesheet_tasks.each do |t| %>
+        <tr>
+            <td class="<%= "text-danger" if t.holiday? %>"><%=t.date%></td>
+            <td class="<%= "text-danger" if t.holiday? %>"><%=t.date.strftime("%A")%></td>
+            <td><%=t.employee.full_name%></td>
+            <td><%=t.project.name%></td>
+            <td>
+              <ul class="list-unstyled">
+                <li><%=t.site_name%></li>
+                <li><%=t.project_region.name if t.project_region %></li>
+                <li><%=t.vehicle_number%></li>
+                <li><%=t.vehicle_owner.name if t.vehicle_owner %></li>
+              <ul>
+            </td>
+            <td><%=t.activity%></td>
+            <td><%=t.working_hours%></td>
+            <td></td>
+            <td><span class="badge badge-<%=t.status_timesheet.css%>"><%=t.status_timesheet.name%></span></td>
+            <td><%=t.project.manager.full_name%></td>
+          </tr>
+        <% end %>
+        <% end %>
+    </tbody>
+    <tfoot>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tfoot>
+</table>

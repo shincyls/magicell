@@ -25,6 +25,16 @@ class ReportsController < ApplicationController
         end
     end
 
+    def employee_details
+        respond_to :html, :js
+        @year = params[:year].to_i
+        @month = params[:month].to_i
+        @employee = Employee.find(params[:id])
+        @timesheet_tasks = @employee.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+        @expense_lists = @employee.expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+        @leaveaps = @employee.leaveaps.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ?", @year, @month)
+    end
+
     def project
         respond_to :html, :js
         params[:year] = Date.today.year if params[:year].nil?

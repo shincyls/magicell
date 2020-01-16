@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get 'magicnet/reports/employee', to: 'reports#employee', as: 'employee_reports'
   get 'magicnet/reports/project', to: 'reports#project', as: 'project_reports'
   get 'magicnet/reports/leave', to: 'reports#leave', as: 'leave_reports'
+  get 'magicnet/reports/employee/:id/details', to: 'reports#employee_details', as: 'employee_details_reports'
 
   resources :password_resets
   
