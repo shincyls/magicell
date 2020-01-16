@@ -1,7 +1,6 @@
 <h4 class="text-left text-primary">Employee Summary <%= @year %>-<%= @month %></h4>
 <div class="container">
   <table id="employee-report" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
-    
     <thead>
       <tr>
         <th>Name</th>
@@ -21,10 +20,10 @@
         <td><%=e.full_name%></td>
         <td><%=e.department.name if e.department %></td> 
         <td><%=e.project.name if e.project %></td>
-        <td><%=e.monthly_leave(@year,@month,4)%></td>
-        <td><%=e.monthly_timesheet(@year,@month,6)%></td>
-        <td><%=e.monthly_claim(@year,@month,6)%></td>
-        <td><%= link_to "CLICK", employee_details_reports_path(e, :year => @year, :month => @month), class: "small text-primary", remote: true %></td>
+        <td><%=e.monthly_leave(@year,@month,@status-2)%></td>
+        <td><%=e.monthly_timesheet(@year,@month,@status)%></td>
+        <td><%=e.monthly_claim(@year,@month,@status)%></td>
+        <td><%= link_to "CLICK", employee_details_reports_path(e, :year => @year, :month => @month, :status => @status), class: "small text-primary", remote: true %></td>
       </tr>
       <% end %>
       <% end %>

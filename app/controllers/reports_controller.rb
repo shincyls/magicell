@@ -10,8 +10,10 @@ class ReportsController < ApplicationController
         respond_to :html, :js
         params[:year] = Date.today.year if params[:year].nil?
         params[:month]  = Date.today.month if params[:month].nil?
+        params[:status]  = 6 if params[:status].nil?
         @year = params[:year].to_i
         @month = params[:month].to_i
+        @status = params[:status].to_i
         params[:project_status] = 0
         @employees = Employee.where(search_employee_params)
         if current_user.webrole.role == "Manager"
@@ -29,10 +31,11 @@ class ReportsController < ApplicationController
         respond_to :html, :js
         @year = params[:year].to_i
         @month = params[:month].to_i
+        @status = params[:status].to_i
         @employee = Employee.find(params[:id])
-        @timesheet_tasks = @employee.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
-        @expense_lists = @employee.expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
-        @leaveaps = @employee.leaveaps.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ?", @year, @month)
+        @timesheet_tasks = @employee.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id >= ?", @year, @month, @status)
+        @expense_lists = @employee.expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id >= ?", @year, @month, @status)
+        @leaveaps = @employee.leaveaps.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ?  and status_leave_id >= ?", @year, @month, @status-2)
     end
 
     def project
