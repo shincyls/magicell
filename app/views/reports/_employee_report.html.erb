@@ -21,8 +21,8 @@
       <% @employees.each do |e| %>
       <tr>
         <td><%=e.full_name%></td>
-        <td><%=e.department.name%></td> 
-        <td><%=e.project.name%></td>
+        <td><%=e.department.name if e.department %></td> 
+        <td><%=e.project.name if e.project %></td>
         <td><%=e.monthly_leave(@year,@month,4)%></td>
         <td><%=e.monthly_timesheet(@year,@month,6)%></td>
         <td><%=e.monthly_claim(@year,@month,6)%></td>
