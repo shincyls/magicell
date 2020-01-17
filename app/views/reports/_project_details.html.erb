@@ -5,9 +5,6 @@
   <li class="nav-item">
     <a class="nav-link" id="expense-tab" data-toggle="tab" href="#expense" role="tab" aria-controls="expense" aria-selected="false">Expense</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" id="leave-tab" data-toggle="tab" href="#leave" role="tab" aria-controls="leave" aria-selected="false">Leave</a>
-  </li>
 </ul>
 
 <div class="tab-content" id="myTabContent">
@@ -23,30 +20,23 @@
       <%= render partial: "table_expense" %>
     </div>
   </div>
-  <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
-    <br>
-    <div class="container">
-      <%= render partial: "table_leave" %>
-    </div>
-  </div>
 
 </div>
 
 
 <script>
 function timesheet() {
-  filename = "Timesheet_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@employee.full_name.parameterize.underscore %>"
+  filename = "Timesheet_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@project.name.parameterize.underscore %>"
   return filename;
 }
 function leave() {
-  filename = "Leave_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@employee.full_name.parameterize.underscore %>"
+  filename = "Leave_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@project.name.parameterize.underscore %>"
   return filename;
 }
 function expense() {
-  filename = "Expense_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@employee.full_name.parameterize.underscore %>"
+  filename = "Expense_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@project.name.parameterize.underscore %>"
   return filename;
 }
 loadjs('#employee-timesheet-details', [0,'asc'], 50, 'B', timesheet);
 loadjs('#employee-expense-details', [0,'asc'], 50, 'B', expense);
-loadjs('#employee-leave-details', [0,'asc'], 50, 'B', leave);
 </script>

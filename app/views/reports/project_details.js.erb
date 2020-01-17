@@ -1,0 +1,4 @@
+$("#modal-header").html("Project Summary Details <%= @project.name %> (<%= @year%>-<%=@month%>)");
+$("#modal-body").html("<%= j (render 'project_details') %>");
+$("#modal-footer").html("");
+$("#modal-form").modal();

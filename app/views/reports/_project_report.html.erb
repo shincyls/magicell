@@ -1,15 +1,14 @@
 <h4 class="text-left text-primary">Project Summary <%= @year %>-<%= @month %></h4>
 <div class="container">
-  <table id="project-report" class="table table-sm table-responsive" style="font-size:0.7rem">
+  <table id="project-report" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
     <thead>
       <tr>
         <th>Name</th>
         <th>PM</th>
         <th>Status</th>
-        <th>Approved Timesheet (Hours)</th>
-        <th>Approved Claim (Total)</th>
-        <th>Applied Timesheet (Hours)</th>
-        <th>Applied Claim (Total)</th>
+        <th>Timesheet (Hours)</th>
+        <th>Claim (Total)</th>
+        <th>Details</th>
       </tr>
     </thead>
 
@@ -25,17 +24,15 @@
             </ul>
           </td>
           <td><%=e.project_status%></td>
-          <td><%=e.monthly_timesheet(@year,@month,6)%></td>
-          <td><%=e.monthly_claim(@year,@month,6)%></td>
-          <td><%=e.monthly_timesheet(@year,@month,1)%></td>
-          <td><%=e.monthly_claim(@year,@month,1)%></td>
+          <td><%=e.monthly_timesheet(@year,@month,@status)%></td>
+          <td><%=e.monthly_claim(@year,@month,@status)%></td>
+          <td><%= link_to "CLICK", project_details_reports_path(e, :year => @year, :month => @month, :status => @status), class: "small text-primary", remote: true %></td>
       </tr>
       <% end %>
       <% end %>
     </tbody>
 
     <tfoot>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -49,5 +46,5 @@
 
 
 <script>
-loaddtsum('#project-report', [0,'asc'], 25, 'Blfrtip', 2, [3,4,5,6]);
+loaddtsum('#project-report', [0,'asc'], 25, 'Blfrtip', 2, [3,4]);
 </script>

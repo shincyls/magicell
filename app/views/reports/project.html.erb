@@ -11,9 +11,13 @@
     <div class="form">
         <%= form_tag project_reports_path, method: 'get' do %>
             <div class="row">
-                <div class="col-lg-6 col-md-6 mb-2">
+                <div class="col-lg-3 col-md-6 mb-2">
                     <label>Project Name</label>
                     <%= select_tag :id, options_for_select(@project_lists,@project), include_blank: true, class: "custom-select custom-select-sm" %>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-2">
+                    <label>Approval Status</label>
+                    <%= select_tag :status, options_for_select([["Approved Only",6],["All",1]],@status), class: "custom-select custom-select-sm" %>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-2">
                     <label>Year</label>
