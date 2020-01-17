@@ -46,7 +46,7 @@ function expense() {
   filename = "Expense_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@employee.full_name.parameterize.underscore %>"
   return filename;
 }
-loadjs('#employee-timesheet-details', [0,'asc'], 50, 'B', timesheet);
-loadjs('#employee-expense-details', [0,'asc'], 50, 'B', expense);
-loadjs('#employee-leave-details', [0,'asc'], 50, 'B', leave);
+loadjs('#timesheet-details', [0,'asc'], 50, 'B', timesheet());
+loadjs('#expense-details', [0,'asc'], 50, 'B', expense());
+loadjs('#leave-details', [0,'asc'], 50, 'B', leave());
 </script>

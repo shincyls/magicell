@@ -29,14 +29,10 @@ function timesheet() {
   filename = "Timesheet_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@project.name.parameterize.underscore %>"
   return filename;
 }
-function leave() {
-  filename = "Leave_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@project.name.parameterize.underscore %>"
-  return filename;
-}
 function expense() {
   filename = "Expense_" + "<%=  @year.to_s + format('%02d', @month).to_s  %>" + "_" + "<%=@project.name.parameterize.underscore %>"
   return filename;
 }
-loadjs('#employee-timesheet-details', [0,'asc'], 50, 'B', timesheet);
-loadjs('#employee-expense-details', [0,'asc'], 50, 'B', expense);
+loadjs('#timesheet-details', [0,'asc'], 50, 'B', timesheet());
+loadjs('#expense-details', [0,'asc'], 50, 'B', expense());
 </script>
