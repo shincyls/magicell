@@ -31,8 +31,8 @@
           </label>
         </td>
         <td>
-          <span class="mt-2"><%= link_to 'E', edit_holiday_path(e), method: :post, class: "btn-sm btn-success", remote: true %></span>
-          <span class="mt-2"><%= link_to 'X', e, method: :delete, class: "btn-sm btn-danger", remote: true, data: { confirm: 'Press ok to confirm this action.' } %></span>
+          <span class="mt-2"><%= link_to 'E', edit_holiday_path(e), method: :get, class: "btn-sm btn-success", remote: true %></span>
+          <span class="mt-2"><%= link_to 'D', e, method: :delete, class: "btn-sm btn-danger", remote: true, data: { confirm: 'Press OK to confirm delete.' } %></span>
         </td>
         <% end %>
     </tr>
