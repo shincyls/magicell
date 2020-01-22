@@ -9,9 +9,9 @@
                     <ul>
                         <li>Leave Type: <%=@leaveap.leavetype.name%></li>
                         <% if @leaveap.leavetype.id = 1 %>
-                        <li>Remaining Annual Leaves After Apply: <%=@leaveap.employee.annual_leave_entitled - @leaveap.employee.annual_leave_taken - @leaveap.total_days%></li>
+                        <li>Remaining Annual Leaves Before Apply: <%=@leaveap.employee.annual_leave_entitled - @leaveap.employee.annual_leave_taken %></li>
                         <% elsif @leaveap.leavetype.id = 2 %>
-                        <li>Remaining Medical Leaves After Apply: <%=@leaveap.employee.medical_leave_entitled - @leaveap.employee.medical_leave_take - @leaveap.total_daysn%></li>
+                        <li>Remaining Medical Leaves Before Apply: <%=@leaveap.employee.medical_leave_entitled - @leaveap.employee.medical_leave_taken %></li>
                         <% end %>
                         <li>Reason: <%=@leaveap.reason%></li>
                         <li>Contact Person: <%=@leaveap.contact_person%></li>
