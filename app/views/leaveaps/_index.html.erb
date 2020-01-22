@@ -22,8 +22,8 @@
           <td><%= Leavetype.find(1).name %></td>
           <td><%= current_user.employee.annual_leave_entitled %></td>
           <td><%= current_user.employee.annual_leave_taken %></td>
-          <td class="badge-primary"><%= @leaveaps.where(leavetype_id: 1, status_leave_id: 1).sum(:days) %></td>
-          <td class="badge-secondary"><%= @leaveaps.where(leavetype_id: 1, status_leave_id: 2).sum(:days) %></td>
+          <td class="badge-secondary"><%= @leaveaps.where(leavetype_id: 1, status_leave_id: 1).sum(:days) %></td>
+          <td class="badge-primary"><%= @leaveaps.where(leavetype_id: 1, status_leave_id: 2).sum(:days) %></td>
           <td class="badge-danger"><%= @leaveaps.where(leavetype_id: 1, status_leave_id: 3).sum(:days) %></td>
           <td class="badge-success"><%= @leaveaps.where(leavetype_id: 1, status_leave_id: 4).sum(:days) %></td>
         </tr>
@@ -32,8 +32,8 @@
           <td><%= Leavetype.find(2).name %></td>
           <td><%= current_user.employee.medical_leave_entitled %></td>
           <td><%= current_user.employee.medical_leave_taken %></td>
-          <td class="badge-primary"><%= @leaveaps.where(leavetype_id: 2, status_leave_id: 1).sum(:days) %></td>
-          <td class="badge-secondary"><%= @leaveaps.where(leavetype_id: 2, status_leave_id: 2).sum(:days) %></td>
+          <td class="badge-secondary"><%= @leaveaps.where(leavetype_id: 2, status_leave_id: 1).sum(:days) %></td>
+          <td class="badge-primary"><%= @leaveaps.where(leavetype_id: 2, status_leave_id: 2).sum(:days) %></td>
           <td class="badge-danger"><%= @leaveaps.where(leavetype_id: 2, status_leave_id: 3).sum(:days) %></td>
           <td class="badge-success"><%= @leaveaps.where(leavetype_id: 2, status_leave_id: 4).sum(:days) %></td>
         </tr>
@@ -41,9 +41,9 @@
         <tr>
           <td><%= Leavetype.find(8).name %></td>
           <td><%= current_user.employee.children_count %>.0</td>
-          <td><%= current_user.employee.leaveaps.where(leavetype_id: 8, status_leave_id: 4).sum(:days) %></td>
-          <td class="badge-primary"><%= @leaveaps.where(leavetype_id: 8, status_leave_id: 1).sum(:days) %></td>
-          <td class="badge-secondary"><%= @leaveaps.where(leavetype_id: 8, status_leave_id: 2).sum(:days) %></td>
+          <td><%= @leaveaps.where(leavetype_id: 8, status_leave_id: 4).sum(:days) %></td>
+          <td class="badge-secondary"><%= @leaveaps.where(leavetype_id: 8, status_leave_id: 1).sum(:days) %></td>
+          <td class="badge-primary"><%= @leaveaps.where(leavetype_id: 8, status_leave_id: 2).sum(:days) %></td>
           <td class="badge-danger"><%= @leaveaps.where(leavetype_id: 8, status_leave_id: 3).sum(:days) %></td>
           <td class="badge-success"><%= @leaveaps.where(leavetype_id: 8, status_leave_id: 4).sum(:days) %></td>
         </tr>
@@ -51,9 +51,9 @@
         <tr>
           <td><%= Leavetype.find(3).name %></td>
           <td>N/A</td>
-          <td>N/A</td>
-          <td class="badge-primary"><%= @leaveaps.where(leavetype_id: 3, status_leave_id: 1).sum(:days) %></td>
-          <td class="badge-secondary"><%= @leaveaps.where(leavetype_id: 3, status_leave_id: 2).sum(:days) %></td>
+          <td><%= @leaveaps.where(leavetype_id: 3, status_leave_id: 4).sum(:days) %></td>
+          <td class="badge-secondary"><%= @leaveaps.where(leavetype_id: 3, status_leave_id: 1).sum(:days) %></td>
+          <td class="badge-primary"><%= @leaveaps.where(leavetype_id: 3, status_leave_id: 2).sum(:days) %></td>
           <td class="badge-danger"><%= @leaveaps.where(leavetype_id: 3, status_leave_id: 3).sum(:days) %></td>
           <td class="badge-success"><%= @leaveaps.where(leavetype_id: 3, status_leave_id: 4).sum(:days) %></td>
         </tr>

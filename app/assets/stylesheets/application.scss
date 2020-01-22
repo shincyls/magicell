@@ -66,43 +66,25 @@ input[type="radio"] {
     width: 20rem;
 }
 
-
+.bg-new
+{
+    border-color: #d1ce26;
+}
 .btn-new
 {
     color: #fff;
-    border-color: #dbb91f;
-    background-color: #dbb91f;
+    border-color: #d1ce26;
+    background-color: #d1ce26;
     box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
 }
 .btn-new:hover
 {
     color: #fff;
-    border-color: #cfae1b; 
-    background-color: #cfae1b;
+    border-color: #ebc935; 
+    background-color: #ebc935;
 }
 .btn-new:focus,
 .btn-new.focus
 {
     box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08), 0 0 0 0 rgba(17, 205, 239, .5);
-}
-.btn-new.disabled,
-.btn-new:disabled
-{
-    color: #fff;
-    border-color: #dbb91f; 
-    background-color: #dbb91f;
-}
-.btn-new:not(:disabled):not(.disabled):active,
-.btn-new:not(:disabled):not(.disabled).active,
-.show > .btn-new.dropdown-toggle
-{
-    color: #fff;
-    border-color: #dbb91f; 
-    background-color: #dbb91f;
-}
-.btn-new:not(:disabled):not(.disabled):active:focus,
-.btn-new:not(:disabled):not(.disabled).active:focus,
-.show > .btn-new.dropdown-toggle:focus
-{
-    box-shadow: none, 0 0 0 0 rgba(224, 159, 17, 0.5);
 }
