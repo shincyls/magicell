@@ -71,7 +71,7 @@
             <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
             <td>
               <% if t.employee_id == current_user.employee.id %>
-                <% if [1,3,5].include?(t.status_expense_id) %>
+                <% if [1,2,3,4,5].include?(t.status_expense_id) %>
                 <span class="mt-2"><%= link_to 'S', submit_expense_list_path(t), method: :post, class: "btn-sm btn-success", remote: true %></span>
                 <span class="mt-2"><%= link_to 'E', edit_expense_list_path(t), class: "btn-sm btn-new", remote: true %></span>
                 <span class="mt-2"><%= link_to 'X', t, method: :delete, class: "btn-sm btn-danger", remote: true, data: { confirm: 'Are you confirm to delete this Expense Claim?' } %></span>
