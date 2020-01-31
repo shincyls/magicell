@@ -68,7 +68,7 @@ class TimesheetTasksController < ApplicationController
       while date_end >= date_now
         @timesheet_task = TimesheetTask.new(timesheet_task_params)
         @timesheet_task.date = date_now
-        unless @timesheet_task.holiday? and weekend_filter
+        unless @timesheet_task.holiday? and @timesheet_task.allowed_edit? and weekend_filter
           unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, date: date_now)
             if @timesheet_task.save
               flash.now[:success] = "Your Timesheet have been added#{message}."

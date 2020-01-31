@@ -9,6 +9,7 @@
       <th>Description</th>
       <th>Vendor</th>
       <th>Operator</th>
+      <th>Staffs</th>
       <th>Status</th>
       <% if current_user.webrole.wr_hr %>
       <th>Action</th>
@@ -26,6 +27,7 @@
         <td><%=e.description%></td>
         <td><%=e.vendor%></td>
         <td><%=e.operator%></td>
+        <td><%=e.employees.count%></td>
         <td><%=e.project_status%></td>
         <% if current_user.webrole.wr_hr %>
         <td>

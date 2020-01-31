@@ -25,4 +25,8 @@ class ExpenseList < ApplicationRecord
         self.date.saturday? or self.date.sunday? or Holiday.list.include?(self.date.strftime("%F"))
     end
 
+    def allowed_edit?
+        [1,2,3,4,5].include?(self.status_expense_id)
+    end
+
 end

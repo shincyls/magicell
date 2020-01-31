@@ -64,4 +64,8 @@ class Leaveap < ApplicationRecord
         self.attachment_link.gsub("https://","").gsub("http://","")
     end
 
+    def allowed_edit?
+        [1,3].include?(self.status_leave_id)
+    end
+
 end

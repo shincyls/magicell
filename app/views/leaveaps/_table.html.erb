@@ -34,7 +34,7 @@
             <td><span class="badge badge-<%=l.status_leave.css%>"><%=l.status_leave.name%></span></td>
             <td>
               <% if current_user %>
-                <% if [1,3].include?(l.status_leave_id) %>
+                <% if l.allowed_edit? %>
                 <div class="row">
                   <%= button_to 'S', submit_leaveap_path(l), class: "btn-sm btn-success col", method: 'post', remote: true %>
                   <%= button_to 'E', edit_leaveap_path(l), class: "btn-sm btn-new col", method: 'get', remote: true %>

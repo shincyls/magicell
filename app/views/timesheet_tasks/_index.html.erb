@@ -44,11 +44,16 @@
     </thead>
 
     <tbody class="text-dark" id="timesheet-row">
-        <% unless @timesheet_tasks.nil? %>
+      <% unless @timesheet_tasks.nil? %>
         <% @timesheet_tasks.each do |t| %>
         <tr id="ts-<%=t.id%>">
             <td class="<%= "text-success" if t.holiday? %>"><%=t.date%></td>
-            <td><%=t.project.name%></td>
+            <td>
+              <ul class="list-unstyled">
+                <li><%=t.project.name%></li>
+                <li class="small">(<%=t.project.manager.full_name%>)</li>
+              </ul>
+            </td>
             <td><%=t.activity%></td>
             <td><%=t.working_hours%></td>
             <td>
@@ -74,7 +79,7 @@
             </td>
         </tr>
         <% end %>
-        <% end %>
+      <% end %>
     </tbody>
     
   </table>

@@ -38,7 +38,6 @@
       <tr>
         <th>Date</th>
         <th>Project</th>
-        <th>PM</th>
         <th style="width:5rem;">Claims (MYR)</th>
         <th>Odometer (KM)</th>
         <th>Attach</th>
@@ -53,8 +52,12 @@
         <% @expense_lists.each do |t| %>
         <tr id="el-<%=t.id%>">
             <td class="<%= "text-success" if t.holiday? %>"><%=t.date%></td>
-            <td><%=t.project.name%></td>
-            <td><%=t.project.manager.full_name%></td>
+            <td>
+              <ul class="list-unstyled">
+                <li><%=t.project.name%></li>
+                <li class="small">(<%=t.project.manager.full_name%>)</li>
+              </ul>
+            </td>
             <td>
             <ul class="list-unstyled">
               <li><%= ("Fuel: " + t.fuel_claim.to_s) if t.fuel_claim > 0 %></li>
@@ -71,7 +74,7 @@
             <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
             <td>
               <% if t.employee_id == current_user.employee.id %>
-                <% if [1,2,3,4,5].include?(t.status_expense_id) %>
+                <% if t.allowed_edit? %>
                 <span class="mt-2"><%= link_to 'S', submit_expense_list_path(t), method: :post, class: "btn-sm btn-success", remote: true %></span>
                 <span class="mt-2"><%= link_to 'E', edit_expense_list_path(t), class: "btn-sm btn-new", remote: true %></span>
                 <span class="mt-2"><%= link_to 'X', t, method: :delete, class: "btn-sm btn-danger", remote: true, data: { confirm: 'Are you confirm to delete this Expense Claim?' } %></span>
