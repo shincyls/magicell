@@ -87,6 +87,7 @@ class TimesheetTasksController < ApplicationController
         flash.now[:warning] = "Done, but some tasks with existed date are not added."
       end
       @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id).order("date desc")
+      @timesheet_task = TimesheetTask.new
       @backup_lists = @timesheet_tasks
     end
   
