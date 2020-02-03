@@ -111,6 +111,11 @@ class MagicnetsController < ApplicationController
       render template: "magicnets/view_hr/dashhr"
     end
 
+    def taskhr
+      respond_to :js
+      render template: "magicnets/view_hr/taskhr"
+    end
+
     # PM Pages
     def dashpm
       respond_to :js

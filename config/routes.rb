@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'magicnet/approve_leave', to: 'magicnets#approve_leave', as: 'approve_leave'
   # HR Pages' Route as below:
   get 'magicnet/view_hr/dashhr', to: 'magicnets#dashhr', as: 'dashhr'
+  get 'magicnet/view_hr/taskhr', to: 'magicnets#taskhr', as: 'taskhr'
   # EMP Pages' Route as below:
   get 'magicnet/view_emp/dashemployee', to: 'magicnets#dashemployee', as: 'dashemployee'
   # FIN Pages' Route as below:
@@ -33,6 +34,7 @@ Rails.application.routes.draw do
   resources :employees do
     collection do
       post :import
+      post :update_leaves
     end
     member do
       post :editself

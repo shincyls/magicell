@@ -23,6 +23,14 @@ class Employee < ApplicationRecord
     enum employment_status: ["Active","Archieved","Resigned","Maternity","Hidden","Others"]
     
     # scope :monthly_leave, ->(year, month) { joins(:leaveaps).where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ? ", year, month)}
+    
+    def self.update_leaves(year)
+        self.all.each do |e|
+            e.annual_leave_taken = e.leaveaps.where("DATE_PART('year', from_date) = ? and leavetype_id = ? and status_leave_id = ?", year, 1, 4).sum("days")
+            e.medical_leave_taken = e.leaveaps.where("DATE_PART('year', from_date) = ? and leavetype_id = ? and status_leave_id = ?", year, 2, 4).sum("days")
+            e.save
+        end
+    end
 
     def combine_name
         self.last_name + ", " + self.first_name

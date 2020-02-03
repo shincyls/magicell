@@ -85,6 +85,12 @@ class EmployeesController < ApplicationController
         flash.now[:warning] = @employee.errors.full_messages
       end
     end
+
+    def update_leaves
+      respond_to :html, :js
+      Employee.update_leaves(params[:year].to_i)
+      flash.now[:success] = "Done!"
+    end
   
     # DELETE /employees/1
     # DELETE /employees/1.json

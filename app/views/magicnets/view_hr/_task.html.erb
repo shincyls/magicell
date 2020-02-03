@@ -1,0 +1,18 @@
+<p>HR Maintainance Task</p>
+
+<%= form_tag update_leaves_employees_path, remote: true do %>
+    <table class="table table-sm table-responsive-lg" style="font-size:0.8rem">
+        <tr>
+            <th>No</th>
+            <th>Task</th>
+            <th>Select</th>
+            <th>Action</th>
+        <tr>
+        <tr>
+            <td>1</td>
+            <td>Update Annual and Medical Leaves</td>
+            <td><%= select_tag :year, options_for_select(Date.today.year-1..Date.today.year,Date.today.year), class: "custom-select custom-select-sm"  %></td>
+            <td><%= submit_tag "Run", class: "btn btn-sm btn-success" %></td>
+        <tr>
+    </table>
+<% end %>
