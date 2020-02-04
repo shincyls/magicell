@@ -10,6 +10,8 @@
       <th>Project</th>
       <th>Category</th>
       <th>Contract End</th>
+      <th>Annual Leave</th>
+      <th>Medical Leave</th>
       <% if current_user.webrole.wr_hr %>
       <th>Action</th>
       <% end %>
@@ -27,6 +29,8 @@
         <td><%=e.project.name if e.project %></td>
         <td><%=e.category%></td>
         <td><%=e.contract_end if e.contract_end%></td>
+        <td><%=e.annual_leave_taken%>/<%=e.annual_leave_entitled%></td>
+        <td><%=e.medical_leave_taken%>/<%=e.medical_leave_entitled%></td>
         <% if current_user.webrole.wr_hr %>
         <td>
           <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_employee_path(e), class: "small text-white m-1", remote: true %></span>
