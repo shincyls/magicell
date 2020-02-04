@@ -12,6 +12,14 @@ class ExpenseList < ApplicationRecord
     validates :project_id, presence: {message: "must present."}
     validates :attachment_link, presence: {message: " must exist."}
     
+    validates :fuel_claim, numericality: {only_float: true, message: "must be float number."}
+    validates :toll_claim, numericality: {only_float: true, message: "must be float number."}
+    validates :parking_claim, numericality: {only_float: true, message: "must be float number."}
+    validates :allowance_claim, numericality: {only_float: true, message: "must be float number."}
+    validates :medical_claim, numericality: {only_float: true, message: "must be float number."}
+    validates :others_claim, numericality: {only_float: true, message: "must be float number."}
+    validates :odometer_reading, numericality: {only_float: true, message: "must be float number."}
+
     def total_claim
         @sum = self.fuel_claim + self.toll_claim + self.parking_claim + self.allowance_claim + self.medical_claim + self.others_claim
         return @sum
