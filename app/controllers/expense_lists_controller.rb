@@ -124,23 +124,17 @@ class ExpenseListsController < ApplicationController
   def approvepmall
     respond_to :js
     @receive = JSON.parse params[:ids]
-    @expense_lists = ExpenseList.where(id: @receive, status_expense_id: 2)
-    count = @expense_lists.count
-    @expense_lists.each do |exp|
-      exp.update(status_expense_id: 4)
-    end
+    count = ExpenseList.where(id: @receive, status_expense_id: 2).update_all("status_expense_id = 4")
     flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
+    @expense_lists = ExpenseList.where(id: @receive)
   end
 
   def approvefmall
     respond_to :js
     @receive = JSON.parse params[:ids]
-    @expense_lists = ExpenseList.where(id: @receive, status_expense_id: 4)
-    count = @expense_lists.count
-    @expense_lists.each do |exp|
-      exp.update(status_expense_id: 6)
-    end
+    count = ExpenseList.where(id: @receive, status_expense_id: 4).update_all("status_expense_id = 6")
     flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
+    @expense_lists = ExpenseList.where(id: @receive)
   end
 
   def approvepm
@@ -164,7 +158,7 @@ class ExpenseListsController < ApplicationController
   def approvefm
     respond_to :html, :js
     @expense_list= ExpenseList.find(params[:id])
-    if @expense_list.status_expense_id == 4 # Approve by PM
+    if @expense_list.status_expense_id == 4 # Approve by FM
       @expense_list.update(status_expense_id: 6)
       flash.now[:success] = "Expense have successfully approved."
     end
@@ -173,7 +167,7 @@ class ExpenseListsController < ApplicationController
   def rejectfm
     respond_to :html, :js
     @expense_list= ExpenseList.find(params[:id])
-    if @expense_list.status_expense_id == 4 # Reject by PM
+    if @expense_list.status_expense_id == 4 # Reject by FM
       @expense_list.update(status_expense_id: 5)
       flash.now[:success] = "Expense have successfully rejected."
     end

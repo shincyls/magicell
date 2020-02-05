@@ -15,19 +15,6 @@ class TimesheetTask < ApplicationRecord
     validates :project_id, presence: {message: "must present."}
     validates :activity, presence: {message: "must present."}
 
-    validates :fuel_claim, numericality: {only_float: true, message: "must be float number."}
-    validates :toll_claim, numericality: {only_float: true, message: "must be float number."}
-    validates :parking_claim, numericality: {only_float: true, message: "must be float number."}
-    validates :allowance_claim, numericality: {only_float: true, message: "must be float number."}
-    validates :medical_claim, numericality: {only_float: true, message: "must be float number."}
-    validates :others_claim, numericality: {only_float: true, message: "must be float number."}
-    validates :odometer_reading, numericality: {only_float: true, message: "must be float number."}
-
-    def total_hours
-        @sum = self.working_hours
-        return @sum
-    end
-
     def url
         self.attachment_link.replace("https://","").replace("http://","")
     end

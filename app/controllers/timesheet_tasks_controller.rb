@@ -148,30 +148,33 @@ class TimesheetTasksController < ApplicationController
     def approvepmall
       respond_to :js
       @receive = JSON.parse params[:ids]
-      @timesheet_tasks = TimesheetTask.where(id: @receive, status_timesheet_id: 2)
-      count = @timesheet_tasks.count
-      @timesheet_tasks.each do |task|
-        task.update(status_timesheet_id: 4)
-      end
+      count = TimesheetTask.where(id: @receive, status_timesheet_id: 2).update_all("status_timesheet_id = 4")
       flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
+      @timesheet_tasks = TimesheetTask.where(id: @receive)
     end
   
     def approvefmall
       respond_to :js
       @receive = JSON.parse params[:ids]
-      @timesheet_tasks = TimesheetTask.where(id: @receive, status_timesheet_id: 4)
-      count = @timesheet_tasks.count
-      @timesheet_tasks.each do |task|
-        task.update(status_timesheet_id: 6)
-      end
+      count = TimesheetTask.where(id: @receive, status_timesheet_id: 4).update_all("status_timesheet_id = 6")
       flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
+      @timesheet_tasks = TimesheetTask.where(id: @receive)
     end
 
     def approvepm
       respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
-      if @timesheet_task.status_timesheet_id == 2 # Approve by PM
+      if @timesheet_task.status_timesheet_id == 2 # Pending PM
         @timesheet_task.update(status_timesheet_id: 4)
+        flash.now[:success] = "Timesheet have successfully approved."
+      end
+    end
+
+    def approvefm
+      respond_to :html, :js
+      @timesheet_task = TimesheetTask.find(params[:id])
+      if @timesheet_task.status_timesheet_id == 4 # Pending FM
+        @timesheet_task.update(status_timesheet_id: 6)
         flash.now[:success] = "Timesheet have successfully approved."
       end
     end
@@ -179,25 +182,16 @@ class TimesheetTasksController < ApplicationController
     def rejectpm
       respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
-      if @timesheet_task.status_timesheet_id == 2 # Reject by PM
+      if @timesheet_task.status_timesheet_id == 2 # Pending PM
         @timesheet_task.update(status_timesheet_id: 3)
         flash.now[:success] = "Timesheet have successfully rejected."
-      end
-    end
-
-    def approvefm
-      respond_to :html, :js
-      @timesheet_task = TimesheetTask.find(params[:id])
-      if @timesheet_task.status_timesheet_id == 4 # Approve by PM
-        @timesheet_task.update(status_timesheet_id: 6)
-        flash.now[:success] = "Timesheet have successfully approved."
       end
     end
 
     def rejectfm
       respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
-      if @timesheet_task.status_timesheet_id == 4 # Reject by PM
+      if @timesheet_task.status_timesheet_id == 4 # Pending FM
         @timesheet_task.update(status_timesheet_id: 5)
         flash.now[:success] = "Timesheet have successfully rejected."
       end
