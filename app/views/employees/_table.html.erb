@@ -32,7 +32,7 @@
         <td><%=e.contract_end if e.contract_end%></td>
         <td><%=e.annual_leave_taken%>/<%=e.annual_leave_entitled%></td>
         <td><%=e.medical_leave_taken%>/<%=e.medical_leave_entitled%></td>
-        <td><%=e.leaveaps.where("status_leave_id = 4 and leavetype_id = 8").count%>/<%=e.children_count%>.0</td>
+        <td><%=e.leaveaps.where("status_leave_id = 4 and leavetype_id = 8").sum("days")%>/<%=e.children_count%>.0</td>
         <% if current_user.webrole.wr_hr %>
         <td>
           <span class="bg-success rounded p-1 m-1"><%= link_to 'Edit', edit_employee_path(e), class: "small text-white m-1", remote: true %></span>
