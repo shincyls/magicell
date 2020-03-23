@@ -1,101 +1,59 @@
-<h4 class="text-success">New Expenses Claim</h4>
-<div id="expense-lists-new">
-  <%= render partial: "new" %>
+<div class="text-special">
+    <div id="expense-lists-new" class="mt-4 mb-4 p-4 bg-glass rounded">
+        <%= render partial: "expense_lists/new" %>
+    </div>
+
+    <div id="my-expense-search" class="mt-4 mb-4 p-4 bg-glass rounded">
+        <div class="form">
+            <%= form_tag expense_lists_path, method: 'get', remote: true do %>
+              <div class="row">
+                <div class="col-lg-3 col-md-4">
+                  <label>Year</label>
+                  <%= select_tag :year, options_for_select(Date.today.year-1..Date.today.year,@year), class: "custom-select custom-select-sm"  %>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                  <label>Month</label>
+                  <%= select_tag :month, options_for_select(1..12,@month), class: "custom-select custom-select-sm"  %>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                  <label>Status</label>
+                  <%= select_tag :status, options_for_select([["All",0],["Approved",6],["Rejected(FM)",5],["Approved(PM)",4],["Rejected(PM)",3],["Pending(PM)",2],["Not Submit",1]],@status), class: "custom-select custom-select-sm" %>
+                </div>
+                <div class="col-lg-3 col-md-4 my-4">
+                  <%= submit_tag "Search", class: "btn btn-success" %>
+                </div>
+              </div>
+            <% end %>
+        </div>
+    </div>
+
+
+    <div class="mt-4 mb-4 p-4 bg-glass rounded">
+        <div class="mt-2 mb-2">
+            <span class="badge">Guide >></button>
+            <span class="btn-sm btn-success">S</span> Submit
+            <span class="btn-sm btn-new">E</span> Edit
+            <span class="btn-sm btn-danger">D</span> Delete
+        </div>
+        <div class="mt-2 mb-2">
+            <span class="badge">Shortcuts >></button>
+            <button class="btn-sm btn-success" id="em-submitall">Submit All</button>
+        </div>
+        <div id="employee-result">
+            <%= render partial: "reports/table_expense" %>
+        </div>
+    </div>
 </div>
 
-<hr>
+<script>
+  loadjs('#expense-details', 0, 25, 'Blfrtip');
 
-<h4 class="text-success">Expenses Claim Table</h4>
-
-<h6>Action</h6>
-<div>
-  <span class="btn-sm btn-success mt-2">S = Submit</span>
-  <span class="btn-sm btn-new mt-2">E = Edit</span>
-  <span class="btn-sm btn-danger mt-2">D = Delete</span>
-</div>
-
-<button class="btn-sm btn-info mt-2" id="one-click-submit">Submit All In Current Table List (Not Submit/Rejected Only)</button>
-
-<h6 class="mt-4">Filter:</h6>
-<div class="row">
-  <%= button_to "All", expense_lists_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
-  <%= button_to "#{@backup_lists.where(status_expense_id: 1).count} Not Submit" , expense_lists_path, params: {value: 1}, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
-  <%= button_to "#{@backup_lists.where(status_expense_id: 2).count} Pending (PM)" , expense_lists_path, params: {value: 2}, method: "get", remote: true, class: "col btn btn-sm badge-primary m-2" %>
-  <%= button_to "#{@backup_lists.where(status_expense_id: 3).count} Rejected (PM)" , expense_lists_path, params: {value: 3}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
-  <%= button_to "#{@backup_lists.where(status_expense_id: 4).count} Pending (FM)" , expense_lists_path, params: {value: 4}, method: "get", remote: true, class: "col btn btn-sm badge-info m-2" %>
-  <%= button_to "#{@backup_lists.where(status_expense_id: 5).count} Rejected (FM)" , expense_lists_path, params: {value: 5}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
-  <%= button_to "#{@backup_lists.where(status_expense_id: 6).count} Approved" , expense_lists_path, params: {value: 6}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>
-</div>
-<br>
-
-
-
-
-<div id="expense-lists-section">
-  <table id="expense-lists-table" class="table table-sm table-responsive mt-4" style="font-size:0.7rem">
-    
-    <thead class="text-dark">
-      <tr>
-        <th>Date</th>
-        <th>Project</th>
-        <th style="width:5rem;">Claims (MYR)</th>
-        <th>Odometer (KM)</th>
-        <th>Attach</th>
-        <th>Submitted</th>
-        <th>Status</th>
-        <th style="width:10rem;">Action</th>
-      </tr>
-    </thead>
-
-    <tbody class="text-dark" id="timesheet-row">
-        <% unless @expense_lists.nil? %>
-        <% @expense_lists.each do |t| %>
-        <tr id="el-<%=t.id%>">
-            <td class="<%= "text-success" if t.holiday? %>"><%=t.date%></td>
-            <td>
-              <ul class="list-unstyled">
-                <li><%=t.project.name%></li>
-                <li class="small">(<%=t.project.manager.full_name%>)</li>
-              </ul>
-            </td>
-            <td>
-            <ul class="list-unstyled">
-              <li><%= ("Fuel: " + t.fuel_claim.to_s) if t.fuel_claim > 0 %></li>
-              <li><%= ("Toll: " + t.toll_claim.to_s) if t.toll_claim > 0 %></li>
-              <li><%= ("Parking: " + t.parking_claim.to_s) if t.parking_claim > 0 %></li>
-              <li><%= ("Allowance: " + t.allowance_claim.to_s) if t.allowance_claim > 0 %></li>
-              <li><%= ("Medical: " + t.medical_claim.to_s) if t.medical_claim > 0 %></li>
-              <li><%= ("Others: " + t.others_claim.to_s) if t.others_claim > 0 %></li>
-            </ul>
-            </td>
-            <td><%=t.odometer_reading%></td>
-            <td><%= (link_to "Click", "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
-            <td><%=(time_ago_in_words(t.submitted_at).chomp("about")) if t.submitted_at%></td>
-            <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
-            <td>
-              <% if t.employee_id == current_user.employee.id %>
-                <% if t.allowed_edit? %>
-                <span class="mt-2"><%= link_to 'S', submit_expense_list_path(t), method: :post, class: "btn-sm btn-success", remote: true %></span>
-                <span class="mt-2"><%= link_to 'E', edit_expense_list_path(t), class: "btn-sm btn-new", remote: true %></span>
-                <span class="mt-2"><%= link_to 'D', t, method: :delete, class: "btn-sm btn-danger", remote: true, data: { confirm: 'Are you confirm to delete this Expense Claim?' } %></span>
-                <% end %>
-              <% end %>
-            </td>
-        </tr>
-        <% end %>
-        <% end %>
-    </tbody>
-  </table>
-
-  <script>
-  loadjs('#expense-lists-table', 0, 25, 'Blfrtip');
-
-  $('#one-click-submit').on('click', function () {
+  $('#em-submitall').on('click', function () {
     if (confirm("Press OK to confirm this action") == true){
-      var table = $('#expense-lists-table').DataTable();
+      var table = $('#expense-details').DataTable();
       var arr = table.rows({ search: 'applied' }).ids().toArray();
       for(var i=0; i < arr.length; i++) {
-        arr[i] = parseInt(arr[i].replace('el-', ''));
+        arr[i] = parseInt(arr[i].replace('ex-', ''));
       }
       $.ajax({
         type: "POST",
@@ -104,5 +62,5 @@
       });
     }
   });
+
   </script>
-</div>

@@ -1,16 +1,18 @@
 class TimesheetTasksController < ApplicationController
     before_action :logged_in?
+    before_action :return_default, only: [:index, :project, :finance]
     after_action :return_employee, only: [:create]
     skip_before_action :verify_authenticity_token, only: [:submitall, :approvepmall, :approvefmall]
 
     def index
       respond_to :html, :js
-      @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id).order("date desc")
-      @backup_lists = @timesheet_tasks
-      if params[:value].present?
-        @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id, status_timesheet_id: params[:value].to_i).order("date desc")
-      end
       @timesheet_task = TimesheetTask.new
+      if @status == 0
+        @timesheet_tasks = current_user.employee.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+      else
+        @timesheet_tasks = current_user.employee.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ?", @year, @month, @status)
+      end
+
     end
 
     def summary
@@ -21,19 +23,21 @@ class TimesheetTasksController < ApplicationController
     def project
       respond_to :html, :js
       @projects = Project.where(manager_id: current_user.employee.id).pluck(:id)
-      @timesheet_tasks = TimesheetTask.where(project_id: @projects, status_timesheet_id: [2,3,4,5,6]).order("date desc")
-      @backup_lists = @timesheet_tasks
-      if params[:value].to_i >= 2
-        @timesheet_tasks = TimesheetTask.where(project_id: @projects, status_timesheet_id: params[:value]).order("date desc")
+      @timesheet_tasks = TimesheetTask.where(project_id: @projects, status_timesheet_id: [2,3,4,5,6])
+      if @status == 0
+        @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+      else
+        @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ?", @year, @month, @status)
       end
     end
 
     def finance
       respond_to :html, :js
-      @timesheet_tasks = TimesheetTask.where(status_timesheet_id: [4,5,6]).order("date desc")
-      @backup_lists = @timesheet_tasks
-      if params[:value].to_i >= 4
-        @timesheet_tasks = TimesheetTask.where(status_timesheet_id: params[:value]).order("date desc")
+      @timesheet_tasks = TimesheetTask.where(status_timesheet_id: [4,5,6])
+      if @status == 0
+        @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+      else
+        @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ?", @year, @month, @status)
       end
     end
 
@@ -55,6 +59,7 @@ class TimesheetTasksController < ApplicationController
     # POST /timesheet_tasks
     def create
       respond_to :html, :js
+      @timesheet_tasks = []
       message = ""
       date_now = Date.parse(params["timesheet_task"][:multi_date_from])
       date_end = Date.parse(params["timesheet_task"][:multi_date_to])
@@ -71,6 +76,7 @@ class TimesheetTasksController < ApplicationController
         unless @timesheet_task.holiday? and @timesheet_task.allowed_edit? and weekend_filter
           unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, date: date_now)
             if @timesheet_task.save
+              @timesheet_tasks << @timesheet_task
               flash.now[:success] = "Your Timesheet have been added#{message}."
             else
               flash.now[:warning] = @timesheet_task.errors.full_messages
@@ -86,9 +92,7 @@ class TimesheetTasksController < ApplicationController
       else
         flash.now[:warning] = "Done, but some tasks with existed date are not added."
       end
-      @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id).order("date desc")
-      @timesheet_task = TimesheetTask.new
-      @backup_lists = @timesheet_tasks
+      render 'datarow'
     end
   
     # PATCH/PUT /timesheet_tasks/1
@@ -100,6 +104,7 @@ class TimesheetTasksController < ApplicationController
       else
         flash.now[:warning] = @timesheet_task.errors.full_messages
       end
+      render 'datarow'
     end
   
     # DELETE /timesheet_tasks/1
@@ -111,25 +116,22 @@ class TimesheetTasksController < ApplicationController
       else
         flash.now[:warning] = "This action couldn't be performed due to error, please check with admin."
       end
+      render 'datarow'
     end
 
     def submit
-      respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
       if @timesheet_task.status_timesheet_id == 1
         @timesheet_task.update(status_timesheet_id: 2, submitted_at: Time.now)
-        flash.now[:success] = "Timesheet have successfully submitted."
       elsif @timesheet_task.status_timesheet_id == 3
         @timesheet_task.update(status_timesheet_id: 2)
-        flash.now[:success] = "Timesheet have successfully resubmitted."
       elsif @timesheet_task.status_timesheet_id == 5
         @timesheet_task.update(status_timesheet_id: 4)
-        flash.now[:success] = "Timesheet have successfully resubmitted."
       end
+      render 'datarow'
     end
 
     def submitall
-      respond_to :js
       @receive = JSON.parse params[:ids]
       @timesheet_tasks = TimesheetTask.where(id: @receive, status_timesheet_id: [1,3,5])
       count = @timesheet_tasks.count
@@ -143,61 +145,65 @@ class TimesheetTasksController < ApplicationController
         end
       end
       flash.now[:success] = "#{count} Pending Item(s) have been successfully submitted."
+      render 'datarow'
     end
 
     def approvepmall
-      respond_to :js
       @receive = JSON.parse params[:ids]
-      count = TimesheetTask.where(id: @receive, status_timesheet_id: 2).update_all("status_timesheet_id = 4")
-      flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
+      @projects = Project.where(manager_id: current_user.employee.id).pluck(:id)
+      @count = TimesheetTask.where(id: @receive, status_timesheet_id: 2, project_id: @projects).update_all("status_timesheet_id = 4")
+      flash.now[:success] = "#{@count} Pending Item(s) have been successfully approved."
       @timesheet_tasks = TimesheetTask.where(id: @receive)
+      render 'datarow'
     end
   
     def approvefmall
-      respond_to :js
       @receive = JSON.parse params[:ids]
       count = TimesheetTask.where(id: @receive, status_timesheet_id: 4).update_all("status_timesheet_id = 6")
       flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
       @timesheet_tasks = TimesheetTask.where(id: @receive)
+      render 'datarow'
     end
 
+    # Approve Single Timesheet Task
     def approvepm
-      respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
       if @timesheet_task.status_timesheet_id == 2 # Pending PM
         @timesheet_task.update(status_timesheet_id: 4)
-        flash.now[:success] = "Timesheet have successfully approved."
+        flash.now[:success] = "Timesheet have been approved by PM."
       end
+      render 'datarow'
     end
-
     def approvefm
-      respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
       if @timesheet_task.status_timesheet_id == 4 # Pending FM
         @timesheet_task.update(status_timesheet_id: 6)
-        flash.now[:success] = "Timesheet have successfully approved."
+        flash.now[:success] = "Timesheet have been approved by FM."
       end
+      render 'datarow'
     end
-
     def rejectpm
-      respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
       if @timesheet_task.status_timesheet_id == 2 # Pending PM
         @timesheet_task.update(status_timesheet_id: 3)
-        flash.now[:success] = "Timesheet have successfully rejected."
+        flash.now[:success] = "Timesheet have been rejected by PM."
       end
+      render 'datarow'
     end
-
     def rejectfm
-      respond_to :html, :js
       @timesheet_task = TimesheetTask.find(params[:id])
       if @timesheet_task.status_timesheet_id == 4 # Pending FM
         @timesheet_task.update(status_timesheet_id: 5)
-        flash.now[:success] = "Timesheet have successfully rejected."
+        flash.now[:success] = "Timesheet have been rejected by FM."
       end
+      render 'datarow'
     end
   
     private
+
+    def datarow
+      respond_to :js
+    end 
   
     def require_login
       unless logged_in?
@@ -209,6 +215,15 @@ class TimesheetTasksController < ApplicationController
     def return_employee
       @timesheet_tasks = TimesheetTask.where(employee_id: current_user.employee.id).order("date desc")
       @backup_lists = @timesheet_tasks
+    end
+
+    def return_default
+      params[:year] = Date.today.year if params[:year].nil?
+      params[:month] = Date.today.month if params[:month].nil?
+      params[:status] = 0 if params[:status].nil?
+      @year = params[:year].to_i
+      @month = params[:month].to_i
+      @status = params[:status].to_i
     end
   
     # Never trust parameters from the scary internet, only allow the white list through.

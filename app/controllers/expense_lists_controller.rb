@@ -1,6 +1,7 @@
 class ExpenseListsController < ApplicationController
   before_action :logged_in?
   after_action :return_employee, only: [:create]
+  before_action :return_default, only: [:index, :project, :finance]
   skip_before_action :verify_authenticity_token, only: [:submitall, :approvepmall, :approvefmall]
 
   def index
@@ -11,6 +12,11 @@ class ExpenseListsController < ApplicationController
       @expense_lists = ExpenseList.where(employee_id: current_user.employee.id, status_expense_id: params[:value].to_i).order("date desc")
     end
     @expense_list= ExpenseList.new
+    if @status == 0
+      @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+    else
+      @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ?", @year, @month, @status)
+    end
   end
 
   def summary
@@ -22,18 +28,20 @@ class ExpenseListsController < ApplicationController
     respond_to :html, :js
     @projects = Project.where(manager_id: current_user.employee.id).pluck(:id)
     @expense_lists = ExpenseList.where(project_id: @projects, status_expense_id: [2,3,4,5,6]).order("date desc")
-    @backup_lists = @expense_lists
-    if params[:value].to_i > 1
-      @expense_lists = ExpenseList.where(project_id: @projects, status_expense_id: params[:value]).order("date desc")
+    if @status == 0
+      @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+    else
+      @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ?", @year, @month, @status)
     end
   end
 
   def finance
     respond_to :html, :js
     @expense_lists = ExpenseList.where(status_expense_id: [4,5,6]).order("date desc")
-    @backup_lists = @expense_lists
-    if params[:value].to_i > 1
-      @expense_lists = ExpenseList.where(status_expense_id: params[:value]).order("date desc")
+    if @status == 0
+      @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+    else
+      @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ?", @year, @month, @status)
     end
   end
 
@@ -63,7 +71,7 @@ class ExpenseListsController < ApplicationController
     end
     @expense_list = ExpenseList.new(expense_list_params)
     @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
-    @backup_lists = @expense_lists
+    render 'datarow'
   end
 
   # PATCH/PUT /expense_lists/1
@@ -75,6 +83,7 @@ class ExpenseListsController < ApplicationController
     else
       flash.now[:warning] = @expense_list.errors.full_messages
     end
+    render 'datarow'
   end
 
   # DELETE /expense_lists/1
@@ -87,6 +96,7 @@ class ExpenseListsController < ApplicationController
     else
       flash.now[:warning] = "This action couldn't be performed due to error, please check with admin."
     end
+    render 'datarow'
   end
 
   def submit
@@ -102,6 +112,7 @@ class ExpenseListsController < ApplicationController
       @expense_list.update(status_expense_id: 4)
       flash.now[:success] = "Expense have successfully resubmitted."
     end
+    render 'datarow'
   end
 
   def submitall
@@ -119,6 +130,7 @@ class ExpenseListsController < ApplicationController
       end
     end
     flash.now[:success] = "#{count} Pending Item(s) have been successfully submitted."
+    render 'datarow'
   end
 
   def approvepmall
@@ -127,6 +139,7 @@ class ExpenseListsController < ApplicationController
     count = ExpenseList.where(id: @receive, status_expense_id: 2).update_all("status_expense_id = 4")
     flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
     @expense_lists = ExpenseList.where(id: @receive)
+    render 'datarow'
   end
 
   def approvefmall
@@ -135,6 +148,7 @@ class ExpenseListsController < ApplicationController
     count = ExpenseList.where(id: @receive, status_expense_id: 4).update_all("status_expense_id = 6")
     flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
     @expense_lists = ExpenseList.where(id: @receive)
+    render 'datarow'
   end
 
   def approvepm
@@ -144,6 +158,7 @@ class ExpenseListsController < ApplicationController
       @expense_list.update(status_expense_id: 4)
       flash.now[:success] = "Expense have successfully approved."
     end
+    render 'datarow'
   end
 
   def rejectpm
@@ -153,6 +168,7 @@ class ExpenseListsController < ApplicationController
       @expense_list.update(status_expense_id: 3)
       flash.now[:success] = "Expense have successfully rejected."
     end
+    render 'datarow'
   end
 
   def approvefm
@@ -162,6 +178,7 @@ class ExpenseListsController < ApplicationController
       @expense_list.update(status_expense_id: 6)
       flash.now[:success] = "Expense have successfully approved."
     end
+    render 'datarow'
   end
 
   def rejectfm
@@ -171,9 +188,14 @@ class ExpenseListsController < ApplicationController
       @expense_list.update(status_expense_id: 5)
       flash.now[:success] = "Expense have successfully rejected."
     end
+    render 'datarow'
   end
 
   private
+
+  def datarow
+    respond_to :js
+  end 
 
   def require_login
     unless logged_in?
@@ -185,6 +207,15 @@ class ExpenseListsController < ApplicationController
   def return_employee
     @expense_lists = ExpenseList.where(employee_id: current_user.employee.id).order("date desc")
     @backup_lists = @expense_lists
+  end
+
+  def return_default
+    params[:year] = Date.today.year if params[:year].nil?
+    params[:month] = Date.today.month if params[:month].nil?
+    params[:status] = 0 if params[:status].nil?
+    @year = params[:year].to_i
+    @month = params[:month].to_i
+    @status = params[:status].to_i
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

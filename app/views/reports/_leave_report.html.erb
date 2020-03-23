@@ -29,8 +29,8 @@
         <td><%=l.employee.full_name%></td>
         <td>
             <ul class="list-unstyled">
-                <li><%=l.employee.department.name%></li>
-                <li><%=l.employee.project.name%></li>
+                <li><%=l.employee.department.name if l.employee.department%></li>
+                <li><%=l.employee.project.name if l.employee.project%></li>
             </ul>
         </td>
 

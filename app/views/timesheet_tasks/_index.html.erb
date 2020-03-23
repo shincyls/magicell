@@ -1,95 +1,56 @@
-<h4 class="text-success">New Timesheet</h4>
-<div id="timesheet-tasks-new">
-  <%= render partial: "new" %>
+<div class="text-special">
+    <div id="timesheet-tasks-new" class="mt-4 mb-4 p-4 bg-glass rounded">
+        <%= render partial: "timesheet_tasks/new" %>
+    </div>
+
+    <div id="my-timesheet-search" class="mt-4 mb-4 p-4 bg-glass rounded">
+        <div class="form">
+            <%= form_tag timesheet_tasks_path, method: 'get', remote: true do %>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4">
+                            <label>Year</label>
+                            <%= select_tag :year, options_for_select(Date.today.year-1..Date.today.year,@year), class: "custom-select custom-select-sm"  %>
+                        </div>
+                        <div class="col-lg-3 col-md-4">
+                            <label>Month</label>
+                            <%= select_tag :month, options_for_select(1..12,@month), class: "custom-select custom-select-sm"  %>
+                        </div>
+                        <div class="col-lg-3 col-md-4">
+                            <label>Status</label>
+                            <%= select_tag :status, options_for_select([["All",0],["Approved",6],["Rejected(FM)",5],["Approved(PM)",4],["Rejected(PM)",3],["Pending(PM)",2],["Not Submit",1]],@status), class: "custom-select custom-select-sm" %>
+                        </div> 
+                        <div class="col-lg-3 col-md-4 my-4">
+                            <%= submit_tag "Search", class: "btn btn-success" %>
+                        </div>
+                    </div>
+            <% end %>
+        </div>
+    </div>
+
+
+    <div class="mt-4 mb-4 p-4 bg-glass rounded">
+        <div class="mt-2 mb-2">
+            <span class="badge">Guide >></button>
+            <span class="btn-sm btn-success">S</span> Submit
+            <span class="btn-sm btn-new">E</span> Edit
+            <span class="btn-sm btn-danger">D</span> Delete
+        </div>
+        <div class="mt-2 mb-2">
+            <span class="badge">Shortcuts >></button>
+            <button class="btn-sm btn-success" id="em-submitall">Submit All</button>
+        </div>
+        <div id="employee-result">
+            <%= render partial: "reports/table_timesheet" %>
+        </div>
+    </div>
 </div>
 
-<hr>
+<script>
+  loadjs('#timesheet-details', 0, 25, 'Blfrtip');
 
-<h4 class="text-success">Timesheet Table</h4>
-<h6>Action</h6>
-<div>
-  <span class="btn-sm btn-success mt-2">S = Submit</span>
-  <span class="btn-sm btn-new mt-2">E = Edit</span>
-  <span class="btn-sm btn-danger mt-2">D = Delete</span>
-</div>
-
-<button class="btn-sm btn-info mt-2" id="one-click-submit">Submit All In Current Table List (Not Submit/Rejected Only)</button>
-
-<h6 class="mt-4">Filter:</h6>
-<div class="row">
-  <%= button_to "All", timesheet_tasks_path, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
-  <%= button_to "#{@backup_lists.where(status_timesheet_id: 1).count} Not Submit" , timesheet_tasks_path, params: {value: 1}, method: "get", remote: true, class: "col btn btn-sm badge-secondary m-2" %>
-  <%= button_to "#{@backup_lists.where(status_timesheet_id: 2).count} Pending (PM)" , timesheet_tasks_path, params: {value: 2}, method: "get", remote: true, class: "col btn btn-sm badge-primary m-2" %>
-  <%= button_to "#{@backup_lists.where(status_timesheet_id: 3).count} Rejected (PM)" , timesheet_tasks_path, params: {value: 3}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
-  <%= button_to "#{@backup_lists.where(status_timesheet_id: 4).count} Pending (FM)" , timesheet_tasks_path, params: {value: 4}, method: "get", remote: true, class: "col btn btn-sm badge-info m-2" %>
-  <%= button_to "#{@backup_lists.where(status_timesheet_id: 5).count} Rejected (FM)" , timesheet_tasks_path, params: {value: 5}, method: "get", remote: true, class: "col btn btn-sm badge-danger m-2" %>
-  <%= button_to "#{@backup_lists.where(status_timesheet_id: 6).count} Approved" , timesheet_tasks_path, params: {value: 6}, method: "get", remote: true, class: "col btn btn-sm badge-success m-2" %>
-</div>
-<br>
-
-<div id="timesheet-tasks-section">
-  <table id="timesheet-tasks-table" class="table table-sm table-responsive mt-4" style="font-size:0.7rem">
-    
-    <thead class="text-dark">
-      <tr>
-        <th>Date</th>
-        <th>Project</th>
-        <th>Activity</th>
-        <th>Working Hours</th>
-        <th>DT Info</th>
-        <th>Submitted</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-
-    <tbody class="text-dark" id="timesheet-row">
-      <% unless @timesheet_tasks.nil? %>
-        <% @timesheet_tasks.each do |t| %>
-        <tr id="ts-<%=t.id%>">
-            <td class="<%= "text-success" if t.holiday? %>"><%=t.date%></td>
-            <td>
-              <ul class="list-unstyled">
-                <li><%=t.project.name%></li>
-                <li class="small">(<%=t.project.manager.full_name%>)</li>
-              </ul>
-            </td>
-            <td><%=t.activity%></td>
-            <td><%=t.working_hours%></td>
-            <td>
-              <ul class="list-unstyled">
-                <li><%=t.site_name%></li>
-                <li><%=t.project_region.name if t.project_region %></li>
-                <li><%=t.vehicle_number%></li>
-                <li><%=t.vehicle_owner.name if t.vehicle_owner %></li>
-              <ul>
-            </td>
-            <td><%=(time_ago_in_words(t.submitted_at).chomp("about")) if t.submitted_at%></td>
-            <td><span class="badge badge-<%=t.status_timesheet.css%>"><%=t.status_timesheet.name%></span></td>
-            <td>
-              <% if t.employee_id == current_user.employee.id %>
-                <% if [1,2,3,4,5].include?(t.status_timesheet_id) %>
-                <div class="row">
-                  <%= button_to 'S', submit_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
-                  <%= button_to 'E', edit_timesheet_task_path(t), class: "btn-sm btn-new col", method: 'get', remote: true %>
-                  <%= button_to 'D', t, method: :delete, class: "btn-sm btn-danger col", method: 'delete', remote: true, data: { confirm: 'Are you sure to delete this task?' } %>
-                </div>
-                <% end %>
-              <% end %>
-            </td>
-        </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-    
-  </table>
-
-  <script>
-  loadjs('#timesheet-tasks-table', 0, 25, 'Blfrtip');
-
-  $('#one-click-submit').on('click', function () {
+  $('#em-submitall').on('click', function () {
     if (confirm("Press OK to confirm this action") == true){
-      var table = $('#timesheet-tasks-table').DataTable();
+      var table = $('#timesheet-details').DataTable();
       var arr = table.rows({ search: 'applied' }).ids().toArray();
       for(var i=0; i < arr.length; i++) {
         arr[i] = parseInt(arr[i].replace('ts-', ''));
@@ -100,7 +61,6 @@
         data: { ids: JSON.stringify(arr) }
       });
     }
-
   });
+
   </script>
-</div>

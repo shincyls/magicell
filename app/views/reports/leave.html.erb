@@ -8,27 +8,25 @@
 </div>
 
 <div id="employee-search" class="row text-dark text-special mt-4 mb-4 p-4 bg-glass rounded">
-    <div class="form">
-        <%= form_tag leave_reports_path, method: 'get' do %>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-2">
-                    <label>Year</label>
-                    <%= select_tag :year, options_for_select(Date.today.year-1..Date.today.year,@year), class: "custom-select custom-select-sm"  %>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-2">
-                    <label>Month</label>
-                    <%= select_tag :month, options_for_select(1..12,@month), class: "custom-select custom-select-sm"  %>
-                </div>
-                <div class="col-lg-4 col-md-4 mb-2">
-                    <label>Approval Status</label>
-                    <%= select_tag :status, options_for_select([["Approved Only",4],["All",1]],@status), class: "custom-select custom-select-sm" %>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-2">
-                    <%= submit_tag "Query", class: "btn btn-success" %>
-                </div>
+    <%= form_tag leave_reports_path, method: 'get' do %>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-2">
+                <label>Year</label>
+                <%= select_tag :year, options_for_select(Date.today.year-1..Date.today.year,@year), class: "custom-select custom-select-sm"  %>
             </div>
-        <% end %>
-    </div>
+            <div class="col-lg-4 col-md-6 mb-2">
+                <label>Month</label>
+                <%= select_tag :month, options_for_select(1..12,@month), class: "custom-select custom-select-sm"  %>
+            </div>
+            <div class="col-lg-4 col-md-4 mb-2">
+                <label>Approval Status</label>
+                <%= select_tag :status, options_for_select([["Approved Only",4],["All",1]],@status), class: "custom-select custom-select-sm" %>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-2">
+                <%= submit_tag "Search", class: "btn btn-success" %>
+            </div>
+        </div>
+    <% end %>
 </div>
 
 <div id="leave-result" class="row text-dark text-special mt-4 mb-4 p-4 bg-glass rounded">

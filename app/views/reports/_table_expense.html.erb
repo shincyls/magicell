@@ -4,22 +4,24 @@
         <th>Date</th>
         <th>Employee</th>
         <th>Project</th>
-        <th>Fuel (MYR)</th>
-        <th>Toll (MYR)</th>
-        <th>Parking (MYR)</th>
-        <th>Allowance (MYR)</th>
-        <th>Medical (MYR)</th>
-        <th>Others (MYR)</th>
+        <th>Fuel</th>
+        <th>Toll</th>
+        <th>Parking</th>
+        <th>Allowance</th>
+        <th>Medical</th>
+        <th>Others</th>
+        <th>Remarks</th>
         <th>Odometer (KM)</th>
         <th>Attachment</th>
         <th>Status</th>
         <th>PM</th>
+        <th>Action</th>
       </tr>
     </thead>
-    <tbody class="text-dark" id="timesheet-row">
+    <tbody class="text-dark" id="expense-row">
         <% unless @expense_lists.nil? %>
         <% @expense_lists.each do |t| %>
-        <tr id="el-<%=t.id%>">
+        <tr id="ex-<%=t.id%>">
             <td class="<%= "text-danger" if t.holiday? %>"><%=t.date%></td>
             <td><%=t.employee.full_name%></td>
             <td><%=t.project.name%></td>
@@ -29,10 +31,38 @@
             <td><%= t.allowance_claim %></li>
             <td><%= t.medical_claim %></li>
             <td><%= t.others_claim %></td>
+            <td>-</td>
             <td><%=t.odometer_reading%></td>
-            <td><%= (link_to "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
+            <td><%= (link_to "Click", "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
             <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>
             <td><%=t.project.manager.full_name%></td>
+            <td>
+                <% if controller_name == "expense_lists" %>
+                <div class="row">
+                <% if (t.employee_id == current_user.employee.id) & (action_name == "index")%>
+                    <% if [1,3,5].include?(t.status_expense_id) %>
+                    <%= button_to 'S', submit_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                    <% end %>
+                    <% if [1,2,3,4,5].include?(t.status_expense_id) %>
+                    <%= button_to 'E', edit_expense_list_path(t), class: "btn-sm btn-new col", method: 'get', remote: true %>
+                    <%= button_to 'D', t, method: :delete, class: "btn-sm btn-danger col", method: 'delete', remote: true, data: { confirm: 'Are you sure to delete this task?' } %>
+                    <% end %>
+                <% end %>
+                <% if t.project.manager.id == current_user.employee.id %>
+                    <% if ([2].include?(t.status_expense_id)) & (action_name == "project")%>
+                    <%= button_to 'A', approvepm_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                    <%= button_to 'R', rejectpm_expense_list_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                    <% end %>
+                <% end %>
+                <% if current_user.webrole.wr_finance %>
+                    <% if ([4].include?(t.status_expense_id)) & (action_name == "finance")%>
+                    <%= button_to 'A', approvefm_expense_list_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+                    <%= button_to 'R', rejectfm_expense_list_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+                    <% end %>
+                <% end %>
+                </div>
+                <% end %>
+            </td>
         </tr>
         <% end %>
         <% end %>

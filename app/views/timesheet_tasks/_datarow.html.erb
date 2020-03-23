@@ -1,0 +1,46 @@
+<% t = @timesheet_task %>
+<td class="<%= "text-danger" if t.holiday? %>"><%=t.date%></td>
+<td class="<%= "text-danger" if t.holiday? %>"><%=t.date.strftime("%A")%></td>
+<td><%=t.employee.full_name%></td>
+<td><%=t.project.name%></td>
+<td>
+    <ul class="list-unstyled">
+        <li><%=t.site_name%></li>
+        <li><%=t.project_region.name if t.project_region %></li>
+        <li><%=t.vehicle_number%></li>
+        <li><%=t.vehicle_owner.name if t.vehicle_owner %></li>
+    <ul>
+</td>
+<td><%=t.activity%></td>
+<td><%=t.working_hours%></td>
+<td></td>
+<td><span class="badge badge-<%=t.status_timesheet.css%>"><%=t.status_timesheet.name%></span></td>
+<td><%=(time_ago_in_words(t.submitted_at).chomp("about")) if t.submitted_at%></td>
+<td><%=t.project.manager.full_name%></td>
+<td>
+    <% if controller_name == "timesheet_tasks" %>
+    <div class="row">
+    <% if (t.employee_id == current_user.employee.id) & (action_name == "index")%>
+        <% if [1,3,5].include?(t.status_timesheet_id) %>
+        <%= button_to 'S', submit_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+        <% end %>
+        <% if [1,2,3,4,5].include?(t.status_timesheet_id) %>
+        <%= button_to 'E', edit_timesheet_task_path(t), class: "btn-sm btn-new col", method: 'get', remote: true %>
+        <%= button_to 'D', t, method: :delete, class: "btn-sm btn-danger col", method: 'delete', remote: true, data: { confirm: 'Are you sure to delete this task?' } %>
+        <% end %>
+    <% end %>
+    <% if t.project.manager.id == current_user.employee.id %>
+        <% if ([2].include?(t.status_timesheet_id)) & (action_name == "project")%>
+        <%= button_to 'A', approvepm_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+        <%= button_to 'R', rejectpm_timesheet_task_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+        <% end %>
+    <% end %>
+    <% if current_user.webrole.wr_finance %>
+        <% if ([4].include?(t.status_timesheet_id)) & (action_name == "finance")%>
+        <%= button_to 'A', approvefm_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
+        <%= button_to 'R', rejectfm_timesheet_task_path(t), class: "btn-sm btn-danger col", method: 'post', remote: true %>
+        <% end %>
+    <% end %>
+    </div>
+    <% end %>
+</td>

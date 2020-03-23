@@ -1,0 +1,19 @@
+$('#flash-message').html("<%= j (render 'statics/message') %>");
+<% if action_name == "create" %>
+    <% unless @timesheet_tasks.nil? %>
+    <% @timesheet_tasks.each do |t| %>
+    $("#timesheet-details tbody").prepend("<tr id=ts-" + <%=t.id%> + "><%= j (render 'datarow') %></tr>");
+    <% end %>
+    <% end %>
+<% elsif action_name == "destroy" %>
+    $("#ts-<%=@timesheet_task.id%>").remove();
+<% elsif ["submitall","approvepmall","approvefmall"].include?(action_name) %>
+    <% unless @timesheet_tasks.nil? %>
+    <% @timesheet_tasks.each do |t| %>
+    <% @timesheet_task = t %>
+    $("#ts-<%=t.id%>").html("<%= j (render 'datarow') %>");
+    <% end %>
+    <% end %>
+<% elsif ["submit","update","approvepm","approvefm","rejectpm","rejectfm"].include?(action_name) %>
+    $("#ts-<%=@timesheet_task.id%>").html("<%= j (render 'datarow') %>");
+<% end %>

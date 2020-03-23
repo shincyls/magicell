@@ -1,0 +1,19 @@
+$('#flash-message').html("<%= j (render 'statics/message') %>");
+<% if action_name == "create" %>
+    <% unless @expense_lists.nil? %>
+    <% @expense_lists.each do |t| %>
+    $("#expense-details tbody").prepend("<tr id=ex-" + <%=t.id%> + "><%= j (render 'datarow') %></tr>");
+    <% end %>
+    <% end %>
+<% elsif action_name == "destroy" %>
+    $("#ex-<%=@expense_list.id%>").remove();
+<% elsif ["submitall","approvepmall","approvefmall"].include?(action_name) %>
+    <% unless @expense_lists.nil? %>
+    <% @expense_lists.each do |t| %>
+    <% @expense_list = t %>
+    $("#ex-<%=t.id%>").html("<%= j (render 'datarow') %>");
+    <% end %>
+    <% end %>
+<% elsif ["submit","update","approvepm","approvefm","rejectpm","rejectfm"].include?(action_name) %>
+    $("#ex-<%=@expense_list.id%>").html("<%= j (render 'datarow') %>");
+<% end %>

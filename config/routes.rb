@@ -20,7 +20,6 @@ Rails.application.routes.draw do
   get 'magicnet/view_it/dashboard', to: 'magicnets#dashit', as: 'dashit'
   get 'magicnet/view_it/webrole', to: 'magicnets#webrole', as: 'webrole'
   get 'magicnet/view_it/account', to: 'magicnets#account', as: 'account'
-
   # Reporting Pages
   get 'magicnet/reports', to: 'reports#index', as: 'reports'
   get 'magicnet/reports/employee', to: 'reports#employee', as: 'employee_reports'
