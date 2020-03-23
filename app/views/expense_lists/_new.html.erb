@@ -50,10 +50,14 @@
       </div>
 
       <div class="col-lg-3 mb-2">
+        <label>Remarks</label>
+        <div><%= f.text_field :remarks, placeholder: "If Fill Others, Please Comment Here", class: "form-control form-control-sm" %></div>
+      </div>
+
+      <div class="col-lg-3 mb-2">
         <label>Odometer (KM)</label>
         <div><%= f.text_field :odometer_reading, placeholder: 0.0, class: "form-control form-control-sm" %></div>
       </div>
-      
     </div>
 
     <div class="row text-dark text-special mt-2 mb-3">

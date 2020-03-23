@@ -220,7 +220,7 @@ class ExpenseListsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def expense_list_params
-    params.require(:expense_list).permit(:date, :employee_id, :project_id, :expense_id, :fuel_claim, :toll_claim, :parking_claim, :allowance_claim, :medical_claim ,:others_claim, :odometer_reading, :holiday, :attachment_link)
+    params.require(:expense_list).permit(:date, :employee_id, :project_id, :expense_id, :fuel_claim, :toll_claim, :parking_claim, :allowance_claim, :medical_claim ,:others_claim, :odometer_reading, :holiday, :attachment_link, :remarks)
   end
     
     

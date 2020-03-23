@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_31_000000) do
+ActiveRecord::Schema.define(version: 2020_03_23_150526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,9 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "submitted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "remarks"
+    t.string "approved_by"
+    t.datetime "approved_at"
     t.index ["employee_id"], name: "index_expense_lists_on_employee_id"
     t.index ["project_id"], name: "index_expense_lists_on_project_id"
     t.index ["status_expense_id"], name: "index_expense_lists_on_status_expense_id"
@@ -274,6 +277,8 @@ ActiveRecord::Schema.define(version: 2019_08_31_000000) do
     t.datetime "submitted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "approved_by"
+    t.datetime "approved_at"
     t.index ["employee_id"], name: "index_timesheet_tasks_on_employee_id"
     t.index ["project_id"], name: "index_timesheet_tasks_on_project_id"
     t.index ["project_region_id"], name: "index_timesheet_tasks_on_project_region_id"
