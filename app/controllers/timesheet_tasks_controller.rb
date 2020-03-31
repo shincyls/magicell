@@ -25,7 +25,13 @@ class TimesheetTasksController < ApplicationController
       @projects = Project.where(manager_id: current_user.employee.id).pluck(:id)
       @timesheet_tasks = TimesheetTask.where(project_id: @projects, status_timesheet_id: [2,3,4,5,6])
       if @status == 0
-        @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+        @timesheet_tasks = @timesheet_tasks.where("
+          DATE_PART('year', date) >= ? and 
+          DATE_PART('year', date) <= ? and 
+          DATE_PART('month', date) >= ? and 
+          DATE_PART('month', date) <= ? and 
+          status_timesheet_id = ?
+          ", @yearb, @year, @monthb, @month, 2)
       else
         @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ?", @year, @month, @status)
       end
@@ -35,7 +41,13 @@ class TimesheetTasksController < ApplicationController
       respond_to :html, :js
       @timesheet_tasks = TimesheetTask.where(status_timesheet_id: [4,5,6])
       if @status == 0
-        @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+        @timesheet_tasks = @timesheet_tasks.where("
+          DATE_PART('year', date) >= ? and 
+          DATE_PART('year', date) <= ? and 
+          DATE_PART('month', date) >= ? and 
+          DATE_PART('month', date) <= ? and 
+          status_timesheet_id = ?
+          ", @yearb, @year, @monthb, @month, 4)
       else
         @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ?", @year, @month, @status)
       end
@@ -220,9 +232,13 @@ class TimesheetTasksController < ApplicationController
     def return_default
       params[:year] = Date.today.year if params[:year].nil?
       params[:month] = Date.today.month if params[:month].nil?
+      params[:yearb] = (Date.today - 2.month).year if params[:year].nil?
+      params[:monthb] = (Date.today - 2.month).month if params[:month].nil?
       params[:status] = 0 if params[:status].nil?
       @year = params[:year].to_i
       @month = params[:month].to_i
+      @yearb = params[:yearb].to_i
+      @monthb = params[:monthb].to_i
       @status = params[:status].to_i
     end
   

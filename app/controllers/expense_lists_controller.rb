@@ -29,7 +29,13 @@ class ExpenseListsController < ApplicationController
     @projects = Project.where(manager_id: current_user.employee.id).pluck(:id)
     @expense_lists = ExpenseList.where(project_id: @projects, status_expense_id: [2,3,4,5,6]).order("date desc")
     if @status == 0
-      @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+      @expense_lists = @expense_lists.where("
+        DATE_PART('year', date) >= ? and 
+        DATE_PART('year', date) <= ? and 
+        DATE_PART('month', date) >= ? and 
+        DATE_PART('month', date) <= ? and 
+        status_expense_id = ?
+        ", @yearb, @year, @monthb, @month, 2)
     else
       @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ?", @year, @month, @status)
     end
@@ -39,7 +45,13 @@ class ExpenseListsController < ApplicationController
     respond_to :html, :js
     @expense_lists = ExpenseList.where(status_expense_id: [4,5,6]).order("date desc")
     if @status == 0
-      @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
+      @expense_lists = @expense_lists.where("
+        DATE_PART('year', date) >= ? and 
+        DATE_PART('year', date) <= ? and 
+        DATE_PART('month', date) >= ? and 
+        DATE_PART('month', date) <= ? and 
+        status_expense_id = ?
+        ", @yearb, @year, @monthb, @month, 4)
     else
       @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ?", @year, @month, @status)
     end
