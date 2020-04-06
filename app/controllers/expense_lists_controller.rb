@@ -224,9 +224,13 @@ class ExpenseListsController < ApplicationController
   def return_default
     params[:year] = Date.today.year if params[:year].nil?
     params[:month] = Date.today.month if params[:month].nil?
+    params[:yearb] = (Date.today - 2.month).year if params[:year].nil?
+    params[:monthb] = (Date.today - 2.month).month if params[:month].nil?
     params[:status] = 0 if params[:status].nil?
     @year = params[:year].to_i
     @month = params[:month].to_i
+    @yearb = params[:yearb].to_i
+    @monthb = params[:monthb].to_i
     @status = params[:status].to_i
   end
 
