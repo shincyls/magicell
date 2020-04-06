@@ -35,7 +35,7 @@ class ExpenseListsController < ApplicationController
         DATE_PART('month', date) >= ? and 
         DATE_PART('month', date) <= ? and 
         status_expense_id = ?
-        ", @yearb, @year, @monthb, @month, 2)
+        ", @yearb, @year, @monthb, @month, [2,3,4,5,6])
     else
       @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ?", @year, @month, @status)
     end
@@ -51,7 +51,7 @@ class ExpenseListsController < ApplicationController
         DATE_PART('month', date) >= ? and 
         DATE_PART('month', date) <= ? and 
         status_expense_id = ?
-        ", @yearb, @year, @monthb, @month, 4)
+        ", @yearb, @year, @monthb, @month, [4,5,6])
     else
       @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ?", @year, @month, @status)
     end
