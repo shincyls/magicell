@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4">
                   <label>Status</label>
-                  <%= select_tag :status, options_for_select([["All",0],["Approved",6],["Rejected(FM)",5],["Approved(PM)",4],["Rejected(PM)",3],["Pending(PM)",2],["Not Submit",1]],@status), class: "custom-select custom-select-sm" %>
+                  <%= select_tag :status, options_for_select([["All",9],["Approved",6],["Rejected(FM)",5],["Pending(FM)",4],["Rejected(PM)",3],["Pending(PM)",2],["Not Submit",1]],@status), class: "custom-select custom-select-sm" %>
                 </div>
                 <div class="col-lg-3 col-md-4 my-4">
                   <%= submit_tag "Search", class: "btn btn-success" %>

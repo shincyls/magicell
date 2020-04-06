@@ -32,7 +32,7 @@ class TimesheetTasksController < ApplicationController
           DATE_PART('month', date) <= ? and 
           status_timesheet_id = ?
           ", @yearb, @year, @monthb, @month, 2)
-      else
+      elsif @status < 9
         @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ?", @year, @month, @status)
       end
     end
@@ -44,11 +44,11 @@ class TimesheetTasksController < ApplicationController
         @timesheet_tasks = @timesheet_tasks.where("
           DATE_PART('year', date) >= ? and 
           DATE_PART('year', date) <= ? and 
-          DATE_PART('month', date) >= ? and 
-          DATE_PART('month', date) <= ? and 
+          DATE_PART('month', date) >= ? and
+          DATE_PART('month', date) <= ? and
           status_timesheet_id = ?
           ", @yearb, @year, @monthb, @month, 4)
-      else
+      elsif @status < 9
         @timesheet_tasks = @timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ?", @year, @month, @status)
       end
     end
