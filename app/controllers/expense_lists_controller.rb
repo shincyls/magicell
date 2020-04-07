@@ -148,7 +148,7 @@ class ExpenseListsController < ApplicationController
   def approvepmall
     respond_to :js
     @receive = JSON.parse params[:ids]
-    count = ExpenseList.where(id: @receive, status_expense_id: 2).update_all("status_expense_id = 4")
+    count = ExpenseList.where(id: @receive, status_expense_id: 2).update_all('status_expense_id = 4')
     flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
     @expense_lists = ExpenseList.where(id: @receive)
     render 'datarow'
@@ -157,7 +157,11 @@ class ExpenseListsController < ApplicationController
   def approvefmall
     respond_to :js
     @receive = JSON.parse params[:ids]
-    count = ExpenseList.where(id: @receive, status_expense_id: 4).update_all("status_expense_id = 6")
+    count = ExpenseList.where(id: @receive, status_expense_id: 2).update_all([
+      'status_expense_id = 6, approved_by = ?, approved_at = ?',
+      current_user.username,
+      DateTime.current
+    ])
     flash.now[:success] = "#{count} Pending Item(s) have been successfully approved."
     @expense_lists = ExpenseList.where(id: @receive)
     render 'datarow'
@@ -187,7 +191,7 @@ class ExpenseListsController < ApplicationController
     respond_to :html, :js
     @expense_list= ExpenseList.find(params[:id])
     if @expense_list.status_expense_id == 4 # Approve by FM
-      @expense_list.update(status_expense_id: 6)
+      @expense_list.update(status_expense_id: 6, approved_by: current_user.username, approved_at: DateTime.current)
       flash.now[:success] = "Expense have successfully approved."
     end
     render 'datarow'
@@ -197,7 +201,7 @@ class ExpenseListsController < ApplicationController
     respond_to :html, :js
     @expense_list= ExpenseList.find(params[:id])
     if @expense_list.status_expense_id == 4 # Reject by FM
-      @expense_list.update(status_expense_id: 5)
+      @expense_list.update(status_expense_id: 5, approved_by: current_user.username, approved_at: DateTime.current)
       flash.now[:success] = "Expense have successfully rejected."
     end
     render 'datarow'

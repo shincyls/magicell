@@ -16,6 +16,9 @@
         <th>Status</th>
         <th>PM</th>
         <th>Action</th>
+        <% if current_user.webrole.wr_finance %>
+        <th>Approval</th>
+        <% end %>
       </tr>
     </thead>
     <tbody class="text-dark" id="expense-row">
@@ -63,6 +66,14 @@
                 </div>
                 <% end %>
             </td>
+            <% if current_user.webrole.wr_finance %>
+            <td>
+                <ol class="list-unstyled">
+                    <li><%= t.approved_by unless t.approved_by.nil? %></li>
+                    <li><%= t.approved_at.strftime("%y%m%d %H:%M") unless t.approved_at.nil? %></li>
+                </ol>
+            </td>
+            <% end %>
         </tr>
         <% end %>
         <% end %>
