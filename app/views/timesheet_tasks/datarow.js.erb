@@ -1,10 +1,7 @@
 $('#flash-message').html("<%= j (render 'statics/message') %>");
 <% if action_name == "create" %>
-    <% unless @timesheet_tasks.nil? %>
-    <% @timesheet_tasks.each do |t| %>
-    $("#timesheet-details tbody").prepend("<tr id=ts-" + <%=t.id%> + "><%= j (render 'datarow') %></tr>");
-    <% end %>
-    <% end %>
+    $("#employee-result").html("<%= j (render 'reports/table_timesheet') %>");
+    loadjs('#timesheet-details', 0, 25, 'Blfrtip');
 <% elsif action_name == "destroy" %>
     $("#ts-<%=@timesheet_task.id%>").remove();
 <% elsif ["submitall","approvepmall","approvefmall"].include?(action_name) %>

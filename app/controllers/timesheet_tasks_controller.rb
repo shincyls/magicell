@@ -7,12 +7,11 @@ class TimesheetTasksController < ApplicationController
     def index
       respond_to :html, :js
       @timesheet_task = TimesheetTask.new
-      if @status == 0
+      if @status == 0 || @status == 9
         @timesheet_tasks = current_user.employee.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
-      else
+      elsif @status < 9
         @timesheet_tasks = current_user.employee.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ?", @year, @month, @status)
       end
-
     end
 
     def summary

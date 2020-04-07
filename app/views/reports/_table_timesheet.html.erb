@@ -41,7 +41,7 @@
             <td>
                 <% if controller_name == "timesheet_tasks" %>
                 <div class="row">
-                <% if (t.employee_id == current_user.employee.id) & (action_name == "index")%>
+                <% if (t.employee_id == current_user.employee.id) & (action_name == "index" || action_name == "create")%>
                     <% if [1,3,5].include?(t.status_timesheet_id) %>
                     <%= button_to 'S', submit_timesheet_task_path(t), class: "btn-sm btn-success col", method: 'post', remote: true %>
                     <% end %>

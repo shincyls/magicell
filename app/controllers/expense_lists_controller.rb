@@ -12,9 +12,9 @@ class ExpenseListsController < ApplicationController
       @expense_lists = ExpenseList.where(employee_id: current_user.employee.id, status_expense_id: params[:value].to_i).order("date desc")
     end
     @expense_list= ExpenseList.new
-    if @status == 0
+    if @status == 0 || @status == 9
       @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", @year, @month)
-    else
+    elsif @status < 9
       @expense_lists = @expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ?", @year, @month, @status)
     end
   end
