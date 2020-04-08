@@ -85,7 +85,7 @@ class TimesheetTasksController < ApplicationController
         @timesheet_task = TimesheetTask.new(timesheet_task_params)
         @timesheet_task.date = date_now
         unless @timesheet_task.holiday? and @timesheet_task.allowed_edit? and weekend_filter
-          unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, date: date_now)
+          unless TimesheetTask.exists?(employee_id: @timesheet_task.employee_id, project_id: @timesheet_task.project_id, activity: @timesheet_task.activity, date: date_now)
             if @timesheet_task.save
               @timesheet_tasks << @timesheet_task
               flash.now[:success] = "Your Timesheet have been added#{message}."
@@ -93,7 +93,7 @@ class TimesheetTasksController < ApplicationController
               flash.now[:warning] = @timesheet_task.errors.full_messages
             end
           else # Update/Overwrite
-            message = ", but tasks with duplicated date are ignored"
+            message = "Done, but task(s) with duplicated project/activited/date are ignored automatically."
           end
         end
         date_now += 1.day
@@ -101,7 +101,7 @@ class TimesheetTasksController < ApplicationController
       if message.empty?
         flash.now[:success] = "Your Timesheet have been added."
       else
-        flash.now[:warning] = "Done, but some tasks with existed date are not added."
+        flash.now[:warning] = message
       end
       render 'datarow'
     end
