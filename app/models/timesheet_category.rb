@@ -1,3 +1,0 @@
-class TimesheetCategory < ApplicationRecord
-
-end
