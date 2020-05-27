@@ -32,7 +32,7 @@
     <div class="row mt-2 mb-3 text-dark text-special">
       <div class="col-lg-3 col-md-6 mb-2">
         <label>Leave Type*</label>
-        <div><%= f.select(:leavetype_id, Leavetype.all.collect {|l| [ l.name, l.id ] }, {include_blank: "Select Leave Type"}, id: "leave-type", class: "custom-select custom-select-sm") %></div>
+        <div><%= f.select(:leavetype_id, Leavetype.where(days: 0).collect {|l| [ l.name, l.id ] }, {include_blank: "Select Leave Type"}, id: "leave-type", class: "custom-select custom-select-sm") %></div>
       </div>
 
       <div class="col-lg-3 col-md-6 mb-2">
