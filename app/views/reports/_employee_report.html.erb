@@ -1,48 +1,51 @@
-<h4 class="text-left text-primary">Employee Summary <%= @year %>-<%= @month %></h4>
-<div class="container">
-  <table id="employee-report" class="table table-sm table-responsive-xl" style="font-size:0.7rem">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>ID</th>
-        <th>Department</th>
-        <th>Project</th>
-        <th>Leave (Days)</th>
-        <th>Timesheet (Hours)</th>
-        <th>Claim (MYR)</th>
-        <th>Details</th>
-      </tr>
-    </thead>
+<div class="col-12">
+  <h4 class="text-left text-primary">Employee Summary <%= @year %>-<%= @month %></h4>
+</div>
 
-    <tbody class="text-dark">
-      <% unless @employees.nil? %>
-      <% @employees.each do |e| %>
-      <tr>
-        <td><%=e.full_name%></td>
-        <td><%=e.employee_code%></td>
-        <td><%=e.department.name if e.department %></td> 
-        <td><%=e.project.name if e.project %></td>
-        <td><%=e.monthly_leave(@year,@month,@status-2)%></td>
-        <td><%=e.monthly_timesheet(@year,@month,@status)%></td>
-        <td><%=e.monthly_claim(@year,@month,@status)%></td>
-        <td><%= link_to "CLICK", employee_details_reports_path(e, :year => @year, :month => @month, :status => @status), class: "small text-primary", remote: true %></td>
-      </tr>
-      <% end %>
-      <% end %>
-    </tbody>
+<div class="col-12">
+    <table id="employee-report" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Department</th>
+          <th>Project</th>
+          <th>Leave (Days)</th>
+          <th>Timesheet (Hours)</th>
+          <th>Claim (MYR)</th>
+          <th>Details</th>
+        </tr>
+      </thead>
 
-    <tfoot>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tfoot>
+      <tbody class="text-dark">
+        <% unless @employees.nil? %>
+        <% @employees.each do |e| %>
+        <tr>
+          <td><%=e.full_name%></td>
+          <td><%=e.employee_code%></td>
+          <td><%=e.department.name if e.department %></td> 
+          <td><%=e.project.name if e.project %></td>
+          <td><%=e.monthly_leave(@year,@month,@status-2)%></td>
+          <td><%=e.monthly_timesheet(@year,@month,@status)%></td>
+          <td><%=e.monthly_claim(@year,@month,@status)%></td>
+          <td><%= link_to "CLICK", employee_details_reports_path(e, :year => @year, :month => @month, :status => @status), class: "small text-primary", remote: true %></td>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
 
-  </table>
+      <tfoot>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tfoot>
+
+    </table>
 </div>
 
 <script>
