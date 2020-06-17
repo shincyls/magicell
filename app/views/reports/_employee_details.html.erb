@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs" id="myTab" role="tablist">
+<ul class="nav nav-tabs text-special" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="timesheet-tab" data-toggle="tab" href="#timesheet" role="tab" aria-controls="timesheet" aria-selected="true">Timesheet</a>
   </li>
@@ -10,22 +10,22 @@
   </li>
 </ul>
 
-<div class="tab-content" id="myTabContent">
+<div class="tab-content text-special" id="myTabContent">
   <div class="tab-pane fade show active" id="timesheet" role="tabpanel" aria-labelledby="timesheet-tab">
     <br>
-    <div class="container">
+    <div class="row">
       <%= render partial: "table_timesheet" %>
     </div>
   </div>
   <div class="tab-pane fade" id="expense" role="tabpanel" aria-labelledby="expense-tab">
     <br>
-    <div class="container">
+    <div class="row">
       <%= render partial: "table_expense" %>
     </div>
   </div>
   <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
     <br>
-    <div class="container">
+    <div class="row">
       <%= render partial: "table_leave" %>
     </div>
   </div>
