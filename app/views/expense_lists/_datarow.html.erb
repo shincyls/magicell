@@ -8,7 +8,7 @@
 <td><%= t.allowance_claim %></li>
 <td><%= t.medical_claim %></li>
 <td><%= t.others_claim %></td>
-<td><%= t.remarks %></td>
+<td class="text-wrap long-text-break" style="max-width: 10rem;"><%= t.remarks %></td>
 <td><%=t.odometer_reading%></td>
 <td><%= (link_to "Click", "http://#{t.url}", target: "_blank") if t.attachment_link.present? %></td>
 <td><span class="badge badge-<%=t.status_expense.css%>"><%=t.status_expense.name%></span></td>

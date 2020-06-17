@@ -107,7 +107,7 @@ function loaddtsum(table, sortColumn, pageLength, dom, tcol, scol, fname) {
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
-                $(api.column(colSum[i]).footer()).html(Total);
+                $(api.column(colSum[i]).footer()).html(Total.toFixed(2));
             }
 
         }
