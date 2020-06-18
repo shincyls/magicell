@@ -9,7 +9,7 @@
 <td><%=@employee.monthly_timesheet(@year,@month,3)%></td>
 <td><%= link_to "CLICK", employee_details_reports_path(@employee, :year => @year, :month => @month, :status => 2), class: "small", remote: true %></td>
 <td>
-    <% if current_user %>
+    <% if current_user.webrole.wr_pro_mgr %>
         <div class="row">
             <%= link_to 'Approve Pendings', approve_timesheet_employee_path(@employee, :year => @year, :month => @month), class: "col badge badge-primary", method: 'post', remote: true %>
         </div>

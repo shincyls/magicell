@@ -73,7 +73,7 @@ class ReportsController < ApplicationController
             params[:manager_id] = current_user.employee.id
             @project_lists = Project.where("manager_id = ? and project_status =?", current_user.employee.id, 0).pluck(:name, :id)
         else
-            @project_lists = Project.where("project_status =?", 0).pluck(:name, :id)
+            @project_lists = Project.where("project_status = ?", 0).pluck(:name, :id)
         end
         @projects = Project.where(search_project_params)
     end
