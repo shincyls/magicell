@@ -90,15 +90,34 @@ class Employee < ApplicationRecord
     end
 
     def monthly_leave(year, month, status)
-        self.leaveaps.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ? and status_leave_id >= ?", year, month, status).sum("days")
+        if status == 1
+            stend = 6
+        else
+            stend = status
+        end
+        self.leaveaps.where("DATE_PART('year', from_date) = ? and DATE_PART('month', from_date) = ? and status_leave_id >= ? and status_leave_id <= ?", year, month, status, stend).sum("days")
     end
 
     def monthly_timesheet(year, month, status)
-        self.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id >= ?", year, month, status).sum("working_hours")
+        if status == 1
+            stend = 6
+        else
+            stend = status
+        end
+        self.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id >= ? and status_timesheet_id <= ?", year, month, status, stend).sum("working_hours")
     end
 
     def monthly_claim(year, month, status)
-        self.expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id >= ?", year, month, status).sum("fuel_claim + toll_claim + parking_claim + allowance_claim + medical_claim + others_claim")
+        if status == 1
+            stend = 6
+        else
+            stend = status
+        end
+        self.expense_lists.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id >= ? and status_expense_id <= ?", year, month, status, stend).sum("fuel_claim + toll_claim + parking_claim + allowance_claim + medical_claim + others_claim")
+    end
+
+    def submitted_days(year, month)
+        self.timesheet_tasks.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ?", year, month).distinct.count(:date)
     end
 
 end

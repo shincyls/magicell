@@ -1,0 +1,56 @@
+<div class="col-12">
+  <h4 class="text-left text-primary">Employee Summary <%= @year %>-<%= @month %></h4>
+</div>
+
+<hr>
+
+<div class="col-12">
+  <table id="employee-report" class="table table-sm table-responsive-lg" style="font-size:0.7rem">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Department</th>
+        <th>Project</th>
+        <th>Days</th>
+        <th><span class="badge badge-secondary">Submitted</span></th>
+        <th><span class="badge badge-success">Approved</span></th>
+        <th><span class="badge badge-primary">Pending(PM)</span></th>
+        <th><span class="badge badge-danger">Reject(PM)</span></th>
+        <th>Details</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody class="text-dark">
+      <% unless @employees.nil? %>
+      <% @employees.each do |e| %>
+      <tr id="emp-<%=e.id%>">
+        <td><%=e.full_name%></td>
+        <td><%=e.employee_code%></td>
+        <td><%=e.department.name if e.department %></td> 
+        <td><%=e.project.name if e.project %></td>
+        <td><%=e.submitted_days(@year,@month)%></td>
+        <td><%=e.monthly_timesheet(@year,@month,1)%></td>
+        <td><%=e.monthly_timesheet(@year,@month,6)%></td>
+        <td><%=e.monthly_timesheet(@year,@month,2)%></td>
+        <td><%=e.monthly_timesheet(@year,@month,3)%></td>
+        <td><%= link_to "CLICK", employee_details_reports_path(e, :year => @year, :month => @month, :status => 2), class: "small", remote: true %></td>
+        <td>
+          <% if current_user %>
+            <div class="row">
+              <%= link_to 'Approve Pendings', approve_timesheet_employee_path(e, :year => @year, :month => @month), class: "col badge badge-primary", method: 'post', remote: true %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  
+</div>
+
+<script>
+loaddtsum('#employee-report', [4,'desc'], 25, 'Blfrtip', 3, [4,5,6]);
+</script>

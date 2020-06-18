@@ -157,7 +157,6 @@ class MagicnetsController < ApplicationController
       render template: "magicnets/view_it/account"
     end
 
-
     # private
 
     def check_leave_remaining?

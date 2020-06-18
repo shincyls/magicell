@@ -25,9 +25,11 @@ Rails.application.routes.draw do
   get 'magicnet/reports/employee', to: 'reports#employee', as: 'employee_reports'
   get 'magicnet/reports/project', to: 'reports#project', as: 'project_reports'
   get 'magicnet/reports/leave', to: 'reports#leave', as: 'leave_reports'
+  get 'magicnet/reports/employee/timesheets', to: 'reports#employee_timesheets', as: 'employee_timesheets'
+
   get 'magicnet/reports/employee/:id/details', to: 'reports#employee_details', as: 'employee_details_reports'
   get 'magicnet/reports/project/:id/details', to: 'reports#project_details', as: 'project_details_reports'
-
+  
   resources :password_resets
   
   resources :employees do
@@ -38,6 +40,8 @@ Rails.application.routes.draw do
     member do
       post :editself
       post :updateself
+      post :approve_timesheet
+      post :approve_expense
     end
   end
 

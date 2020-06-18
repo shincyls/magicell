@@ -27,6 +27,28 @@ class ReportsController < ApplicationController
         end
     end
 
+
+    def employee_timesheets
+        respond_to :html, :js
+        params[:year] = Date.today.year if params[:year].nil?
+        params[:month] = Date.today.month if params[:month].nil?
+        params[:status] = 6 if params[:status].nil?
+        params[:employment_status] = 0
+        @year = params[:year].to_i
+        @month = params[:month].to_i
+        @status = params[:status].to_i
+        @employees = Employee.where(search_employee_params)
+        if current_user.webrole.role == "Manager"
+            params[:project_id] = Project.where(manager_id: current_user.employee.id).pluck(:id)
+            @employees = @employees.where(project_id: params[:project_id])
+            @employee_lists = Employee.where("project_id = ? and employment_status = ?", params[:project_id], 0).pluck(:full_name, :id)
+            @project_lists = Project.where("manager_id = ? and project_status = ?", current_user.employee.id, 0).pluck(:name, :id)     
+        else
+            @project_lists = Project.where("project_status = ?", 0).pluck(:name, :id)
+            @employee_lists = Employee.where("employment_status = ?", 0).pluck(:full_name, :id)
+        end
+    end
+
     def employee_details
         respond_to :html, :js
         @year = params[:year].to_i
@@ -88,7 +110,6 @@ class ReportsController < ApplicationController
         respond_to :html, :js
         @companies = Company.all
     end
-    
 
     private
 

@@ -1,0 +1,18 @@
+<td><%=@employee.full_name%></td>
+<td><%=@employee.employee_code%></td>
+<td><%=@employee.department.name if @employee.department %></td> 
+<td><%=@employee.project.name if @employee.project %></td>
+<td><%=@employee.submitted_days(@year,@month)%></td>
+<td><%=@employee.monthly_timesheet(@year,@month,1)%></td>
+<td><%=@employee.monthly_timesheet(@year,@month,6)%></td>
+<td><%=@employee.monthly_timesheet(@year,@month,2)%></td>
+<td><%=@employee.monthly_timesheet(@year,@month,3)%></td>
+<td><%= link_to "CLICK", employee_details_reports_path(@employee, :year => @year, :month => @month, :status => 2), class: "small", remote: true %></td>
+<td>
+    <% if current_user %>
+        <div class="row">
+            <%= link_to 'Approve Pendings', approve_timesheet_employee_path(@employee, :year => @year, :month => @month), class: "col badge badge-primary", method: 'post', remote: true %>
+        </div>
+    <% end %>
+</td>
+

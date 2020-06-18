@@ -1,5 +1,6 @@
 class EmployeesController < ApplicationController
     before_action :logged_in?
+    before_action :verify_authenticity_token
   
     def index
       respond_to :html, :js
@@ -114,6 +115,31 @@ class EmployeesController < ApplicationController
         flash.now[:danger] = "Import File is not found."
       end
       index
+    end
+
+    def message
+      respond_to :js
+    end
+
+    def approve_timesheet
+      @timesheet_tasks = TimesheetTask.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_timesheet_id = ? and employee_id = ?", params[:year], params[:month], 2, params[:id])
+      items = @timesheet_tasks.count
+      if @timesheet_tasks.update(status_timesheet_id: 6)
+        flash.now[:success] = "#{items} timesheet task(s) have been approved."
+      end
+      @employee = Employee.find(params[:id])
+      @year = params[:year].to_i
+      @month = params[:month].to_i
+      render :message
+    end
+
+    def approve_expense
+      @expense_lists = ExpenseList.where("DATE_PART('year', date) = ? and DATE_PART('month', date) = ? and status_expense_id = ? and employee_id = ?", params[:year], params[:month], 2, params[:id])
+      lists = @expense_lists.count
+      if @expense_lists.update(status_expense_id: 4)
+        flash.now[:success] = "#{lists} items have been approved."
+      end
+      render :message
     end
   
     private
