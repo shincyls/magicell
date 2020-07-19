@@ -13,10 +13,9 @@
         <th>Department</th>
         <th>Project</th>
         <th>Days</th>
-        <th><span class="badge badge-secondary">Submitted</span></th>
-        <th><span class="badge badge-success">Approved</span></th>
-        <th><span class="badge badge-primary">Pending(PM)</span></th>
-        <th><span class="badge badge-danger">Reject(PM)</span></th>
+        <th><span class="badge badge-primary">Hours Pending(PM)</span></th>
+        <th><span class="badge badge-success">Hours Approved</span></th>
+        <th><span class="badge badge-danger">Hours Reject(PM)</span></th>
         <th>Details</th>
         <th>Action</th>
       </tr>
@@ -31,9 +30,8 @@
         <td><%=e.department.name if e.department %></td> 
         <td><%=e.project.name if e.project %></td>
         <td><%=e.submitted_days(@year,@month)%></td>
-        <td><%=e.monthly_timesheet(@year,@month,1)%></td>
-        <td><%=e.monthly_timesheet(@year,@month,6)%></td>
         <td><%=e.monthly_timesheet(@year,@month,2)%></td>
+        <td><%=e.monthly_timesheet(@year,@month,6)%></td>
         <td><%=e.monthly_timesheet(@year,@month,3)%></td>
         <td><%= link_to "CLICK", employee_details_reports_path(e, :year => @year, :month => @month, :status => 2), class: "small", remote: true %></td>
         <td>

@@ -25,7 +25,7 @@
         <tr>
           <td><%=e.full_name%></td>
           <td><%=e.employee_code%></td>
-          <td><%=e.department.name if e.department %></td> 
+          <td><%=e.department.name if e.department %></td>
           <td><%=e.project.name if e.project %></td>
           <td><%=e.monthly_leave(@year,@month,@status-2)%></td>
           <td><%=e.monthly_timesheet(@year,@month,@status)%></td>

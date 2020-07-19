@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
     before_action :logged_in?
-    before_action :permitted_report?
+    before_action :permitted_report?, except: [:employee_timesheets, :employee_details]
 
     def index
         respond_to :html, :js

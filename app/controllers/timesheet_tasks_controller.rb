@@ -185,6 +185,7 @@ class TimesheetTasksController < ApplicationController
       end
       render 'datarow'
     end
+
     def approvefm
       @timesheet_task = TimesheetTask.find(params[:id])
       if @timesheet_task.status_timesheet_id == 4 # Pending FM
@@ -193,6 +194,7 @@ class TimesheetTasksController < ApplicationController
       end
       render 'datarow'
     end
+
     def rejectpm
       @timesheet_task = TimesheetTask.find(params[:id])
       if @timesheet_task.status_timesheet_id == 2 # Pending PM
@@ -201,6 +203,7 @@ class TimesheetTasksController < ApplicationController
       end
       render 'datarow'
     end
+    
     def rejectfm
       @timesheet_task = TimesheetTask.find(params[:id])
       if @timesheet_task.status_timesheet_id == 4 # Pending FM
@@ -214,7 +217,7 @@ class TimesheetTasksController < ApplicationController
 
     def datarow
       respond_to :js
-    end 
+    end
   
     def require_login
       unless logged_in?

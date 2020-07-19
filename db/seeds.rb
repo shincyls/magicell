@@ -134,13 +134,6 @@ Leavetype.create!([
   {name: "Others"}
 ])
 
-TimesheetCategory.create!([
-  {name: "DTA"},
-  {name: "DTE"},
-  {name: "DTC"},
-  {name: "OSS"}
-])
-
 VehicleOwner.create!([
   {name: "Magicell"},
   {name: "Mayflower"}
