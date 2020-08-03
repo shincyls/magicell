@@ -155,11 +155,11 @@ class LeaveapsController < ApplicationController
     end
 
     def check_leave_remaining?
-      @employee = current_user.employee
+      @employee = @leaveap.employee
       if @leaveap.leavetype_id == 1 # Annual Leave
         remaining = (@employee.annual_leave_taken + @leaveap.days) - @employee.annual_leave_entitled
         if remaining > 0
-          flash.now[:danger] = "Application has exceeded applicant's entitled Annual Leave for #{remaining} day(s)."
+          flash.now[:danger] = "Application has exceeded employee's entitled Annual Leave for #{remaining} day(s)."
           return false
         else
           return true
@@ -167,7 +167,7 @@ class LeaveapsController < ApplicationController
       elsif @leaveap.leavetype_id == 2 # Medical Leave
         remaining = (@employee.medical_leave_taken + @leaveap.days) - @employee.medical_leave_entitled
         if remaining > 0
-          flash.now[:danger] =  "Application has exceeded applicant's entitled Medical Leave for #{remaining} day(s)."
+          flash.now[:danger] =  "Application has exceeded employee's entitled Medical Leave for #{remaining} day(s)."
           return false
         else
           return true
