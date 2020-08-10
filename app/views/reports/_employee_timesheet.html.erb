@@ -12,6 +12,7 @@
         <th>ID</th>
         <th>Department</th>
         <th>Project</th>
+        <th>Manager</th>
         <th>Days</th>
         <th><span class="badge badge-primary">Hours Pending(PM)</span></th>
         <th><span class="badge badge-success">Hours Approved</span></th>
@@ -29,6 +30,7 @@
         <td><%=e.employee_code%></td>
         <td><%=e.department.name if e.department %></td> 
         <td><%=e.project.name if e.project %></td>
+        <td><%=e.project.manager.full_name if e.project %></td>
         <td><%=e.submitted_days(@year,@month)%></td>
         <td><%=e.monthly_timesheet(@year,@month,2)%></td>
         <td><%=e.monthly_timesheet(@year,@month,6)%></td>
