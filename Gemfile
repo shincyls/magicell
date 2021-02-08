@@ -33,7 +33,7 @@ gem 'pg_search', '~> 2.1', '>= 2.1.2'
 gem 'jquery-datatables-rails', '~> 3.4'
 
 # Use ActiveStorage variant
-gem 'carrierwave', '~> 1.2', '>= 1.2.3'
+gem 'carrierwave', '~> 1.3'
 gem "google-cloud-storage", "~> 1.8", require: false
 # gem 'mini_magick', '~> 4.8'
 
