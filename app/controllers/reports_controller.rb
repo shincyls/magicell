@@ -27,7 +27,6 @@ class ReportsController < ApplicationController
         end
     end
 
-
     def employee_timesheets
         respond_to :html, :js
         params[:year] = Date.today.year if params[:year].nil?
